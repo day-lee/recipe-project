@@ -1,9 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 
-export default async function RecipesLists() {
+export default async function RecipeList({ query }: {query: string}) {
     const supabase = await createClient()
-    const { data: recipes, error } = await supabase.from('recipe').select('id, recipe_name, duration, img_link, created_user_id');
-    
+    if (query === '*') {throw new Error('Search term cannot be *');}  
+    const { data: recipes, error } = await supabase.from('recipe').select('id, recipe_name, duration, img_link, created_user_id').ilike('recipe_name', `%${query}%`);
     if (error) {
       console.error('Error fetching recipes:', error);
       return <div>Error loading recipes</div>;
