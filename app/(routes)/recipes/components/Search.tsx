@@ -21,7 +21,7 @@ export default function Search() {
         replace(`${pathname}?${params.toString()}`);
         // This will update the URL with search data without reloading the page
         // and will trigger a re-render of the component that uses the search term.
-    }, 300);
+    }, 600);
     return (
         <div className="relative flex flex-1 flex-shrink-0"> 
         <label htmlFor="search" className="sr-only">Search</label>
