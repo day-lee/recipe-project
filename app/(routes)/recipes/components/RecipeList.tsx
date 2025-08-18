@@ -1,13 +1,12 @@
 import { Recipe } from '../../../types/types'
+import RecipeCard from './RecipeCard';
 
 export default async function RecipeList({ recipes}: {recipes: Recipe[]}) {
     return (
-      <div>
-        {/* TODO Each element will be a recipe card component */}
-        <h1 className="text-2xl font-bold mt-10">Recipes</h1>
-        <ul>
+      <div className='flex-grow'>
+        <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
           {recipes?.map(recipe => (
-            <li key={recipe.id}>{recipe.recipe_name} / {recipe.duration} / {recipe.img_link}</li>
+            <li key={recipe.id}> <RecipeCard recipe={recipe}/> </li>
           ))}
         </ul>
       </div>
