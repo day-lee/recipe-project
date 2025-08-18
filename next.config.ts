@@ -1,7 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'day-lee.github.io',
+        port: '',
+        pathname: '/recipe-book-food-photos/**',
+        search: '',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

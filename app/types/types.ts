@@ -7,6 +7,6 @@ export interface Tag {
 export interface Recipe {
     id: number;
     recipe_name: string;
-    duration: string;
+    duration: number;
     img_link: string;
   }  
