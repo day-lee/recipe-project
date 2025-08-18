@@ -66,7 +66,7 @@ export default async function Page(
     }));
   return (
     <main className="min-h-screen flex flex-col items-center">
-      <div className="flex flex-col items-center gap-20 max-w-5xl p-5">
+      <div className="flex flex-col items-center gap-10 max-w-5xl p-5">
         <Suspense fallback={<div className="mt-96">Loading...</div>}>
           <Search />
           <TagButton tags={tags}/>

@@ -29,7 +29,7 @@ export default function Search() {
             type="text"
             onChange={(e) => handleSearch(e.target.value)}
             placeholder="search recipes"
-            className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none" 
+            className="block w-full p-2 bg-neutral-100 rounded-md focus:outline-none" 
             defaultValue={searchParams.get('query')?.toString()}
         />
         <MagnifyingGlassIcon className="absolute right-2 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" />

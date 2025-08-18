@@ -23,14 +23,17 @@ export default function TagButton({ tags } : {tags: Tag[]}) {
         replace(`${pathname}?${params.toString()}`);
     }
     return (
-        <div>
-            {tags.map((tag) => (
-                <button className={`m-2 p-2 ${selectedTag === tag.name ? 'bg-red-500' : 'bg-blue-500'}`}
-                    key={tag.id}
-                    onClick={() => handleTagClick(tag.name)}> 
-                {tag.name} {tag.recipe_count > 0 ? `(${tag.recipe_count})` : ''} 
-                </button> 
-            ))}
+        <div className="bg-red-700">
+            <ul className="flex flex-wrap">
+                {tags.map((tag) => (
+                    <li key={tag.id} >
+                        <button className={`m-2 p-2 text-black font-medium bg-white rounded-sm ${selectedTag === tag.name ? 'text-red-600 font-semibold' : ''}`}
+                        onClick={() => handleTagClick(tag.name)}> 
+                        {tag.name} {tag.recipe_count > 0 ? `(${tag.recipe_count})` : ''} 
+                        </button> 
+                    </li>
+                ))} 
+            </ul>
         </div>
     )
 }
