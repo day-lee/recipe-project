@@ -92,7 +92,7 @@ recipeIngredient.forEach( (ingredient: Ingredient) => {
                     </div>
             </section>
             <section >
-                <p className='font-semibold text-2xl'>Note</p>
+                <p className='font-semibold text-2xl'>Notes</p>
                 <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
                     <div className='my-4 p-2'> {note.map((item:Note) => <li key={item.id}>{item.desc}</li>)} </div>
                 </div>   
