@@ -1,79 +1,102 @@
 import { createClient } from '@/lib/supabase/server'
 import Image from 'next/image'
-import parse from 'html-react-parser';
+import { ClockIcon } from '@heroicons/react/24/solid'
 
+import { Ingredient, Step, Note } from '../../../types/types'
 
 export default async function Page({ params }: {
     params: Promise<{ detail_recipe_id: number }>
 }) {
 const { detail_recipe_id } = await params     
-
 const supabase = await createClient()
 const { data: recipeDetail, error:recipeDetailError } = await supabase
 .rpc('edit_get_detail_recipe_with_tag', { detail_recipe_id: detail_recipe_id});
-console.log(recipeDetail)
+const { recipe_name, external_link, duration, img_link, tag_name, note, steps } = recipeDetail[0]
+
 if (recipeDetailError) {
     console.error('Error fetching recipes:', recipeDetailError);
     return <div>Error loading recipes</div>;
+  }   
+
+const { data: recipeIngredient, error:recipeIngredientError } = await supabase
+.rpc('get_ingredients', { ingredient_recipe_id: detail_recipe_id});
+if (recipeIngredientError) {
+    console.error('Error fetching recipe ingredients:', recipeIngredientError);
+    return <div>Error loading ingredients</div>;
   }     
 
-// const recipeDetail = [
-//     {
-//         "id": 2,
-//         "recipe_name": "Beef and radish soup",
-//         "created_user_id": 2,
-//         "external_link": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/vG07DHeNH9c?si=HK55Gdcl-SlhWcBe\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
-//         "duration": 30,
-//         "img_link": "https://day-lee.github.io/recipe-book-food-photos/2-beef-stew.png",
-//         "tag_name": [
-//             "korean",
-//             "beef"
-//         ]
-//     }
-// ]
-const { recipe_name, external_link, duration, img_link, tag_name } = recipeDetail[0]
-// ingredients query 
+const mainIngredients: Ingredient[] = []
+const optionalIngredients: Ingredient[] = []
+const sauceIngredients: Ingredient[] = []
+
+recipeIngredient.forEach( (ingredient: Ingredient) => {
+    if (ingredient.is_main) mainIngredients.push(ingredient);
+    if (ingredient.is_optional) optionalIngredients.push(ingredient);
+    if (ingredient.is_sauce) sauceIngredients.push(ingredient);
+});
 
     return (
-        <div className='m-10'>
-        <div className='text-3xl'> {recipe_name}</div>
-        <Image priority={true} src={img_link} alt={recipe_name} width={300} height={150}/>
-        <div>{tag_name.map((tag: string) => (<li key={tag}>{tag}</li>))}</div>
-        <div> {duration} min</div>
-        <div> Ingredients - TBC - query 
-            <div>Main ingredients: 
-                {}
+        <main className='min-h-screen flex flex-col m-2 md:m-16 lg:m-32 items-center border-2 border-gray-200'>
+            <Image className='m-8' priority={true} src={img_link} alt={recipe_name} width={400} height={150}/>
+            <div className='text-3xl font-semibold'> {recipe_name}</div>   
+            <div className='flex flex-row items-center m-4'>
+            <ClockIcon className="h-6 w-6 ml-2 text-gray-500" />
+            <div className='text-gray-700 ml-2'> <span> {duration} mins</span></div>
             </div>
-            <div>Optional ingredients: 
-                {}
+            <div className='mb-4'>
+                <ul className='flex flex-row'>{tag_name.map((tag: string) => 
+                    (<li className='border-2 text-gray-800 border-red-600 rounded-full px-2 py-1 text-center mx-1' key={tag}>{tag}</li>))}</ul>
             </div>
-            <div>Sauces: 
-                {}
-            </div> 
-        </div>
-        <div> Note - TBC: jsonb mock data, parse </div>
-        {parse(external_link)} 
-        </div>
+            <section>
+                <p className='font-semibold text-2xl'>Ingredients</p>
+                <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'>
+                    <div className='my-4'> 
+                        <div className='font-semibold text-lg lg:text-xl'> Main ingredients </div>
+                        <ul className='mx-4'>
+                            {mainIngredients.map(item => <li key={item.id}> {item.ingredient_name} {item.quantity}{item.unit} </li>)}
+                        </ul>
+                    </div>
+                    <div className='my-4'> 
+                        <div className='font-semibold text-lg lg:text-xl'> Optional ingredients </div>
+                        <ul className='mx-4'>
+                            {optionalIngredients.map(item => <li key={item.id}> {item.ingredient_name} {item.quantity}{item.unit}</li>)}
+                        </ul>
+                    </div>
+                    <div className='my-4'> 
+                        <div className='font-semibold text-lg lg:text-xl'> Sauces </div>
+                        <ul className='mx-4'>
+                            {sauceIngredients.map(item => <li key={item.id}> {item.ingredient_name} {item.quantity}{item.unit}</li>)}
+                        </ul>
+                    </div> 
+                </div>
+            </section>
+            <section >
+                <p className='font-semibold text-2xl'>Steps</p>
+                <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
+                    <div className='my-4 p-2'>
+                        <ul className='flex flex-col'> 
+                            {steps.map((item: Step) => <li className='flex flex-row' key={item.step}><div className='pr-4'>{item.step}.</div> 
+                                                       <div className='mr-8'>{item.desc}</div></li> )}
+                        </ul>
+                    </div>
+                </div>   
+            </section>
+            <section>
+                <p className='font-semibold text-2xl'>Video</p>
+                    <div className="flex justify-center border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] lg:h-[350px] p-2 lg:p-8 my-4">
+                        <iframe
+                            src={`https://www.youtube.com/embed/${external_link}`}
+                            className="w-full h-full"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen />
+                    </div>
+            </section>
+            <section >
+                <p className='font-semibold text-2xl'>Note</p>
+                <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
+                    <div className='my-4 p-2'> {note.map((item:Note) => <li key={item.id}>{item.desc}</li>)} </div>
+                </div>   
+            </section>
+        </main>
     )
 }
-
-/*
-beef and radish soup 1인분 
-
-main: beef - 200g, radish - 50g
-optional: spring onion 10g
-sauce: soy sauce 2T, diced garlic 1T, sesame oil 2T 
-
-note 
-- beef in the water for 10 minutes to get rid of the blood
-- cut mooli, spring onions into thin slices 
-- put sesame oil and beef in the pan
-- once browned, add mooli
-- add water 300ml
-- add soy sauce, garlic 
-- simmer over 20 minutes and get rid of the foam
-- add spring onions before serving 
-
-external link: youtube embeded link or plain link? 
-
-*/
