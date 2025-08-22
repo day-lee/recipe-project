@@ -15,6 +15,7 @@ export interface Recipe {
     recipe_name: string;
     duration: number;
     img_link: string;
+    serving: number;
   }  
 
   export interface Ingredient {
@@ -28,6 +29,11 @@ export interface Recipe {
     is_optional: boolean;
     is_sauce: boolean;
   }
+
+  export interface IngredientsProps {
+    ingredientsList: Ingredient[];
+    defaultServing: number;
+}
 
   export interface Note {
     id: number;
