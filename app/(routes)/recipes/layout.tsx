@@ -7,7 +7,7 @@ export default function SearchLayout( { children }: {children: React.ReactNode }
     const pathname = usePathname();
     const showSearch = pathname === '/recipes';
     return (
-        <main className="min-h-screen flex flex-col sm:items-center relative">
+        <main className="min-h-screen flex flex-col lg:items-center relative">
         {showSearch && (<Search />)}
             {children}
         </main>
