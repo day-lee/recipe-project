@@ -35,7 +35,7 @@ if (recipeIngredientError) {
             </div>
             <div className='mb-4'>
                 <ul className='flex flex-row'>{tag_name.map((tag: string) => 
-                    (<li className='border-2 text-gray-800 border-red-600 rounded-full px-2 py-1 text-center mx-1' key={tag}>{tag}</li>))}</ul>
+                    (<li className='border-2 text-gray-900 font-medium border-red-600 rounded-full px-2 py-1 text-center mx-1' key={tag}>{tag}</li>))}</ul>
             </div>
             <Ingredients ingredientsList={ingredients} defaultServing={serving} />
             <section >
