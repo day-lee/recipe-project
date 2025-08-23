@@ -23,13 +23,13 @@ export default function Search() {
         // and will trigger a re-render of the component that uses the search term.
     }, 600);
     return (
-        <div className="relative flex flex-1 flex-shrink-0"> 
+        <div className="absolute top-[-60] sm:top-[-70] left-1/4 sm:left-1/2 sm:-translate-x-1/2 flex flex-1 flex-shrink-0"> 
         <label htmlFor="search" className="sr-only">Search</label>
         <input
+            className="border-2 border-gray-300 block w-full p-2 bg-neutral-100 rounded-md focus:outline-none" 
             type="text"
             onChange={(e) => handleSearch(e.target.value)}
-            placeholder="search recipes"
-            className="block w-full p-2 bg-neutral-100 rounded-md focus:outline-none" 
+            placeholder="Search recipes"
             defaultValue={searchParams.get('query')?.toString()}
         />
         <MagnifyingGlassIcon className="absolute right-2 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" />

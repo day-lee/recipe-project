@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { Suspense } from 'react'
 
-import Search from "./components/Search";
 import RecipeList from "./components/RecipeList";
 import TagButton from "./components/TagButton";
 import { Tag } from "../../types/types"
@@ -60,14 +59,11 @@ export default async function Page(
       recipe_count: tag.recipe_count.length 
     }));
   return (
-    <main className="min-h-screen flex flex-col items-center">
-      <div className="flex flex-col items-center gap-10 max-w-5xl p-5">
+      <div className="flex flex-col items-center gap-10 max-w-5xl">
         <Suspense fallback={<div className="mt-96">Loading...</div>}>
-          <Search />
           <TagButton tags={tags}/>
           <RecipeList recipes={recipeData} />
         </Suspense>
       </div>
-    </main>
   );
 }
