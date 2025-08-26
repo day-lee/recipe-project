@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface Tag {
     id: number;
     name: string;
@@ -38,4 +40,9 @@ export interface Recipe {
   export interface Note {
     id: number;
     desc: string;
+  }
+
+  export interface SidebarProps {
+    onClick?: () => void;
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
   }
