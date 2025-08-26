@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 
 import { SidebarProps } from '@/app/types/types';
+import RandomRecipeModalButton from '@/app/(routes)/recipes/components/RandomRecipeModalButton';
 
 export default function Sidebar({onClick, setIsOpen}: SidebarProps) {
     return(
@@ -29,9 +30,7 @@ export default function Sidebar({onClick, setIsOpen}: SidebarProps) {
                     </Link>
                 </div>
                 <div className='flex flex-row hover:text-red-700'>
-                    <Link href="/recipes/random-pick">
-                    + Random recipe
-                    </Link>
+                    <RandomRecipeModalButton />
                 </div>
             </div>
         </div>
