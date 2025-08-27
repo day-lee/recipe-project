@@ -5,7 +5,7 @@ import Image from 'next/image'
 // import { Step, Note } from '../../../types/types'
 // import Ingredients from '../components/Ingredients'
 import fallbackImg from '../../../assets/unavailable.png'
-//git test
+
 export default async function Page() {
 // const { detail_recipe_id } = await params     
 // const supabase = await createClient()
