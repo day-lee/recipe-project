@@ -1,21 +1,23 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/navigation'
 import confetti from 'canvas-confetti'
 
 import { createClient } from '@/lib/supabase/client'
 import Modal from './RandomRecipeModal'
 
-const  finalMessage = "Surprise! Here's your recipe!"
+const loadingMessage = "Finding the perfect recipe for you..."
+const finalMessage = "Here's your recipe!"
 
-export default function RandomRecipeModalButton() {
+export default function RandomRecipeModalButton({ setIsSidebarOpen }:
+                         {setIsSidebarOpen: Dispatch<SetStateAction<boolean>>}) {
   const router = useRouter()
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [countdown, setCountdown] = useState<number | string>(3)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [loading, setLoading] = useState<string>(loadingMessage)
 
   const onClick = useCallback(async () => {
-    setIsOpen(true)
+    setIsModalOpen(true)
     const supabase = await createClient()
     const { data: recipeId, error: recipeIdError } = await supabase
           .rpc('get_random_recipe_id');  
@@ -24,35 +26,32 @@ export default function RandomRecipeModalButton() {
         console.error('Error fetching random id:', recipeIdError);
         return <div>Error loading random id</div>;
       } 
-
-      const startCountdown = async () => {
-      for (let i = 3; i > 1; i--) {
-        setCountdown(i)
-        await new Promise(resolve => setTimeout(resolve, 600))
-      }
-      setCountdown(1)
+      const startLoading = async () => {
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      setLoading(loadingMessage)
       await new Promise(resolve => setTimeout(resolve, 600))
-      setCountdown(finalMessage)
+      setLoading(finalMessage)
       confetti({
         particleCount: 200,
         spread: 90,
         origin: { x: 0.5, y: 0.6 }  
       })
     }
-    startCountdown()
+    startLoading()
     setTimeout(() => {
+      setIsSidebarOpen(false)
       router.push(id ? `/recipes/${id}` : '/recipes')
-      setIsOpen(false)
-    }, 2500)
+      // router.push(id ? `/recipes/3` : '/recipes')
+    }, 2700)
   }, [router])
   return (
     <>
       <button onClick={onClick}>+ Random recipe</button>
-      {isOpen && (
-        <Modal isOpen={isOpen}>
+      {isModalOpen && (
+        <Modal isOpen={isModalOpen}>
           <div >
-            <div className='text-2xl sm:text-4xl font-semibold text-red-700'>
-              {countdown}
+            <div className='text-2xl sm:text-3xl font-semibold text-red-700 border-2 border-white bg-white rounded-md p-2 animate-bounce'>
+              {loading}
             </div>
           </div>
          </Modal>

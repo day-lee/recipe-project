@@ -44,5 +44,5 @@ export interface Recipe {
 
   export interface SidebarProps {
     onClick?: () => void;
-    setIsOpen: Dispatch<SetStateAction<boolean>>;
+    setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
   }

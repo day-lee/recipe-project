@@ -13,7 +13,7 @@ export default function RandomRecipeModal({
     useEffect(() => setIsMounted(true), [])
     if (!isMounted || !isOpen) return null
     return createPortal(
-        <div className='fixed inset-0 bg-gray-600/70 z-60 flex items-center justify-center'> 
+        <div className='fixed inset-0 bg-gray-600/70 z-50 flex items-center justify-center'> 
             {children}
         </div>, document.body)
 }

@@ -7,8 +7,8 @@ import { Bars3Icon } from '@heroicons/react/24/solid';
 import Sidebar from "@/components/Sidebar";
 
 export default function Header() {
-const [isOpen, setIsOpen] = useState<boolean>(false)
-const handleClick = () => setIsOpen(!isOpen)
+const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
+const handleClick = () => setIsSidebarOpen(!isSidebarOpen)
     return (
         <header>
             <div className="relative max-w-5xl mx-auto">
@@ -24,7 +24,7 @@ const handleClick = () => setIsOpen(!isOpen)
                         </button>
                     </div>
                 </div>
-                {isOpen && (<Sidebar onClick={handleClick} setIsOpen={setIsOpen} />)}
+                {isSidebarOpen && (<Sidebar onClick={handleClick} setIsSidebarOpen={setIsSidebarOpen} />)}
             </div>
         </header>
     )
