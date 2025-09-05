@@ -13,16 +13,18 @@ interface FormData {
     serving: number;
     steps: string;
     img_link: string;
+    external_link: string;
     note: string;
+    main_ingredient_name: string;
+    main_ingredient_amount: string;
+    main_ingredient_unit: string;
 }
 
 export function NewRecipeForm() {
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const { register, handleSubmit, formState: { errors }} = useForm<{ 
-                img_link: string, name: string, duration: number, serving: number,
-                steps:string, external_link: string, note:string}>();
+    const { register, handleSubmit, formState: { errors }} = useForm<FormData>();
     const initialState: FormState = { message: ''};
-    const [state, formAction] = useActionState(submitForm, initialState);
+    const [state, formAction, pending] = useActionState(submitForm, initialState);
     
     const onSubmit = async (data:FormData) => {
         console.log('Form data:', data);
@@ -113,7 +115,102 @@ export function NewRecipeForm() {
                         (<li className='border-2 text-gray-800 border-red-600 rounded-full px-2 py-1 text-center mx-1' key={tag}>{tag}</li>))}</ul> */}
                 </div>
             </section>     
-            <p className='font-semibold text-2xl my-10'>Ingredients TBC</p>
+            <section>
+            <div className='my-8'>
+                <p className='font-semibold text-2xl'>Ingredients</p> 
+                ingredients form - dynamically adding new inputs
+                <div className='my-4'>
+                    <div className='flex flex-row'>
+                    <p className='font-semibold text-2xl'>Main</p>  
+                    <button className='border-2 border-red-600'> Add more ingredients </button>
+                    </div>
+                    <div className='border-2 border-gray-300 rounded-sm p-2'>
+                        <label htmlFor=""></label>
+                        <input 
+                        id="ingredientName" type="text" placeholder="Ingredient name: e.g. Chicken"
+                        {...register('main_ingredient_name', {required: 'Main ingredients required'})}
+                        className='w-full border-2 border-gray-300 pl-2 py-1 rounded-sm my-2' 
+                        /> 
+                        <div className='flex flex-row'>
+                            <label htmlFor=""></label>
+                            <input 
+                            id="ingredientAmount" type="text" placeholder="Ingredient amount: e.g. 100"
+                            {...register('main_ingredient_amount', {required: 'Main ingredients amount required'})}
+                            className='w-full lg:w-3/5 border-2 border-gray-300 pl-2 py-1 rounded-sm my-2' /> 
+                            <label htmlFor=""></label>
+                            <select 
+                            {...register('main_ingredient_unit', {required: 'Main ingredients unit required'})}
+                            className='w-2/5 text-gray-600 ml-2 border-2 border-gray-300 rounded-sm px-2 my-2'>
+                                <option value="">Unit</option>
+                                <option value="tbsp">T</option>
+                                <option value="tsp">t</option>
+                                <option value="g">g</option>
+                                <option value="kg">kg</option>
+                                <option value="ml">ml</option>
+                                <option value="l">l</option>
+                                <option value="cups">cups</option>
+                                <option value="pieces">pieces</option>
+                                <option value="oz">oz</option>
+                            </select>
+                        </div>
+                    </div>    
+                </div>
+                <div className='my-4'>
+                    <div className='flex flex-row'>
+                    <p className='font-semibold text-2xl'>Optional</p>  
+                    <button className='border-2 border-red-600'> Add more ingredients </button>
+                    </div>
+                    <div className='border-2 border-gray-300 rounded-sm p-2'>
+                        <label htmlFor=""></label>
+                        <input className='w-full border-2 border-gray-300 pl-2 py-1 rounded-sm my-2' id="ingredientName" type="text" placeholder="Ingredient name: e.g. Chicken" /> 
+                        <div className='flex flex-row'>
+                            <label htmlFor=""></label>
+                            <input className='w-full lg:w-3/5 border-2 border-gray-300 pl-2 py-1 rounded-sm my-2' id="ingredientAmount" type="text" placeholder="Ingredient amount: e.g. 100"/> 
+                            <label htmlFor=""></label>
+                            <select className='w-2/5 text-gray-600 ml-2 border-2 border-gray-300 rounded-sm px-2 my-2'>
+                                <option value="">Unit</option>
+                                <option value="tbsp">T</option>
+                                <option value="tsp">t</option>
+                                <option value="g">g</option>
+                                <option value="kg">kg</option>
+                                <option value="ml">ml</option>
+                                <option value="l">l</option>
+                                <option value="cups">cups</option>
+                                <option value="pieces">pieces</option>
+                                <option value="oz">oz</option>
+                            </select>
+                        </div>
+                    </div>    
+                </div>
+                <div className='my-4'>
+                    <div className='flex flex-row'>
+                    <p className='font-semibold text-2xl'>Sauce</p>  
+                    <button className='border-2 border-red-600'> Add more ingredients </button>
+                    </div>
+                    <div className='border-2 border-gray-300 rounded-sm p-2'>
+                        <label htmlFor=""></label>
+                        <input className='w-full border-2 border-gray-300 pl-2 py-1 rounded-sm my-2' id="ingredientName" type="text" placeholder="Ingredient name: e.g. Chicken" /> 
+                        <div className='flex flex-row'>
+                            <label htmlFor=""></label>
+                            <input className='w-full lg:w-3/5 border-2 border-gray-300 pl-2 py-1 rounded-sm my-2' id="ingredientAmount" type="text" placeholder="Ingredient amount: e.g. 100"/> 
+                            <label htmlFor=""></label>
+                            <select className='w-2/5 text-gray-600 ml-2 border-2 border-gray-300 rounded-sm px-2 my-2'>
+                                <option value="">Unit</option>
+                                <option value="tbsp">T</option>
+                                <option value="tsp">t</option>
+                                <option value="g">g</option>
+                                <option value="kg">kg</option>
+                                <option value="ml">ml</option>
+                                <option value="l">l</option>
+                                <option value="cups">cups</option>
+                                <option value="pieces">pieces</option>
+                                <option value="oz">oz</option>
+                            </select>
+                        </div>
+                    </div>    
+                </div>
+                </div>
+            </section>     
             <section >
                 <div className='flex flex-row'>
                     <p className='font-semibold text-2xl'>Steps</p>
@@ -145,9 +242,9 @@ export function NewRecipeForm() {
                     {/* <div className="flex justify-center border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] lg:h-[350px] p-2 lg:p-8 my-4"> */}
                         <p> * Youtube id extract - https://youtu.be/wttA0mcstQc?si=3TIV0aZNVKV-eCVK
                         프리뷰 보여줄 수 있다면 등록 버튼? </p>
-                        <input
+                        <input id="external_link"
                         // {...register('img_link', {required: 'Video link is required'})}
-                        {...register('img_link')}
+                        {...register('external_link')}
 
                          className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' type="text" placeholder="https://youtu.be/..." /> 
                         <Image className="m-8" src={fallbackImg} alt='fallbackImg' width={200} height={150}/>
@@ -175,6 +272,8 @@ export function NewRecipeForm() {
                 </div>
                 <div>
                 <button type="submit" className='border-2 border-red-600'> {isSubmitting ? 'Creating Recipe...' : 'Create Recipe'}</button>
+                <button type="submit" disabled={pending}> pending create recipe test</button>
+                
                 </div>
             </div>            
              {/* Display the success message returned from the server */}

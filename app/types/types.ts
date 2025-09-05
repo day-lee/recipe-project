@@ -7,7 +7,7 @@ export interface Tag {
   }
 
   export interface Step {
-    step: number;
+    id: number;
     photo_id: number;
     desc: string;
   }
