@@ -14,6 +14,7 @@ export interface Tag {
 
 export interface Recipe {
     id: number;
+    public_id: string;
     recipe_name: string;
     duration: number;
     img_link: string;

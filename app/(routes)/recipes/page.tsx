@@ -24,6 +24,7 @@ export default async function Page(
     .from('recipe')
     .select(`
       id,
+      public_id,
       recipe_name,
       is_favourite,
       duration,

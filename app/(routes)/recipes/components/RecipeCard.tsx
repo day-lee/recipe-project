@@ -7,7 +7,7 @@ import fallbackImg from '../../../assets/unavailable.png'
 export default function RecipeCard({recipe}: {recipe:Recipe}) {
 return(
     <>
-    <Link href={`/recipes/${recipe.id}`}>
+    <Link href={`/recipes/${recipe.public_id}`}>
         <div className='border-slate-600 shadow-md bg-white sm:w-[230px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1'>
             {recipe.img_link ? 
             <Image className='w-full' priority={true} src={recipe.img_link} alt={recipe.recipe_name} width={200} height={150}/> :
