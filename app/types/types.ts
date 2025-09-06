@@ -47,3 +47,16 @@ export interface Recipe {
     onClick?: () => void;
     setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
   }
+
+  export interface FormData {
+    recipe_name: string;
+    duration: number;
+    serving: number;
+    steps: Step[];
+    img_link: string;
+    external_link: string;
+    note: string;
+    // main_ingredient_name: string;
+    // main_ingredient_amount: string;
+    // main_ingredient_unit: string;
+}

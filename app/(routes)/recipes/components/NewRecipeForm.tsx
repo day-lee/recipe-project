@@ -1,49 +1,69 @@
 'use client';
 
-import { useForm } from 'react-hook-form'
-import { submitForm, FormState } from '@/app/actions'
+import { useForm, useFieldArray } from 'react-hook-form'
 import { useState, useActionState } from 'react';
 
 import Image from 'next/image'
 import fallbackImg from '../../../assets/unavailable.png'
-
-interface FormData {
-    name: string;
-    duration: number;
-    serving: number;
-    steps: string;
-    img_link: string;
-    external_link: string;
-    note: string;
-    main_ingredient_name: string;
-    main_ingredient_amount: string;
-    main_ingredient_unit: string;
-}
+import { FormData } from '@/app/types/types'
+import { extractVideoId } from '@/utils/utils'
+import { createRecipeAction, submitForm, FormState } from "@/app/actions"; 
 
 export function NewRecipeForm() {
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const { register, handleSubmit, formState: { errors }} = useForm<FormData>();
-    const initialState: FormState = { message: ''};
-    const [state, formAction, pending] = useActionState(submitForm, initialState);
+    const { register, control, handleSubmit, formState: { errors }} = useForm<FormData>({
+        defaultValues: {
+            recipe_name: '',
+            duration: 15,
+            serving: 2,
+            steps: [{id: 1, photo_id: 1, desc: "" }],
+            img_link: "",
+            external_link: "",
+            note: "",
+            // main_ingredient_name: "",
+            // main_ingredient_amount: "" ,
+            // main_ingredient_unit: ""
+        }
+    });
+    // const initialState: FormState = { message: ''};
+    // const [state, formAction, pending] = useActionState(submitForm, initialState);
     
     const onSubmit = async (data:FormData) => {
-        console.log('Form data:', data);
-        setIsSubmitting(true)
-        const formData = new FormData();
         try {
-            Object.entries(data).forEach(([key, value]) => {
-                formData.append(key, value)
-            })
-            console.log('Form data:', data);
-            formAction(formData);
-        }
-        catch (error) {
-            console.error('Error creating recipe:', error)
-        } finally {
+            setIsSubmitting(true)
+            const payload = {
+              img_link: "img-link", // static or real file upload logic
+              created_user_id: 2,   // from session
+              recipe_name: data.recipe_name,
+              duration: data.duration || 15,
+              serving: data.serving || 1,
+              external_link: extractVideoId(data.external_link),
+              steps: data.steps.map((step, idx) => ({
+                id: idx + 1,
+                desc: step.desc,
+                photo_id: 1,
+              })),
+              note: data.note,
+            //   note: data.note.map((n, idx) => ({
+            //     id: idx + 1,
+            //     desc: n.desc,
+            //     photo_id: null,
+            //   }))
+            //   main_ingredient_name: "",
+            //   main_ingredient_amount: "" ,
+            //   main_ingredient_unit: ""
+            };
+            const res = await createRecipeAction(payload);  
+            console.log("Recipe form inserted:", res);
+        } catch(error){
+            console.error('Error:', error)
+        } finally{
             setIsSubmitting(false)
-        }
-    };
-    
+        }}
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "steps"
+    })
     return (
     <main className='min-h-screen flex flex-col m-2 p-8 lg:m-10 items-center border-2 border-gray-200'>
         <form onSubmit={handleSubmit(onSubmit)} >
@@ -60,18 +80,12 @@ export function NewRecipeForm() {
                     <label htmlFor="recipeName"></label>
                     <input className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' 
                     id="name" type="text" placeholder="e.g. Kimchi stew"
-                    {...register('name', {required: 'Recipe name is required'})}/>
-                {errors.name && (
-                    <span className="error-message">{errors.name.message}</span>
+                    {...register('recipe_name', {required: 'Recipe name is required'})}/>
+                {errors.recipe_name && (
+                    <span className="error-message">{errors.recipe_name.message}</span>
                 )}  
                 </div>   
             </section>    
-            {/* <div> 
-                <label htmlFor="name"> Name</label>
-                <input id="name" type="text" 
-                {...register('name', { required: 'Name is required'})} className='border-2 border-gray-700' />
-                {errors.name && <p>{errors.name.message}</p>}
-            </div> */}
             <section>
                 <div className='flex items-center my-8'>
                     <p className='font-semibold text-2xl'>Cook time</p> 
@@ -115,7 +129,7 @@ export function NewRecipeForm() {
                         (<li className='border-2 text-gray-800 border-red-600 rounded-full px-2 py-1 text-center mx-1' key={tag}>{tag}</li>))}</ul> */}
                 </div>
             </section>     
-            <section>
+            {/* <section>
             <div className='my-8'>
                 <p className='font-semibold text-2xl'>Ingredients</p> 
                 ingredients form - dynamically adding new inputs
@@ -210,30 +224,26 @@ export function NewRecipeForm() {
                     </div>    
                 </div>
                 </div>
-            </section>     
+            </section>      */}
             <section >
                 <div className='flex flex-row'>
                     <p className='font-semibold text-2xl'>Steps</p>
-                    <button className='border-2 border-red-600'> Add more steps</button>
+                    <button type="button" 
+                            onClick={() => append({ id: 0, photo_id: 0, desc:""})}
+                            className='border-2 border-red-600'> Add more steps</button>
                 </div>
-                {/* <div className=' border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'>  */}
-                    <div className='flex flex-row'>
-                        <label htmlFor="steps"></label>
-                        <input  id="steps" type="textarea" placeholder="e.g. Cut onion thinly" 
-                                // {...register('steps', {required: 'Steps are required'})}
-                                {...register('steps')}
-
-                                className='border-2 border-gray-300 pl-2 py-1 rounded-sm w-2/3'/> 
-                        <button className="border-2 border-red-600">
-                        <Image className="m-8" src={fallbackImg} alt='fallbackImg' width={100} height={50}/>
-                        </button>
-
-                        {/* <ul className='flex flex-col'> 
-                            {steps.map((item: Step) => <li className='flex flex-row' key={item.step}><div className='pr-4'>{item.step}.</div> 
-                                                       <div className='mr-8'>{item.desc}</div></li> )}
-                        </ul> */}
-                    {/* </div> */}
-                </div>   
+                <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
+                {fields.map((field, index) => (
+                    <div key={field.id} className='flex flex-row'> 
+                        <div className='flex items-center'>{index + 1}</div>
+                        <input 
+                            placeholder="e.g. Cut onion thinly" 
+                            {...register(`steps.${index}.desc` as const)} 
+                            className='border-2 border-gray-300 mx-2 px-2 py-1 rounded-sm w-2/3'/>  
+                        <button type="button" onClick={() => remove(index)}> Remove</button>    
+                    </div> 
+                ))}
+                </div>    
             </section>
             <section>
                 <div className='my-8'>
@@ -245,7 +255,6 @@ export function NewRecipeForm() {
                         <input id="external_link"
                         // {...register('img_link', {required: 'Video link is required'})}
                         {...register('external_link')}
-
                          className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' type="text" placeholder="https://youtu.be/..." /> 
                         <Image className="m-8" src={fallbackImg} alt='fallbackImg' width={200} height={150}/>
                     </div>
@@ -272,12 +281,11 @@ export function NewRecipeForm() {
                 </div>
                 <div>
                 <button type="submit" className='border-2 border-red-600'> {isSubmitting ? 'Creating Recipe...' : 'Create Recipe'}</button>
-                <button type="submit" disabled={pending}> pending create recipe test</button>
-                
+                {/* <button type="submit" disabled={pending}> pending create recipe test</button> */}
                 </div>
             </div>            
              {/* Display the success message returned from the server */}
-            {state.message && <p className="mt-4 text-green-600">{state.message}</p>}
+            {/* {state.message && <p className="mt-4 text-green-600">{state.message}</p>} */}
         </form>
     </main>
     )
