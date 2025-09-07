@@ -14,7 +14,7 @@ export default async function RecipeList({ recipes}: {recipes: Recipe[]}) {
         </div>) 
         : 
         (<div> 
-            <p className='flex justify-center items-center font-bold'> There is nothing in this tag yet—start adding your recipes! </p>
+            <p className='flex justify-center items-center font-bold'> There is nothing in this tag yet — start adding your recipes! </p>
         </div>)}
     </>
     );
