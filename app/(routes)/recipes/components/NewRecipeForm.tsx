@@ -27,7 +27,7 @@ export function NewRecipeForm() {
             steps: [{id: 1, photo_id: 1, desc: "" }],
             img_link: "",
             external_link: "",
-            note: "",
+            note: [{id: 1, desc:""}],
             // main_ingredient_amount: "" ,
             // main_ingredient_name: "",
             // main_ingredient_unit: ""
@@ -77,12 +77,10 @@ export function NewRecipeForm() {
                 desc: step.desc,
                 photo_id: 1,
               })),
-              note: data.note,
-            //   note: data.note.map((n, idx) => ({
-            //     id: idx + 1,
-            //     desc: n.desc,
-            //     photo_id: null,
-            //   }))
+              note: data.note.map((item, idx) => ({
+                id: idx + 1,
+                desc: item.desc,
+              }))
             //   main_ingredient_name: "",
             //   main_ingredient_amount: "" ,
             //   main_ingredient_unit: ""
@@ -94,9 +92,13 @@ export function NewRecipeForm() {
         } finally{
             setIsSubmitting(false)
         }}
-    const { fields, append, remove } = useFieldArray({
+    const { fields: stepFields, append: appendStep, remove: removeStep } = useFieldArray({
         control,
         name: "steps"
+    });
+    const { fields: noteFields, append: appendNote, remove: removeNote } = useFieldArray({
+        control,
+        name: "note"
     })
     return (
     <main className='min-h-screen lg:min-w-[800px] flex flex-col m-2 p-8 lg:m-10 items-center border-2 border-gray-200'>
@@ -263,19 +265,19 @@ export function NewRecipeForm() {
                 <div className='flex flex-row'>
                     <p className='font-semibold lg:text-2xl'>Steps</p>
                     <button type="button" 
-                            onClick={() => append({ id: 0, photo_id: 0, desc:""})}
+                            onClick={() => appendStep({ id: 0, photo_id: 0, desc:""})}
                             className='border-2 border-red-600 px-2 h-10 mx-2 rounded-sm'> Add more steps</button>
                 </div>
                 <div className='border-2 border-gray-200 p-2 lg:p-4 my-4'> 
-                {fields.map((field, index) => (
+                {stepFields.map((field, index) => (
                     <div key={field.id} className='flex flex-row m-2 items-center'> 
-                        <div className='flex items-center w-2 font-bold text-lg'>{index + 1}</div>
+                        <div className='flex items-center w-4 font-bold text-lg'>{index + 1}</div>
                         <textarea 
                             maxLength={150}
                             placeholder="e.g. Cut onion thinly" 
                             {...register(`steps.${index}.desc` as const)} 
                             className='border-2 border-gray-300 mx-2 px-2 py-1 rounded-sm w-full h-16 resize-y min-h-20 max-h-32'/>  
-                        <button type="button" className='border-2 border-red-600 px-2 h-10' onClick={() => remove(index)}> Remove</button>    
+                        <button type="button" className='border-2 border-red-600 px-2 h-10' onClick={() => removeStep(index)}> Remove</button>    
                     </div> 
                 ))}
                 </div>    
@@ -312,19 +314,21 @@ export function NewRecipeForm() {
             <section>
                 <div className='flex flex-row'>
                     <p className='font-semibold lg:text-2xl'>Notes</p>
-                    <button className='border-2 border-red-600'> Add more note </button>
+                    <button type="button" 
+                            onClick={() => appendNote({ id: 0, desc:""})}
+                            className='border-2 border-red-600 px-2 h-10 mx-2 rounded-sm'> Add more note</button>
                 </div>
                 <div className='border-2 border-gray-200 p-2 lg:p-4 my-4'> 
-                    {/* <div className='my-4 p-2'> {note.map((item:Note) => <li key={item.id}>{item.desc}</li>)} </div> */}
-                    <div className='flex flex-row m-2'> 
-                    <div className='flex items-center w-4 font-bold text-lg'> • </div>
-                    <label htmlFor="note"></label>
-                    <textarea 
-                     maxLength={100}
-                    {...register('note')}
-                    className='border-2 w-full border-gray-300  mx-2 px-2 py-1 pl-2 rounded-sm resize-y min-h-20 max-h-24' id="note" placeholder="Any tips?" /> 
-                    <button type="button" className='border-2 border-red-600 px-2 h-10' onClick={() => remove(index)}> Remove</button>    
-                </div>
+                {noteFields.map((field, index) => (
+                    <div key={field.id} className='flex flex-row m-2 items-center'> 
+                        <div className='flex items-center w-4 font-bold text-lg'> • </div>
+                        <textarea 
+                            maxLength={100}
+                            {...register(`note.${index}.desc` as const)} 
+                            className='border-2 w-full border-gray-300  mx-2 px-2 py-1 pl-2 rounded-sm resize-y min-h-20 max-h-24' id="note" placeholder="Any tips?" /> 
+                        <button type="button" className='border-2 border-red-600 px-2 h-10' onClick={() => removeNote(index)}> Remove</button>    
+                    </div> 
+                ))}
                 </div>
             </section>
             <div className='flex justify-between my-8'>

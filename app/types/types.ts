@@ -55,7 +55,7 @@ export interface Recipe {
     steps: Step[];
     img_link: string;
     external_link: string;
-    note: string;
+    note: Note[];
     // main_ingredient_name: string;
     // main_ingredient_amount: string;
     // main_ingredient_unit: string;
