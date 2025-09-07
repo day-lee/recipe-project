@@ -24,7 +24,7 @@ export interface Recipe {
   export interface Ingredient {
     id: number;
     recipe_id: number;
-    recipe_name: string;
+    // recipe_name: string;
     ingredient_name: string;
     quantity: number;
     unit: string;
@@ -56,9 +56,7 @@ export interface Recipe {
     img_link: string;
     external_link: string;
     note: Note[];
-    // main_ingredient_name: string;
-    // main_ingredient_amount: string;
-    // main_ingredient_unit: string;
+    ingredients: Omit<Ingredient, "recipe_id">[]
 }
 
 export interface VideoState {
