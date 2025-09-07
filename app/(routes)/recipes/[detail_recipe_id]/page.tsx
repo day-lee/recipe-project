@@ -44,8 +44,8 @@ if (recipeIngredientError) {
                 <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
                     <div className='my-4 p-2'>
                         <ul className='flex flex-col'> 
-                            {steps.map((item: Step) => <li className='flex flex-row' key={item.id}><div className='pr-4'>{item.id}.</div> 
-                                                       <div className='mr-8'>{item.desc}</div></li> )}
+                            {steps.map((item: Step) => <li className='flex flex-row' key={item.id}><div className='pr-4 my-2'>{item.id}.</div> 
+                                                       <div className='mr-8 my-2'>{item.desc}</div></li> )}
                         </ul>
                     </div>
                 </div>   

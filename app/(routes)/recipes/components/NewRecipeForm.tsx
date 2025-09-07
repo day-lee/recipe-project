@@ -1,43 +1,77 @@
 'use client';
 
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm, getValues, useFieldArray } from 'react-hook-form'
 import { useState, useActionState } from 'react';
 
 import Image from 'next/image'
 import fallbackImg from '../../../assets/unavailable.png'
-import { FormData } from '@/app/types/types'
+import { FormData, VideoState } from '@/app/types/types'
 import { extractVideoId } from '@/utils/utils'
 import { createRecipeAction, submitForm, FormState } from "@/app/actions"; 
 
+const videoErrorMsg = 'Please check the YouTube video URL.'
+const videoDefaultValues: VideoState = {
+    videoId: '',
+    isVideoValid: false,
+    errorMessage: ''
+}
+
 export function NewRecipeForm() {
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const { register, control, handleSubmit, formState: { errors }} = useForm<FormData>({
+    const [video, setVideo] = useState<VideoState>(videoDefaultValues)
+    const { register, control, handleSubmit, getValues, resetField, formState: { errors }} = useForm<FormData>({
         defaultValues: {
             recipe_name: '',
-            duration: 15,
+            duration: 30,
             serving: 2,
             steps: [{id: 1, photo_id: 1, desc: "" }],
             img_link: "",
             external_link: "",
             note: "",
-            // main_ingredient_name: "",
             // main_ingredient_amount: "" ,
+            // main_ingredient_name: "",
             // main_ingredient_unit: ""
         }
     });
     // const initialState: FormState = { message: ''};
     // const [state, formAction, pending] = useActionState(submitForm, initialState);
-    
+
+    const addThumbnail = () => {
+        const externalVideoLink = getValues("external_link")
+        const id = extractVideoId(externalVideoLink)
+        if (id){
+            setVideo({
+                videoId: id,
+                isVideoValid: true,
+                errorMessage: ''
+            })
+        } else {
+            setVideo({
+                videoId: '',
+                isVideoValid: false,
+                errorMessage: videoErrorMsg
+            })
+        }
+    }
+    const removeThumbnail = () => {
+        resetField("external_link");
+        setVideo({
+            videoId: '',
+            isVideoValid: false,
+            errorMessage: ''
+        })
+    }
+
     const onSubmit = async (data:FormData) => {
         try {
             setIsSubmitting(true)
             const payload = {
-              img_link: "img-link", // static or real file upload logic
-              created_user_id: 2,   // from session
+              img_link: "img-link", 
+              created_user_id: 2,   
               recipe_name: data.recipe_name,
               duration: data.duration || 15,
               serving: data.serving || 1,
-              external_link: extractVideoId(data.external_link),
+              external_link: extractVideoId(data.external_link) ?? "",
               steps: data.steps.map((step, idx) => ({
                 id: idx + 1,
                 desc: step.desc,
@@ -65,20 +99,20 @@ export function NewRecipeForm() {
         name: "steps"
     })
     return (
-    <main className='min-h-screen flex flex-col m-2 p-8 lg:m-10 items-center border-2 border-gray-200'>
-        <form onSubmit={handleSubmit(onSubmit)} >
+    <main className='min-h-screen lg:min-w-[800px] flex flex-col m-2 p-8 lg:m-10 items-center border-2 border-gray-200'>
+        <form className='lg:min-w-[600px]' onSubmit={handleSubmit(onSubmit)} >
             <section> 
-                <p className='font-semibold text-2xl'>Main photo</p>
+                <p className='font-semibold lg:text-2xl'>Main photo</p>
                 photo upload - how to add image in next.js 
                 <div className='flex items-center justify-center'>
                     <Image className="m-8" src={fallbackImg} alt='fallbackImg' width={300} height={150}/>
                 </div>
             </section>
             <section> 
-                <div className='my-8'> 
-                    <p className='font-semibold text-2xl'>Recipe name</p> 
+                <div className='my-8 flex flex-row items-center'> 
+                    <p className='font-semibold lg:text-2xl'>Recipe name</p> 
                     <label htmlFor="recipeName"></label>
-                    <input className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' 
+                    <input className='border-2 w-2/3 ml-2 border-gray-300 p-2 rounded-sm' 
                     id="name" type="text" placeholder="e.g. Kimchi stew"
                     {...register('recipe_name', {required: 'Recipe name is required'})}/>
                 {errors.recipe_name && (
@@ -88,7 +122,7 @@ export function NewRecipeForm() {
             </section>    
             <section>
                 <div className='flex items-center my-8'>
-                    <p className='font-semibold text-2xl'>Cook time</p> 
+                    <p className='font-semibold lg:text-2xl'>Cook time</p> 
                     <div className='text-gray-600 ml-2 border-2 border-gray-300 rounded-sm p-2'>
                         <select id="duration" {...register('duration', {required: 'Please select cook time'})}>
                             {/* <option value="">Cook time</option> */}
@@ -103,7 +137,7 @@ export function NewRecipeForm() {
             </section>
             <section>
             <div className='flex items-center my-8'>
-                    <p className='font-semibold text-2xl'>Serving</p> 
+                    <p className='font-semibold lg:text-2xl'>Serving</p> 
                     <div className='text-gray-600 ml-2 border-2 border-gray-300 rounded-sm p-2'>
                         <select id="serving" {...register('serving', {required: 'Please select serving'})}>
                         {/* <option value="">Serving</option> */}
@@ -118,7 +152,7 @@ export function NewRecipeForm() {
             </section>     
             <section>
                 <div className='my-8 '>
-                <p className='font-semibold text-2xl'>Tag TBC</p> 
+                <p className='font-semibold lg:text-2xl'>Tag TBC</p> 
                      bring all tags that belongs to a user 
                      <div className='flex flex-row border-2 border-gray-300 rounded-sm p-2 w-full h-40'>
                         <button className='border-2 h-1/3 border-red-700'>Korean</button>
@@ -131,11 +165,11 @@ export function NewRecipeForm() {
             </section>     
             {/* <section>
             <div className='my-8'>
-                <p className='font-semibold text-2xl'>Ingredients</p> 
+                <p className='font-semibold lg:text-2xl'>Ingredients</p> 
                 ingredients form - dynamically adding new inputs
                 <div className='my-4'>
                     <div className='flex flex-row'>
-                    <p className='font-semibold text-2xl'>Main</p>  
+                    <p className='font-semibold lg:text-2xl'>Main</p>  
                     <button className='border-2 border-red-600'> Add more ingredients </button>
                     </div>
                     <div className='border-2 border-gray-300 rounded-sm p-2'>
@@ -171,7 +205,7 @@ export function NewRecipeForm() {
                 </div>
                 <div className='my-4'>
                     <div className='flex flex-row'>
-                    <p className='font-semibold text-2xl'>Optional</p>  
+                    <p className='font-semibold lg:text-2xl'>Optional</p>  
                     <button className='border-2 border-red-600'> Add more ingredients </button>
                     </div>
                     <div className='border-2 border-gray-300 rounded-sm p-2'>
@@ -198,7 +232,7 @@ export function NewRecipeForm() {
                 </div>
                 <div className='my-4'>
                     <div className='flex flex-row'>
-                    <p className='font-semibold text-2xl'>Sauce</p>  
+                    <p className='font-semibold lg:text-2xl'>Sauce</p>  
                     <button className='border-2 border-red-600'> Add more ingredients </button>
                     </div>
                     <div className='border-2 border-gray-300 rounded-sm p-2'>
@@ -227,55 +261,73 @@ export function NewRecipeForm() {
             </section>      */}
             <section >
                 <div className='flex flex-row'>
-                    <p className='font-semibold text-2xl'>Steps</p>
+                    <p className='font-semibold lg:text-2xl'>Steps</p>
                     <button type="button" 
                             onClick={() => append({ id: 0, photo_id: 0, desc:""})}
-                            className='border-2 border-red-600'> Add more steps</button>
+                            className='border-2 border-red-600 px-2 h-10 mx-2 rounded-sm'> Add more steps</button>
                 </div>
-                <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
+                <div className='border-2 border-gray-200 p-2 lg:p-4 my-4'> 
                 {fields.map((field, index) => (
-                    <div key={field.id} className='flex flex-row'> 
-                        <div className='flex items-center'>{index + 1}</div>
-                        <input 
+                    <div key={field.id} className='flex flex-row m-2 items-center'> 
+                        <div className='flex items-center w-2 font-bold text-lg'>{index + 1}</div>
+                        <textarea 
+                            maxLength={150}
                             placeholder="e.g. Cut onion thinly" 
                             {...register(`steps.${index}.desc` as const)} 
-                            className='border-2 border-gray-300 mx-2 px-2 py-1 rounded-sm w-2/3'/>  
-                        <button type="button" onClick={() => remove(index)}> Remove</button>    
+                            className='border-2 border-gray-300 mx-2 px-2 py-1 rounded-sm w-full h-16 resize-y min-h-20 max-h-32'/>  
+                        <button type="button" className='border-2 border-red-600 px-2 h-10' onClick={() => remove(index)}> Remove</button>    
                     </div> 
                 ))}
                 </div>    
             </section>
             <section>
                 <div className='my-8'>
-                    <p className='font-semibold text-2xl'>Video</p>
-                    <div className='flex flex-col justify-center items-center'>
-                    {/* <div className="flex justify-center border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] lg:h-[350px] p-2 lg:p-8 my-4"> */}
-                        <p> * Youtube id extract - https://youtu.be/wttA0mcstQc?si=3TIV0aZNVKV-eCVK
-                        프리뷰 보여줄 수 있다면 등록 버튼? </p>
-                        <input id="external_link"
-                        // {...register('img_link', {required: 'Video link is required'})}
-                        {...register('external_link')}
-                         className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' type="text" placeholder="https://youtu.be/..." /> 
-                        <Image className="m-8" src={fallbackImg} alt='fallbackImg' width={200} height={150}/>
+                    <p className='font-semibold lg:text-2xl'>Video</p>
+                    <div className='flex flex-col justify-center border-2 border-gray-200 p-2 lg:p-4 my-4'> 
+                        <div className='flex'>
+                        <input id="external_link" 
+                            type="text"
+                            {...register('external_link')}
+                            className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' placeholder="https://youtu.be/..." /> 
+                            <button type="button" className='border-2 border-red-600 px-2 h-10' onClick={(addThumbnail)}> Add</button>    
+                            <button type="button" className='border-2 border-red-600 px-2 h-10' onClick={removeThumbnail}> Remove</button>    
+                        </div>
+                        <div className='flex justify-center'> 
+                        { video.isVideoValid && (
+                            <div className='flex flex-col items-center'>
+                           <Image className="m-6" src={`https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`} alt='youtube thumbnail' width={300} height={150}/>
+                            <p className='font-medium'>YouTube video registered successfully!</p>
+                            </div>
+                        )}
+                        {!video.isVideoValid && video.errorMessage && (
+                            <div className='flex flex-col items-center'>
+                             <Image className="m-6" src={fallbackImg} alt='fallbackImg' width={200} height={150}/>
+                             <p className='text-red-600 font-medium'>{video.errorMessage}</p>
+                             </div>
+                        )}
+                        </div>
                     </div>
                 </div>    
             </section>
-            <section >
+            <section>
                 <div className='flex flex-row'>
-                    <p className='font-semibold text-2xl'>Notes</p>
+                    <p className='font-semibold lg:text-2xl'>Notes</p>
                     <button className='border-2 border-red-600'> Add more note </button>
                 </div>
-                <div className="w-full"> 
+                <div className='border-2 border-gray-200 p-2 lg:p-4 my-4'> 
                     {/* <div className='my-4 p-2'> {note.map((item:Note) => <li key={item.id}>{item.desc}</li>)} </div> */}
+                    <div className='flex flex-row m-2'> 
+                    <div className='flex items-center w-4 font-bold text-lg'> • </div>
                     <label htmlFor="note"></label>
-                    <input 
-                    // {...register('note', {required: 'Note is required'})}
+                    <textarea 
+                     maxLength={100}
                     {...register('note')}
-                    className='border-2 w-full h-20 border-gray-300 pl-2 py-1 rounded-sm' type="textarea" id="note" placeholder="Any tips?" /> 
-                </div>   
+                    className='border-2 w-full border-gray-300  mx-2 px-2 py-1 pl-2 rounded-sm resize-y min-h-20 max-h-24' id="note" placeholder="Any tips?" /> 
+                    <button type="button" className='border-2 border-red-600 px-2 h-10' onClick={() => remove(index)}> Remove</button>    
+                </div>
+                </div>
             </section>
-
-            <div className='flex justify-between my-8 '>
+            <div className='flex justify-between my-8'>
                 <div>    
                 <button className='border-2 border-red-600'>Cancel</button>
                 </div>

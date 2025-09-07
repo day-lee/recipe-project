@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
         pathname: '/recipe-book-food-photos/**',
         search: '',
       },
+      {
+        protocol: "https",
+        hostname: "img.youtube.com",
+        port: "",
+        pathname: "/vi/**",
+      },
     ],
   },
 };

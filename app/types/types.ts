@@ -60,3 +60,9 @@ export interface Recipe {
     // main_ingredient_amount: string;
     // main_ingredient_unit: string;
 }
+
+export interface VideoState {
+  videoId: string;
+  isVideoValid: boolean;
+  errorMessage: string;
+}
