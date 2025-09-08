@@ -48,7 +48,7 @@ export interface Recipe {
     setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
   }
 
-  export interface FormData {
+  export interface FormSubmitData {
     recipe_name: string;
     duration: number;
     serving: number;
@@ -56,7 +56,21 @@ export interface Recipe {
     img_link: string;
     external_link: string;
     note: Note[];
-    ingredients: Omit<Ingredient, "recipe_id">[]
+    main_ingredients: Omit<Ingredient, "recipe_id">[];
+    optional_ingredients: Omit<Ingredient, "recipe_id">[];
+    sauce_ingredients: Omit<Ingredient, "recipe_id">[];
+
+}
+
+export interface FormData {
+  recipe_name: string;
+  duration: number;
+  serving: number;
+  steps: Step[];
+  img_link: string;
+  external_link: string;
+  note: Note[];
+  ingredients: Omit<Ingredient, "recipe_id">[];
 }
 
 export interface VideoState {
