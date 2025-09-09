@@ -39,7 +39,7 @@ export function LoginForm({
       });
       if (error) throw error;
       // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/protected");
+      router.push("/recipes");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
@@ -53,7 +53,12 @@ export function LoginForm({
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your email below to login to your account <hr></hr>
+            <p className="text-red-600 border-2 m-2 my-4 border-red-600 p-2">
+            <span className="font-semibold">Guest access credentials:</span> <br></br> 
+            Email: guest@recipeproject.com <br></br>
+            Password: ForGuest:)
+            </p>
           </CardDescription>
         </CardHeader>
         <CardContent>

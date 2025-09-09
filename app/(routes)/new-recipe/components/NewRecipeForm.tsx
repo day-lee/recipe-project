@@ -3,7 +3,7 @@
 import { useForm, getValues, useFieldArray } from 'react-hook-form'
 import { useState, useActionState } from 'react';
 import { PlusCircleIcon, TrashIcon, XCircleIcon } from '@heroicons/react/24/outline'; 
-
+import Link from 'next/link'
 
 import Image from 'next/image'
 import fallbackImg from '../../../assets/unavailable.png'
@@ -446,11 +446,13 @@ export function NewRecipeForm() {
             </section>
             <div className='flex justify-between my-8 lg:text-xl '>
                 <div className=' hover:bg-red-200 rounded-sm'>    
+                <Link href={`/recipes`}>
                     <button className='h-8 '>
                         <div className='flex font-semibold items-center pr-2'>
                             <TrashIcon className='w-6 h-6 text-red-500 mx-2' /> Cancel
                         </div>
                     </button>
+                    </Link>
                 </div>
                 <div className=' hover:bg-red-200 rounded-sm'>   
                     <button type="submit" className='h-8 '>

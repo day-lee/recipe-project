@@ -11,7 +11,7 @@ export default function Sidebar({onClick, setIsSidebarOpen}: SidebarProps) {
         <div className='w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 p-4 border-2 bg-white
                          border-gray-300 rounded-sm absolute top-16 right-0 z-20'>
             <div className="flex flex-row justify-between items-center h-10 pb-4">
-                <div>Hi, User!</div>
+                <div>Hi, User</div>
                 <button className='hover:bg-gray-400/50 hover:rounded-full hover:transition-all hover:duration-300' title="close" onClick={onClick}>
                     <XMarkIcon className="h-5 w-5 font-bold text-gray-700"/>
                 </button>

@@ -26,7 +26,7 @@ if (recipeIngredientError) {
     return <div>Error loading ingredients</div>;
   }    
     return (
-        <main className='min-h-screen flex flex-col m-2 md:m-16 lg:m-32 items-center border-2 border-gray-200'>
+        <main className='min-h-screen flex flex-col m-2 md:m-16 lg:m-32 items-center border-2 border-gray-200 p-4'>
             {img_link ? <Image className='m-8' priority={true} src={img_link} alt={recipe_name} width={400} height={150}/> 
                       : <Image className="m-8" src={fallbackImg} alt='fallbackImg' width={400} height={150}/>}
             <div className='text-3xl font-semibold'> {recipe_name}</div>   

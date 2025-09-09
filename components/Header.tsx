@@ -17,7 +17,7 @@ const handleClick = () => setIsSidebarOpen(!isSidebarOpen)
                         <Link href="/recipes" className="font-bold text-md sm:text-3xl text-red-700 w-1/2 sm:w-full"> 
                             Recipe Project
                         </Link>
-                    </div>
+                    </div>                    
                     <div className="flex items-center">
                         <button title="Menu" onClick={handleClick}>
                             <Bars3Icon className="h-8 w-8 font-bold hover:bg-gray-400/50 hover:rounded-full hover:transition-all hover:duration-300" />
