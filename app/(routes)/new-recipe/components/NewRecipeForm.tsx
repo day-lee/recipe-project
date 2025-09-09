@@ -10,6 +10,7 @@ import fallbackImg from '../../../assets/unavailable.png'
 import { FormData, FormSubmitData, VideoState, Ingredient } from '@/app/types/types'
 import { extractVideoId, nameFormatter } from '@/utils/utils'
 import { createRecipeAction, submitForm, FormState } from "@/app/actions"; 
+import ImageFileUpload from '@/app/(routes)/new-recipe/components/ImageFileUpload'
 
 const videoErrorMsg = 'Please check the YouTube video URL.'
 const videoDefaultValues: VideoState = {
@@ -30,11 +31,12 @@ export function NewRecipeForm() {
             img_link: "",
             external_link: "",
             note: [{id: 1, desc:""}],
+            // UX improvement: optional, Sauce default show no input 
             main_ingredients: [{id:1, ingredient_name: "", quantity: undefined, unit:"",
                                 is_main: true, is_optional: false, is_sauce: false}], 
-            optional_ingredients: [{id:1, ingredient_name: "", quantity: undefined, unit:"",
+            optional_ingredients: [{id:1, ingredient_name: "", quantity: 0, unit:"",
                                 is_main: false, is_optional: true, is_sauce: false}],
-            sauce_ingredients: [{id:1, ingredient_name: "", quantity: undefined, unit:"",
+            sauce_ingredients: [{id:1, ingredient_name: "", quantity: 0, unit:"",
                                  is_main: false, is_optional: false, is_sauce: true}]                                                              
         }
     });
@@ -133,9 +135,8 @@ export function NewRecipeForm() {
         <form className='lg:min-w-[600px]' onSubmit={handleSubmit(onSubmit)} >
             <section> 
                 <p className='font-semibold lg:text-xl'>Main photo</p>
-                photo upload - how to add image in next.js 
                 <div className='flex items-center justify-center'>
-                    <Image className="m-8" src={fallbackImg} alt='fallbackImg' width={300} height={150}/>
+                    <ImageFileUpload />
                 </div>
             </section>
             <section> 
@@ -253,7 +254,7 @@ export function NewRecipeForm() {
                     </div>  
                 </div>
                 <div className='my-4'>
-                                        <div className='flex flex-row my-2 justify-between'>
+                     <div className='flex flex-row my-2 justify-between'>
                     <p className='font-semibold lg:text-xl'>Optional</p>  
                     <button type="button" 
                             onClick={() => appendOptionalIngredient({id:1, ingredient_name: "", quantity: 1, unit:"",

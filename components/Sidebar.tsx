@@ -18,7 +18,7 @@ export default function Sidebar({onClick, setIsSidebarOpen}: SidebarProps) {
             </div>
             <div className="flex flex-col text-lg font-semibold">
                 <div className='flex flex-row hover:text-red-700'>
-                    <Link href="/recipes/new">
+                    <Link href="/new-recipe">
                     + New recipe
                     </Link>
                 </div>

@@ -1,4 +1,4 @@
-import { NewRecipeForm } from '../components/NewRecipeForm'
+import { NewRecipeForm } from '../recipes/components/NewRecipeForm'
 
 export default function HomePage() {
 
