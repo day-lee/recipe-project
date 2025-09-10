@@ -63,14 +63,14 @@ export default function ImageFileUpload() {
                    ref={inputRef} style={{ display: "none" }}/>
             <div className='flex gap-4 items-center justify-center'>
                 <button type="button" onClick={handleClick}> 
-                    <div className='flex flex-col items-center'>
+                    <div className='flex flex-col items-center hover:bg-red-200 rounded-sm p-1'>
                         <ArrowUpOnSquareIcon className='w-8 h-8' /> 
                         Upload 
                     </div> 
                 </button>
                 <button type="button" onClick={handleCancel}
                     className=""> 
-                    <div className='flex flex-col items-center'>
+                    <div className='flex flex-col items-center hover:bg-red-200 rounded-sm p-1'>
                     <TrashIcon className="h-8 w-8 text-red-600" /> 
                     Cancel
                     </div>

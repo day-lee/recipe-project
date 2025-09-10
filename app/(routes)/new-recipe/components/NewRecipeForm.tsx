@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm, getValues, useFieldArray } from 'react-hook-form'
+import { useForm, getValues, useFieldArray, Controller } from 'react-hook-form'
 import { useState, useActionState } from 'react';
 import { PlusCircleIcon, TrashIcon, XCircleIcon } from '@heroicons/react/24/outline'; 
 import Link from 'next/link'
@@ -11,6 +11,8 @@ import { FormData, FormSubmitData, VideoState, Ingredient } from '@/app/types/ty
 import { extractVideoId, nameFormatter } from '@/utils/utils'
 import { createRecipeAction, submitForm, FormState } from "@/app/actions"; 
 import ImageFileUpload from '@/app/(routes)/new-recipe/components/ImageFileUpload'
+import { Tag } from "../../../types/types"
+
 
 const videoErrorMsg = 'Please check the YouTube video URL.'
 const videoDefaultValues: VideoState = {
@@ -19,7 +21,7 @@ const videoDefaultValues: VideoState = {
     errorMessage: ''
 }
 
-export function NewRecipeForm() {
+export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [video, setVideo] = useState<VideoState>(videoDefaultValues)
     const { register, control, handleSubmit, getValues, resetField, formState: { errors }} = useForm<FormSubmitData>({
@@ -27,6 +29,7 @@ export function NewRecipeForm() {
             recipe_name: '',
             duration: 30,
             serving: 2,
+            tags: [],
             steps: [{id: 1, photo_id: 1, desc: "" }],
             img_link: "",
             external_link: "",
@@ -90,6 +93,7 @@ export function NewRecipeForm() {
               recipe_name: nameFormatter(data.recipe_name),
               duration: data.duration || 15,
               serving: data.serving || 1,
+              tags: data.tags, 
               external_link: extractVideoId(data.external_link) ?? "",
               steps: data.steps.map((step, idx) => ({
                 id: idx + 1,
@@ -132,7 +136,7 @@ export function NewRecipeForm() {
     }) 
     return (
     <main className='min-h-screen lg:min-w-[800px] flex flex-col m-2 p-8 lg:m-10 items-center border-2 border-gray-200'>
-        <form className='lg:min-w-[600px]' onSubmit={handleSubmit(onSubmit)} >
+        <form className='lg:min-w-[600px] mx-auto' onSubmit={handleSubmit(onSubmit)} >
             <section> 
                 <p className='font-semibold lg:text-xl'>Main photo</p>
                 <div className='flex items-center justify-center'>
@@ -140,7 +144,7 @@ export function NewRecipeForm() {
                 </div>
             </section>
             <section> 
-                <div className='flex flex-col'>
+                <div className='flex flex-col max-w-xl'>
                     <div className='mt-8 flex flex-col'> 
                         <p className='font-semibold lg:text-xl'>Recipe name</p> 
                         <label htmlFor="recipeName"></label>
@@ -154,7 +158,7 @@ export function NewRecipeForm() {
                 </div>   
             </section>    
             <section>
-                <div className='flex flex-col my-8'>
+                <div className='flex flex-col my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Cook time</p> 
                     <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
                         <select id="duration" {...register('duration', {required: 'Please select cook time'})}>
@@ -169,7 +173,7 @@ export function NewRecipeForm() {
                 </div>
             </section>
             <section>
-            <div className='flex flex-col my-8'>
+            <div className='flex flex-col my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Serving</p> 
                     <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
                         <select id="serving" {...register('serving', {required: 'Please select serving'})}>
@@ -184,20 +188,60 @@ export function NewRecipeForm() {
                 </div>
             </section>     
             <section>
-                <div className='my-8 '>
-                <p className='font-semibold lg:text-xl'>Tag TBC</p> 
-                     bring all tags that belongs to a user 
-                     <div className='flex flex-row border-2 border-gray-300 rounded-sm p-2 w-full h-40 gap-2'>
-                        <button className='border-2 h-1/3 border-red-700 px-2'>Korean</button>
-                        <button className='border-2 h-1/3 border-red-700 px-2'>Soup</button>
-                        <button className='border-2 h-1/3 border-red-700 px-2'>Pork</button>
-                     </div>
-                    {/* <ul className='flex flex-row'>{tag_name.map((tag: string) => 
-                        (<li className='border-2 text-gray-800 border-red-600 rounded-full px-2 py-1 text-center mx-1' key={tag}>{tag}</li>))}</ul> */}
+                <div className='my-8 max-w-xl'>
+                <p className='font-semibold lg:text-xl'>Tags</p> 
+                    <div className='flex flex-row border-2 border-gray-300 rounded-sm p-2'>
+                        {/* <ul className='flex flex-wrap w-full'>
+                        {tags?.map((tag: Tag) =>
+                        (
+                        <li key={tag.id} className="inline-block m-1">
+                            <button
+                                type="button" 
+                                className='border-2 text-gray-900 font-medium border-red-600 rounded-full px-2 py-1 text-center hover:bg-red-200'
+                                onClick={() => handleTagClick(tag)}
+                            >
+                                {tag.name}
+                            </button>
+                        </li>
+                        ))}
+                        </ul>  */}
+             <Controller
+              name="tags" 
+              control={control}
+              rules={{ required: false }} 
+              render={({ field: { onChange, value } }) => (
+                <ul className='flex flex-wrap'>
+                  {tags?.map((tag: Tag) => {
+                    const isSelected = value.includes(tag.id);
+                    return (
+                      <li key={tag.id} className="inline-block m-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const newSelectedIds = isSelected
+                              ? value.filter((id) => id !== tag.id) // Remove tag
+                              : [...value, tag.id]; // Add tag
+                            onChange(newSelectedIds); // Update React Hook Form state
+                          }}
+                          className={`border-2 font-medium rounded-full px-2 py-1 text-center
+                                    ${isSelected
+                                      ? 'bg-red-600 text-white border-red-600' // Selected 
+                                      : 'text-gray-900 border-red-600 hover:bg-red-200' // Unselected 
+                                    }`}
+                        >
+                          {tag.name}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            />
+                    </div>
                 </div>
             </section>     
             <section>
-            <div className='my-8'>
+            <div className='my-8 max-w-xl'>
                 <p className='font-semibold lg:text-xl'>Ingredients</p> 
                 <div className='my-4'>
                     <div className='flex flex-row my-2 justify-between'>
@@ -306,7 +350,7 @@ export function NewRecipeForm() {
                     ))}
                      </div>
                     </div>    
-                </div> 
+              
                 <div className='my-4'>
                      <div className='flex flex-row my-2 justify-between'>
                     <p className='font-semibold lg:text-xl'>Sauce</p>  
@@ -360,10 +404,11 @@ export function NewRecipeForm() {
                     ))}
                      </div>
                     </div>    
-                 
+                    </div>    
             </section>     
             <section >
-                <div className='flex flex-row justify-between mt-8'>
+            <div className='my-8 max-w-xl'>
+                <div className='flex flex-row justify-between mt-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Steps</p>
                     <button type="button" 
                             onClick={() => appendStep({ id: 0, photo_id: 0, desc:""})}
@@ -387,9 +432,10 @@ export function NewRecipeForm() {
                     </div> 
                 ))}
                 </div>    
+                </div>
             </section>
             <section>
-                <div className='my-8'>
+                <div className='my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Video</p>
                     <div className='flex flex-col justify-center border-2 border-gray-200 p-2 lg:p-4 my-4'> 
                         <div className='flex flex-col lg:flex-row'>
@@ -420,6 +466,7 @@ export function NewRecipeForm() {
                 </div>    
             </section>
             <section>
+            <div className='my-8 max-w-xl'>
                 <div className='flex flex-row justify-between'>
                     <p className='font-semibold lg:text-xl'>Notes</p>
                     <button type="button" 
@@ -443,8 +490,10 @@ export function NewRecipeForm() {
                     </div> 
                 ))}
                 </div>
+            </div>
             </section>
-            <div className='flex justify-between my-8 lg:text-xl '>
+
+            <div className='flex justify-between my-8 max-w-xl lg:text-xl '>
                 <div className=' hover:bg-red-200 rounded-sm'>    
                 <Link href={`/recipes`}>
                     <button className='h-8 '>

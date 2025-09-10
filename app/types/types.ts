@@ -52,6 +52,7 @@ export interface Recipe {
     recipe_name: string;
     duration: number;
     serving: number;
+    tags: number[];
     steps: Step[];
     img_link: string;
     external_link: string;
