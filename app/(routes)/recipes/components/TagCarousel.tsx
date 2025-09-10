@@ -8,7 +8,7 @@ import {
 
 import { Tag } from '../../../types/types'
 
-export default function TagCarousel({tags, onClick, selectedTag}: {tags:Tag[];  onClick?: (tagName: string) => void; selectedTag?: string | null;}) {
+export default function TagCarousel({tags, onClick, selectedTag}: {tags:Tag[] | null;  onClick?: (tagName: string) => void; selectedTag?: string | null;}) {
     const trackRef = useRef<HTMLDivElement | null>(null);
 
     const scroll = (direction: number) => {
@@ -20,7 +20,7 @@ export default function TagCarousel({tags, onClick, selectedTag}: {tags:Tag[];  
     return (
     <>
         <div ref={trackRef} className='flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar my-2 mx-8'>
-            {tags.map((tag) => (
+            {tags?.map((tag) => (
                 <div key={tag.id} className="flex-shrink-0 mx-1 my-2 snap-start relative">
                     <button className={`m-2 p-2 text-black font-medium bg-white rounded-sm hover:text-red-600 hover:font-semibold ${selectedTag === tag.name ? 'text-red-600 font-semibold' : ''}`}
                     onClick={() => onClick?.(tag.name)}> 

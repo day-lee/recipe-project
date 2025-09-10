@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Tag } from "../../../types/types"
 import TagCarousel from './TagCarousel'
 
-export default function TagButton({ tags } : {tags: Tag[]}) {
+export default function TagButton({ tags } : {tags: Tag[] | null}) {
     const [selectedTag, setSelectedTag] = useState<string | null>(null);
     const searchParams = useSearchParams();
     const pathname = usePathname();
