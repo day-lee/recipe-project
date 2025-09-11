@@ -15,6 +15,9 @@ import { Tag } from "../../../types/types"
 
 
 const videoErrorMsg = 'Please check the YouTube video URL.'
+const addOptionalIngredientsMsg = 'Click the “Add More” button above to add optional ingredients.'
+const addSauceIngredientsMsg = 'Click the “Add More” button above to add sauce ingredients.'
+
 const videoDefaultValues: VideoState = {
     videoId: '',
     isVideoValid: false,
@@ -37,12 +40,18 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
             // UX improvement: optional, Sauce default show no input 
             main_ingredients: [{id:1, ingredient_name: "", quantity: undefined, unit:"",
                                 is_main: true, is_optional: false, is_sauce: false}], 
-            optional_ingredients: [{id:1, ingredient_name: "", quantity: 0, unit:"",
-                                is_main: false, is_optional: true, is_sauce: false}],
-            sauce_ingredients: [{id:1, ingredient_name: "", quantity: 0, unit:"",
-                                 is_main: false, is_optional: false, is_sauce: true}]                                                              
+            optional_ingredients: [],
+            // [{id:1, ingredient_name: "", quantity: 0, unit:"",
+            //                     is_main: false, is_optional: true, is_sauce: false}],
+            sauce_ingredients: [],
+            //  [{id:1, ingredient_name: "", quantity: 0, unit:"",
+            //                      is_main: false, is_optional: false, is_sauce: true}]                                                              
         }
     });
+    const OPTIONAL = getValues("optional_ingredients")
+    const SAUCE = getValues("sauce_ingredients")
+    console.log(errors)
+
     // const initialState: FormState = { message: ''};
     // const [state, formAction, pending] = useActionState(submitForm, initialState);
     const addThumbnail = () => {
@@ -150,7 +159,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                         <label htmlFor="recipeName"></label>
                         <input className='border-2 border-gray-300 p-2 rounded-sm' 
                         id="name" type="text" placeholder="e.g. Kimchi stew"
-                        {...register('recipe_name', { setValueAs: (v) => nameFormatter(v), required: 'Recipe name is required'})}/>
+                        {...register('recipe_name', { setValueAs: (v) => nameFormatter(v), required: 'Recipe name is required.'})}/>
                     </div>
                     <div>
                     {errors.recipe_name && (<span className="text-red-600">{errors.recipe_name.message}</span>)}  
@@ -256,19 +265,21 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                             </button>
                     </div>
                     <div className='border-2 border-gray-300 rounded-sm p-2'>
-
-                    {mainIngredientFields.map((field, index) => (
-                        <div key={field.id} className='flex flex-col lg:flex-row items-center'>
+                    <div>
+                    
+                        {mainIngredientFields.map((field, index) => (
+                        <div key={field.id}>
+                        <div className='flex flex-col lg:flex-row items-center'>
                         <label htmlFor="ingredientName"></label>
                         <input 
                         id="ingredientName" type="text" placeholder="Ingredient name: e.g. Chicken"
-                        {...register(`main_ingredients.${index}.ingredient_name`, {setValueAs: (v) => nameFormatter(v), required: 'Main ingredient is required'})}
+                        {...register(`main_ingredients.${index}.ingredient_name`, {setValueAs: (v) => nameFormatter(v), required: 'At least one main ingredient is required.'})}
                         className='lg:w-2/3 w-full border-2 border-gray-300 pl-2 py-1 rounded-sm my-2' 
                         /> 
                         <div className='flex flex-row'>
                             <label htmlFor="ingredientAmount"></label>
                             <input 
-                            id="ingredientAmount" type="text" placeholder="Amount"
+                            id="ingredientAmount" type="number" placeholder="Amount"
                             {...register(`main_ingredients.${index}.quantity`, {required: 'Main ingredients amount required'})}
                             className='w-full lg:w-3/5 border-2 lg:ml-2 border-gray-300 pl-2 py-1 rounded-sm my-2' /> 
                             <label htmlFor="ingredientUnit"></label>
@@ -293,8 +304,13 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                             <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" /> </div>
                         </button>    
                         </div>
-                        </div>
+                    </div>
+                    <div>
+                        {errors.main_ingredients?.[index]?.ingredient_name && (<span className="text-red-600 pl-2">{errors.main_ingredients[index].ingredient_name.message}</span>)}  
+                    </div>
+                    </div>
                     ))}
+                    </div>
                     </div>  
                 </div>
                 <div className='my-4'>
@@ -310,6 +326,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                             </button>
                     </div>
                     <div className='border-2 border-gray-300 rounded-sm p-2'>
+                       <p className='text-sm'>{OPTIONAL.length === 0 && `${addOptionalIngredientsMsg}` }</p>
                     {optionalIngredientFields.map((field, index) => (
                         <div key={field.id} className='flex flex-col lg:flex-row items-center'>
                         <label htmlFor="ingredientName"></label>
@@ -364,6 +381,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                             </button>
                     </div>
                     <div className='border-2 border-gray-300 rounded-sm p-2'>
+                    <p className='text-sm'>{SAUCE.length === 0 && `${addSauceIngredientsMsg}` }</p>
                     {sauceIngredientFields.map((field, index) => (
                         <div key={field.id} className='flex flex-col lg:flex-row items-center'>
                         <label htmlFor="ingredientName"></label>
@@ -420,15 +438,18 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                 <div className='border-2 border-gray-200 p-2 lg:p-4 my-4'> 
                 {stepFields.map((field, index) => (
                     <div key={field.id} className='flex flex-row m-2 items-center'> 
+                    <div>
                         <div className='flex items-center w-4 font-bold text-lg'>{index + 1}</div>
                         <textarea 
+                        className='border-2 border-gray-300 mx-2 px-2 py-1 rounded-sm w-full h-16 resize-y min-h-20 max-h-32'
                             maxLength={150}
                             placeholder="e.g. Cut onion thinly" 
-                            {...register(`steps.${index}.desc` as const)} 
-                            className='border-2 border-gray-300 mx-2 px-2 py-1 rounded-sm w-full h-16 resize-y min-h-20 max-h-32'/>  
-                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeStep(index)}> 
+                                {...register(`steps.${index}.desc` as const, {required: "Step description is required.", })}/>
+                            {errors.steps?.[index]?.desc && (<span className="text-red-600 pl-2">{errors.steps[index].desc.message}</span>)}
+                    </div>
+                        <button type="button" className='px-8 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeStep(index)}> 
                         <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
-                        </button>    
+                        </button>  
                     </div> 
                 ))}
                 </div>    
