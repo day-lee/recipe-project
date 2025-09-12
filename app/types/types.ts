@@ -56,7 +56,7 @@ export interface Recipe {
     steps: Step[];
     img_link: string;
     external_link: string;
-    note: Note[];
+    notes: Note[];
     main_ingredients: Omit<Ingredient, "recipe_id">[];
     optional_ingredients: Omit<Ingredient, "recipe_id">[];
     sauce_ingredients: Omit<Ingredient, "recipe_id">[];
@@ -70,7 +70,7 @@ export interface FormData {
   steps: Step[];
   img_link: string;
   external_link: string;
-  note: Note[];
+  notes: Note[];
   ingredients: Omit<Ingredient, "recipe_id">[];
 }
 
