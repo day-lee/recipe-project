@@ -1,5 +1,14 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import RecipeList from '@/app/(routes)/recipes/components/RecipeList'
+
+let mockReplace = jest.fn()
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ replace: mockReplace }),
+  useSearchParams: () => new URLSearchParams("tag=korean"),
+  usePathname: () => "/recipes",
+}))
+
+import TagButton from '@/app/(routes)/recipes/components/TagButton'
 
 const mockRecipes = [
     {
@@ -19,6 +28,33 @@ const mockRecipes = [
         "serving": 1,
     }]
 
+const mockTags = [
+    {
+        "id": 1,
+        "name": "Korean",
+        "recipe_count": 7
+    },
+    {
+        "id": 2,
+        "name": "Western",
+        "recipe_count": 2
+    },
+    {
+        "id": 3,
+        "name": "Chicken",
+        "recipe_count": 4
+    },
+    {
+        "id": 11,
+        "name": "International",
+        "recipe_count": 3
+    }
+]
+
+  beforeEach(() => {
+    mockReplace = jest.fn()
+  })
+
 describe("RecipeList", () => {
     test('should render recipe cards when recipes exist', async () => {
         const ui = await RecipeList({recipes: mockRecipes})
@@ -33,4 +69,25 @@ describe("RecipeList", () => {
     })
 })
 
-
+describe("TagsButton", () => {
+    test('should render all tags', () => {
+        render (<TagButton tags={mockTags} />)
+        expect(screen.getByText("Korean (7)")).toBeInTheDocument();
+        expect(screen.getByText("Western (2)")).toBeInTheDocument();
+        expect(screen.getByText("Chicken (4)")).toBeInTheDocument();
+        expect(screen.getByText("International (3)")).toBeInTheDocument();
+    });
+    test('should change the url to "?tags=..." when clicking the tag', () => {
+        render (<TagButton tags={mockTags} />)
+        fireEvent.click(screen.getByText("Korean (7)"))
+        expect(mockReplace).toHaveBeenCalledWith('/recipes?tag=Korean')
+    });
+    test('should remove the query param when clicking again', () => {
+        render (<TagButton tags={mockTags} />)
+        fireEvent.click(screen.getByText('Korean (7)'))
+        expect(mockReplace).toHaveBeenCalledWith('/recipes?tag=Korean')
+        mockReplace.mockClear()
+        fireEvent.click(screen.getByText('Korean (7)'))
+        expect(mockReplace).toHaveBeenCalledWith('/recipes?')
+    })
+})
