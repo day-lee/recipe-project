@@ -21,6 +21,13 @@ export interface Recipe {
     serving: number;
   }  
 
+  export interface RecipeDetail extends Recipe {
+    tag_name: string[];
+    notes: Note[];
+    steps: Step[];
+    external_link: string;
+  }
+
   export interface Ingredient {
     id: number;
     recipe_id: number;
