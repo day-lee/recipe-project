@@ -316,7 +316,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                         <div key={field.id} className='flex flex-col lg:flex-row items-center'>
                         <label htmlFor="ingredientName"></label>
                         <input 
-                        id="ingredientName" type="text" placeholder="Ingredient name: e.g. Chicken"
+                        id="ingredientName" type="text" placeholder="Ingredient name: e.g. Onion"
                         {...register(`optional_ingredients.${index}.ingredient_name`, {setValueAs: (v) => nameFormatter(v)})}
                         className='lg:w-2/3 w-full border-2 border-gray-300 pl-2 py-1 rounded-sm my-2' 
                         /> 
@@ -371,7 +371,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                         <div key={field.id} className='flex flex-col lg:flex-row items-center'>
                         <label htmlFor="ingredientName"></label>
                         <input 
-                        id="ingredientName" type="text" placeholder="Ingredient name: e.g. Chicken"
+                        id="ingredientName" type="text" placeholder="Ingredient name: e.g. Vinegar"
                         {...register(`sauce_ingredients.${index}.ingredient_name`, {setValueAs: (v) => nameFormatter(v)})}
                         className='lg:w-2/3 w-full border-2 border-gray-300 pl-2 py-1 rounded-sm my-2' 
                         /> 
