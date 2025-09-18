@@ -36,12 +36,15 @@ const { recipe_name, external_link, duration, img_link, tag_name, notes, steps, 
             {external_link && (            
             <section>
                 <p className='font-semibold text-2xl'>Video</p>
-                    <div className="flex justify-center border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] lg:h-[350px] p-2 lg:p-8 my-4">
+                    <div className="flex justify-center border-2 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-full border-gray-200 p-2 lg:p-8 my-4">
+                        <div className="w-full aspect-video">
                         <iframe
+                            title="youtube video"
                             src={`https://www.youtube.com/embed/${external_link}`}
                             className="w-full h-full"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen />
+                        </div>
                     </div>
             </section>)}
             {notes && (

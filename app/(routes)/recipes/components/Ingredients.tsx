@@ -26,8 +26,9 @@ return(
     <div className='flex flex-row items-center justify-between'>
         <div className='font-semibold text-2xl'>Ingredients</div> 
         <div className='mr-4'>
-            <select className='border border-gray-300 rounded p-2' value={selectedValue} onChange={(e) => handleSelect(e)}>
-                <option value="1"> Serving</option>
+            <label htmlFor="serving"></label>
+            <select id="serving" name="serving" className='border border-gray-300 rounded p-2' value={selectedValue} onChange={(e) => handleSelect(e)}>
+                <option value=""> Serving</option>
                 <option value="1">1 Person</option>
                 <option value="2">2 People</option>
                 <option value="3">3 People</option>
