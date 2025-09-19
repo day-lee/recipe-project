@@ -8,7 +8,7 @@ export interface Tag {
 
   export interface Step {
     id: number;
-    photo_id: number;
+    photo_id?: number;
     desc: string;
   }
 
@@ -67,7 +67,6 @@ export interface Recipe {
     main_ingredients: Omit<Ingredient, "recipe_id">[];
     optional_ingredients: Omit<Ingredient, "recipe_id">[];
     sauce_ingredients: Omit<Ingredient, "recipe_id">[];
-
 }
 
 export interface FormData {

@@ -1,7 +1,8 @@
 export const extractVideoId = (url: string): string | null => {
     const regExp = /(?:youtu\.be\/|youtube\.com\/(?:.*v=|v\/|embed\/))([^#&?]*).*/;
     const match = url.match(regExp);
-    return match && match[1].length === 11 ? match[1] : null;
+    const youtubeVideoIdLength = 11;
+    return match && match[1].length === youtubeVideoIdLength ? match[1] : null;
   };
 
   export const nameFormatter = (str: string) => {

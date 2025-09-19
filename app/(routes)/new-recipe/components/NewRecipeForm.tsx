@@ -1,50 +1,52 @@
 'use client';
 
-import { useForm, getValues, useFieldArray, Controller } from 'react-hook-form'
-import { useState, useActionState } from 'react';
-import { PlusCircleIcon, TrashIcon, XCircleIcon } from '@heroicons/react/24/outline'; 
+import { useForm, useFieldArray, Controller } from 'react-hook-form'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { recipeSchema, RecipeFormData } from "@/utils/validation/recipe";
+import { useState, useActionState, useTransition } from 'react';
+import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'; 
 import Link from 'next/link'
 
 import Image from 'next/image'
 import fallbackImg from '../../../assets/unavailable.png'
-import { FormData, FormSubmitData, VideoState, Ingredient } from '@/app/types/types'
+import { VideoState, FormSubmitData } from '@/app/types/types'
 import { extractVideoId, nameFormatter } from '@/utils/utils'
 import { createRecipeAction, submitForm, FormState } from "@/app/actions"; 
 import ImageFileUpload from '@/app/(routes)/new-recipe/components/ImageFileUpload'
 import { Tag } from "../../../types/types"
 
-const videoErrorMsg = 'Please check the YouTube video URL.'
 const addOptionalIngredientsMsg = 'Click the “Add More” button above to add optional ingredients.'
 const addSauceIngredientsMsg = 'Click the “Add More” button above to add sauce ingredients.'
-const nameErrorMsg = 'Please add a name for your recipe.'
-const mainIngredientErrorMsg = 'Please add at least one ingredient.'
-const stepErrorMsg = 'Please add a step for your recipe.'
-
+const videoErrorMsg = 'Please check the YouTube video URL.'
 const videoDefaultValues: VideoState = {
     videoId: '',
     isVideoValid: false,
     errorMessage: ''
 }
 
-export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
+export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [video, setVideo] = useState<VideoState>(videoDefaultValues)
-    const { register, control, handleSubmit, getValues, resetField, watch, formState: { errors }} = useForm<FormSubmitData>({
+    const { register, control, handleSubmit,
+            getValues, resetField, watch, setError,
+            formState: { errors }} = useForm<RecipeFormData>({
+        resolver: zodResolver(recipeSchema),
         defaultValues: {
             recipe_name: '',
             duration: 30,
             serving: 2,
             tags: [],
-            steps: [{id: 1, photo_id: 1, desc: "" }],
+            steps: [{id: 1, photo_id: undefined, desc: "" }],
             img_link: "",
             external_link: "",
             notes: [{id: 1, desc:""}],
-            main_ingredients: [{id:1, ingredient_name: "", quantity: undefined, unit:"",
+            main_ingredients: [{id:1, ingredient_name: "", quantity: 0, unit:"",
                                 is_main: true, is_optional: false, is_sauce: false}], 
             optional_ingredients: [],
             sauce_ingredients: [],
         }
-    });
+    }
+);
     const OPTIONAL = getValues("optional_ingredients")
     const SAUCE = getValues("sauce_ingredients")
     const VIDEOLINK = getValues("external_link")
@@ -79,18 +81,21 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
             errorMessage: ''
         })
     }
-    const onSubmit = async (data:FormSubmitData) => {
+    const onSubmit = async (data:RecipeFormData) => {
         const mainIngredients = data.main_ingredients.map((item, idx) => ({
-            id: idx + 1, ingredient_name: nameFormatter(item.ingredient_name), quantity: item.quantity, unit:item.unit,
-                is_main: true, is_optional: false, is_sauce: false
+            id: idx + 1, ingredient_name: nameFormatter(item.ingredient_name),
+            quantity: item.quantity ?? 0, unit:item.unit ?? "",
+            is_main: true, is_optional: false, is_sauce: false
             }))
         const optionalIngredients =  data.optional_ingredients.map((item, idx) => ({
-            id: idx + 1, ingredient_name: nameFormatter(item.ingredient_name), quantity: item.quantity, unit:item.unit,
-                is_main: false, is_optional: true, is_sauce: false
+            id: idx + 1, ingredient_name: nameFormatter(item.ingredient_name),
+            quantity: item.quantity ?? 0, unit:item.unit ?? "",
+            is_main: false, is_optional: true, is_sauce: false
             }))  
         const sauceIngredients = data.sauce_ingredients.map((item, idx) => ({
-            id: idx + 1, ingredient_name: nameFormatter(item.ingredient_name), quantity: item.quantity, unit:item.unit,
-                is_main: false, is_optional: false, is_sauce: true
+            id: idx + 1, ingredient_name: nameFormatter(item.ingredient_name),
+            quantity: item.quantity ?? 0, unit:item.unit ?? "",
+            is_main: false, is_optional: false, is_sauce: true
             }))       
         const ingredientsData = [...mainIngredients, ...optionalIngredients, ...sauceIngredients]
         try {
@@ -116,6 +121,26 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
             ingredients: ingredientsData
             };
             const res = await createRecipeAction(payload);  
+            if (!res.success && res.errors) {
+        // Map server-side errors into RHF `setError`
+        for (const [field, messages] of Object.entries(res.errors)) {
+          if (field in data) {
+            setError(field as keyof RecipeFormData, {
+              type: "server",
+            //   message: messages?.[0] || "Invalid value",
+              message: "Invalid value",
+
+            });
+          } else if (field === "global") {
+            setError("root", {
+              type: "server",
+            //   message: messages?.[0],
+              message: "global error",
+
+            });
+          }
+        }
+      }
             console.log("Recipe form inserted:", res);
         } catch(error){
             console.error('Error:', error)
@@ -159,10 +184,10 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                         <label htmlFor="recipeName"></label>
                         <input className='border-2 border-gray-300 p-2 rounded-sm' 
                         id="name" type="text" placeholder="e.g. Kimchi stew"
-                        {...register('recipe_name', { setValueAs: (v) => nameFormatter(v), required: nameErrorMsg})}/>
+                        {...register('recipe_name', { setValueAs: (v) => nameFormatter(v)})}/>
                     </div>
                     <div>
-                    {errors.recipe_name && (<span className="text-red-600 text-sm text-sm">{errors.recipe_name.message}</span>)}  
+                    {errors.recipe_name && (<span className="text-red-600 text-sm">{errors.recipe_name.message}</span>)}  
                     </div>
                 </div>   
             </section>    
@@ -170,7 +195,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                 <div className='flex flex-col my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Cook time</p> 
                     <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
-                        <select id="duration" {...register('duration', {required: 'Please select cook time'})}>
+                        <select id="duration" {...register('duration')}>
                             {/* <option value="">Cook time</option> */}
                             <option value="15">15 mins</option>
                             <option value="30">30 mins</option>
@@ -185,7 +210,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
             <div className='flex flex-col my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Serving</p> 
                     <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
-                        <select id="serving" {...register('serving', {required: 'Please select serving'})}>
+                        <select id="serving" {...register('serving')}>
                         {/* <option value="">Serving</option> */}
                         <option value="1">1 Person</option>
                         <option value="2">2 People</option>
@@ -258,19 +283,19 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                         <label htmlFor="ingredientName"></label>
                         <input 
                         id="ingredientName" type="text" placeholder="Ingredient name: e.g. Chicken"
-                        {...register(`main_ingredients.${index}.ingredient_name`, {setValueAs: (v) => nameFormatter(v), required: mainIngredientErrorMsg})}
+                        {...register(`main_ingredients.${index}.ingredient_name`, {setValueAs: (v) => nameFormatter(v)})}
                         className='lg:w-2/3 w-full border-2 border-gray-300 pl-2 py-1 rounded-sm my-2' 
                         /> 
                         <div className='flex flex-row'>
                             <label htmlFor="ingredientAmount"></label>
                             <input 
                             id="ingredientAmount" type="number" placeholder="Amount"
-                            {...register(`main_ingredients.${index}.quantity`, {required: 'Main ingredients amount required'})}
+                            {...register(`main_ingredients.${index}.quantity`, {valueAsNumber: true})}
                             className='w-full lg:w-3/5 border-2 lg:ml-2 border-gray-300 pl-2 py-1 rounded-sm my-2' /> 
                             <label htmlFor="ingredientUnit"></label>
                             <select 
                             id="ingredientUnit" 
-                            {...register(`main_ingredients.${index}.unit`, {required: 'Main ingredients unit required'})}
+                            {...register(`main_ingredients.${index}.unit`)}
                             className='w-2/5 text-gray-600 border-2 ml-2 lg:mx-2 border-gray-300 rounded-sm px-2 my-2'>
                                 <option value="">Unit</option>
                                 <option value="tbsp">T</option>
@@ -285,13 +310,15 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                             </select>
                         </div>
                         <div>
-                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeMainIngredient(index)}> 
+                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm'
+                                onClick={() => removeMainIngredient(index)}> 
                             <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" /> </div>
                         </button>    
                         </div>
                     </div>
                     <div>
-                        {errors.main_ingredients?.[index]?.ingredient_name && (<span className="text-red-600 text-sm pl-2">{errors.main_ingredients[index].ingredient_name.message}</span>)}  
+                        {errors.main_ingredients?.[index]?.ingredient_name && (<span className="text-red-600 text-sm pl-2">
+                        {errors.main_ingredients[index].ingredient_name.message}</span>)}  
                     </div>
                     </div>
                     ))}
@@ -312,8 +339,10 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                     </div>
                     <div className='border-2 border-gray-300 rounded-sm p-2'>
                        <p className='text-sm'>{OPTIONAL.length === 0 && `${addOptionalIngredientsMsg}` }</p>
-                    {optionalIngredientFields.map((field, index) => (
-                        <div key={field.id} className='flex flex-col lg:flex-row items-center'>
+                    <div>
+                        {optionalIngredientFields.map((field, index) => (
+                        <div key={field.id}>
+                        <div  className='flex flex-col lg:flex-row items-center'>
                         <label htmlFor="ingredientName"></label>
                         <input 
                         id="ingredientName" type="text" placeholder="Ingredient name: e.g. Onion"
@@ -323,8 +352,8 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                         <div className='flex flex-row'>
                             <label htmlFor="ingredientAmount"></label>
                             <input 
-                            id="ingredientAmount" type="text" placeholder="Amount"
-                            {...register(`optional_ingredients.${index}.quantity` )}
+                            id="ingredientAmount" type="number"  placeholder="Amount"
+                            {...register(`optional_ingredients.${index}.quantity`, { valueAsNumber: true } )}
                             className='w-full lg:w-3/5 border-2 lg:ml-2 border-gray-300 pl-2 py-1 rounded-sm my-2' /> 
                             <label htmlFor="ingredientUnit"></label>
                             <select 
@@ -344,15 +373,21 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                             </select>
                         </div>
                         <div>
-                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeOptionalIngredient(index)}> 
+                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' 
+                                onClick={() => removeOptionalIngredient(index)}> 
                             <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
-                        </button>    
+                        </button>  
+                        </div>  
                         </div>
+                        <div>
+                            {errors.optional_ingredients?.[index]?.ingredient_name && (<span className="text-red-600 text-sm pl-2">
+                            {errors.optional_ingredients[index].ingredient_name.message}</span>)}  
                         </div>
+                    </div>
                     ))}
                      </div>
                     </div>    
-              
+                </div>
                 <div className='my-4'>
                      <div className='flex flex-row my-2 justify-between'>
                     <p className='font-semibold lg:text-xl'>Sauce</p>  
@@ -368,7 +403,8 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                     <div className='border-2 border-gray-300 rounded-sm p-2'>
                     <p className='text-sm'>{SAUCE.length === 0 && `${addSauceIngredientsMsg}` }</p>
                     {sauceIngredientFields.map((field, index) => (
-                        <div key={field.id} className='flex flex-col lg:flex-row items-center'>
+                        <div key={field.id}>
+                        <div className='flex flex-col lg:flex-row items-center'>
                         <label htmlFor="ingredientName"></label>
                         <input 
                         id="ingredientName" type="text" placeholder="Ingredient name: e.g. Vinegar"
@@ -378,8 +414,8 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                         <div className='flex flex-row'>
                             <label htmlFor="ingredientAmount"></label>
                             <input 
-                            id="ingredientAmount" type="text" placeholder="Amount"
-                            {...register(`sauce_ingredients.${index}.quantity` )}
+                            id="ingredientAmount" type="number" placeholder="Amount"
+                            {...register(`sauce_ingredients.${index}.quantity`, { valueAsNumber: true } )}
                             className='w-full lg:w-3/5 border-2 lg:ml-2 border-gray-300 pl-2 py-1 rounded-sm my-2' /> 
                             <label htmlFor="ingredientUnit"></label>
                             <select 
@@ -399,15 +435,21 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                             </select>
                         </div>
                         <div>
-                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeSauceIngredient(index)}>
+                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' 
+                                onClick={() => removeSauceIngredient(index)}>
                             <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
                         </button>  
                         </div>
                         </div>
+                        <div>
+                        {errors.sauce_ingredients?.[index]?.ingredient_name && (<span className="text-red-600 text-sm pl-2">
+                        {errors.sauce_ingredients[index].ingredient_name.message}</span>)}  
+                    </div>
+                    </div>
                     ))}
                      </div>
                     </div>    
-                    </div>    
+                    </div>   
             </section>     
             <section >
             <div className='my-8 max-w-xl'>
@@ -433,7 +475,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                         className='border-2 border-gray-300 mx-2 px-2 py-1 rounded-sm w-full h-16 resize-y min-h-20 max-h-32'
                             maxLength={maxCharStep}
                             placeholder="e.g. Cut onion thinly" 
-                                {...register(`steps.${index}.desc` as const, {required: stepErrorMsg })}/>
+                                {...register(`steps.${index}.desc` as const)}/>
                            
                         <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeStep(index)}> 
                             <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
@@ -442,7 +484,8 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                     </div> 
                     <div className=''>
                         <div className='flex'>
-                         {errors.steps?.[index]?.desc ? (<span className="text-red-600 pl-8 text-sm w-9/12">{errors.steps[index].desc.message}</span>):(<span className='w-9/12'></span>)}
+                         {errors.steps?.[index]?.desc ? (<span className="text-red-600 pl-8 text-sm w-9/12">
+                         {errors.steps[index].desc.message}</span>):(<span className='w-9/12'></span>)}
                          <span className='flex text-sm text-gray-600 justify-end w-1/6 pr-4'>  {charCount} / {maxCharStep} </span>
                         </div>
                     </div>
@@ -455,20 +498,22 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                 <div className='my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Video</p>
                     <div className='flex flex-col justify-center border-2 border-gray-200 p-2 lg:p-4 my-4'> 
-                        <div className='flex flex-col lg:flex-row'>
-                        <input id="external_link" 
-                            type="text"
-                            {...register('external_link')}
-                            className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' placeholder="https://youtu.be/..." /> 
-                            <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={(addThumbnail)}> <div className='flex'>
+                            <div className='flex flex-col lg:flex-row'>
+                            <input id="external_link" 
+                                type="text"
+                                {...register('external_link')}
+                                className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' placeholder="https://youtu.be/..." /> 
+                            <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={(addThumbnail)}> 
+                                <div className='flex'>
                                 <PlusCircleIcon className='w-6 h-6 text-red-600 '/>Add</div></button>    
                             <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={removeThumbnail}>  
-                                <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div></button>    
+                                <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div></button>  
                         </div>
                         <div className='flex justify-center'> 
                         { video.isVideoValid && (
                             <div className='flex flex-col items-center'>
-                           <Image className="m-6" src={`https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`} alt='youtube thumbnail' width={300} height={150}/>
+                           <Image className="m-6" src={`https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`} 
+                           alt='youtube thumbnail' width={300} height={150}/>
                             <p className='font-medium text-sm'>YouTube video registered successfully!</p>
                             </div>
                         )}
@@ -505,7 +550,8 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | null}) {
                         <textarea 
                             maxLength={maxCharNote}
                             {...register(`notes.${index}.desc` as const)} 
-                            className='border-2 w-full border-gray-300  mx-2 px-2 py-1 pl-2 rounded-sm resize-y min-h-20 max-h-24' id="note" placeholder="Any tips?" /> 
+                            className='border-2 w-full border-gray-300  mx-2 px-2 py-1 pl-2 rounded-sm resize-y min-h-20 max-h-24'
+                             id="note" placeholder="Any tips?" /> 
                         <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeNote(index)}>
                         <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
                         </button>    
