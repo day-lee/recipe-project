@@ -9,6 +9,7 @@ import Sidebar from "@/components/Sidebar";
 export default function Header() {
 const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
 const handleClick = () => setIsSidebarOpen(!isSidebarOpen)
+const handleMouseLeave = () => setIsSidebarOpen(false)
     return (
         <header>
             <div className="relative max-w-5xl mx-auto">
@@ -24,7 +25,7 @@ const handleClick = () => setIsSidebarOpen(!isSidebarOpen)
                         </button>
                     </div>
                 </div>
-                {isSidebarOpen && (<Sidebar onClick={handleClick} setIsSidebarOpen={setIsSidebarOpen} />)}
+                {isSidebarOpen && (<Sidebar onClick={handleClick} onMouseLeave={handleMouseLeave} setIsSidebarOpen={setIsSidebarOpen} />)}
             </div>
         </header>
     )

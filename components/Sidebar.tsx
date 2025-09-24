@@ -6,10 +6,11 @@ import { XMarkIcon } from '@heroicons/react/24/solid';
 import { SidebarProps } from '@/app/types/types';
 import RandomRecipeModalButton from '@/app/(routes)/recipes/components/RandomRecipeModalButton';
 
-export default function Sidebar({onClick, setIsSidebarOpen}: SidebarProps) {
+export default function Sidebar({onClick, onMouseLeave, setIsSidebarOpen}: SidebarProps) {
     return(
         <div className='w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 p-4 border-2 bg-white
-                         border-gray-300 rounded-sm absolute top-16 right-0 z-20'>
+                         border-gray-300 rounded-sm absolute top-16 right-0 z-20'
+                         onMouseLeave={onMouseLeave}>
             <div className="flex flex-row justify-between items-center h-10 pb-4">
                 <div>Hi, User</div>
                 <button className='hover:bg-gray-400/50 hover:rounded-full hover:transition-all hover:duration-300' title="close" onClick={onClick}>

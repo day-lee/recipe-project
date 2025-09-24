@@ -52,6 +52,7 @@ export interface Recipe {
 
   export interface SidebarProps {
     onClick?: () => void;
+    onMouseLeave?: () => void;
     setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
   }
 
