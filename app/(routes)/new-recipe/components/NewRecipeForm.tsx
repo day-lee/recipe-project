@@ -102,7 +102,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
             setIsSubmitting(true)
             const payload = {
               ...data,
-              img_link: "img-link", 
+              img_link: "https://day-lee.github.io/recipe-book-food-photos/placeholder-image.png", 
               created_user_id: 2,   
               recipe_name: nameFormatter(data.recipe_name),
               duration: data.duration || 15,
@@ -195,7 +195,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                 <div className='flex flex-col my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Cook time</p> 
                     <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
-                        <select id="duration" {...register('duration')}>
+                        <select id="duration" {...register('duration', { valueAsNumber: true })}>
                             {/* <option value="">Cook time</option> */}
                             <option value="15">15 mins</option>
                             <option value="30">30 mins</option>
@@ -210,7 +210,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
             <div className='flex flex-col my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Serving</p> 
                     <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
-                        <select id="serving" {...register('serving')}>
+                        <select id="serving" {...register('serving', { valueAsNumber: true })}>
                         {/* <option value="">Serving</option> */}
                         <option value="1">1 Person</option>
                         <option value="2">2 People</option>

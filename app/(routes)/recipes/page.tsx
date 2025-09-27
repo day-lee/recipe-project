@@ -49,11 +49,14 @@ export default async function Page(
     }
 
   return (
-      <div className="flex flex-col items-center gap-10 max-w-5xl">
+      <div className="flex">
+        <div className="flex flex-col items-center gap-10 max-w-5xl">
         <Suspense fallback={<div className="mt-96">Loading...</div>}>
           <TagButton tags={tags}/>
           <RecipeList recipes={recipeData} />
         </Suspense>
+        </div>
       </div>
   );
 }
+

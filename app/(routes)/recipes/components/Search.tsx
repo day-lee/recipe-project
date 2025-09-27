@@ -23,7 +23,7 @@ export default function Search() {
         // and will trigger a re-render of the component that uses the search term.
     }, 600);
     return (
-        <div className="absolute top-[-60] sm:top-[-70] left-1/4 sm:left-1/2 sm:-translate-x-1/2 flex flex-1 flex-shrink-0"> 
+        <div className="absolute top-[-49] left-1/4 sm:left-1/2 sm:-translate-x-1/2 flex flex-1 flex-shrink-0"> 
         <label htmlFor="search" className="sr-only">Search</label>
         <input
             className="border-2 border-gray-300 block w-full p-2 bg-neutral-100 rounded-md focus:outline-none" 

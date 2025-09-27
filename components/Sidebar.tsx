@@ -1,37 +1,67 @@
-'use client';
+'use client'
+import { useState } from 'react'
+import Link from 'next/link'
+import {
+  BookOpenIcon,
+  PlusCircleIcon,
+  PencilSquareIcon,
+} from '@heroicons/react/24/outline'; 
 
-import Link from 'next/link';
-import { XMarkIcon } from '@heroicons/react/24/solid';
-
-import { SidebarProps } from '@/app/types/types';
 import RandomRecipeModalButton from '@/app/(routes)/recipes/components/RandomRecipeModalButton';
 
-export default function Sidebar({onClick, onMouseLeave, setIsSidebarOpen}: SidebarProps) {
-    return(
-        <div className='w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 p-4 border-2 bg-white
-                         border-gray-300 rounded-sm absolute top-16 right-0 z-20'
-                         onMouseLeave={onMouseLeave}>
-            <div className="flex flex-row justify-between items-center h-10 pb-4">
-                <div>Hi, User</div>
-                <button className='hover:bg-gray-400/50 hover:rounded-full hover:transition-all hover:duration-300' title="close" onClick={onClick}>
-                    <XMarkIcon className="h-5 w-5 font-bold text-gray-700"/>
-                </button>
+
+export default function SidebarModal() {
+  const [showSidebarModal, setShowSidebarModal] = useState<boolean>(false)
+  
+  return (
+    <div className={`fixed min-h-screen left-0 top-0 flex flex-col gap-10 border-x-2 pt-12
+                 border-gray-300 bg-white z-30 transition-all duration-300 ease-out overflow-hidden
+                 ${showSidebarModal ? 'w-48' : 'w-16'}`}
+                  onMouseEnter={() => setShowSidebarModal(true)}
+                  onMouseLeave={() => setShowSidebarModal(false)}
+                >
+      <ul className='w-full min-w-0 gap-1 ml-1'>
+        <div className='relative flex w-full min-w-0 flex-col p-2 pt-4 gap-4 font-medium'>
+          <li>
+            <Link href="/recipes">
+              <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold'>
+              <BookOpenIcon className="w-8 h-8 flex-shrink-0" />
+                <span className={`whitespace-nowrap transition-all duration-300
+                                ${showSidebarModal ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
+                  My Recipes
+                </span>
+              </div>
+            </Link>
+          </li>
+          <li>
+            <Link href="/new-recipe">
+              <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold'>
+                <PlusCircleIcon className="w-8 h-8 flex-shrink-0" />
+                <span className={`whitespace-nowrap transition-all duration-300
+                                ${showSidebarModal ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
+                  New recipe
+                </span>
+              </div>
+            </Link>
+          </li>
+          <li>
+            <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold'>
+              <RandomRecipeModalButton showModal={showSidebarModal} setIsSidebarOpen={setShowSidebarModal} />
             </div>
-            <div className="flex flex-col text-lg font-semibold">
-                <div className='flex flex-row hover:text-red-700'>
-                    <Link href="/new-recipe">
-                    + New recipe
-                    </Link>
-                </div>
-                <div className='flex flex-row hover:text-red-700'>
-                    <Link href="/">
-                    + Meal plan
-                    </Link>
-                </div>
-                <div className='flex flex-row hover:text-red-700'>
-                    <RandomRecipeModalButton setIsSidebarOpen={setIsSidebarOpen} />
-                </div>
-            </div>
+          </li>
+          <li>
+            <Link href="/">
+              <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold'>
+                <PencilSquareIcon className="w-8 h-8 flex-shrink-0" />
+                <span className={`whitespace-nowrap transition-all duration-300
+                                ${showSidebarModal ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
+                  Meal plan
+                </span>
+              </div>
+            </Link>
+          </li>
         </div>
-    )
+      </ul>
+    </div>
+  )
 }
