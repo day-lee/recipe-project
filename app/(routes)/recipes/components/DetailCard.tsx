@@ -47,12 +47,17 @@ const { recipe_name, external_link, duration, img_link, tag_name, notes, steps, 
                         </div>
                     </div>
             </section>)}
-            {notes && (
+            {notes && notes[0].desc.length > 0 && (
             <section >
                 <p className='font-semibold text-2xl'>Notes</p>
+                {/* <div className='flex border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'>  */}
                 <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
-                    <div className='my-4 p-2'> {notes.map((item:Note) => <li key={item.id}>{item.desc}</li>)} </div>
-                </div>   
+                    <div className='my-4 p-2'>
+                        <ul className='flex flex-col'> 
+                         {notes.map((item:Note) => <li className='flex flex-row' key={item.id}><div className='pr-4 my-2'>•</div> 
+                                                   <div className='mr-8 my-2'>{item.desc}</div></li>)} 
+                        </ul></div>
+                    </div>   
             </section>
             )}
         </main>

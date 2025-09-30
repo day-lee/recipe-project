@@ -7,13 +7,15 @@ import { Ingredient, IngredientsProps } from '../../../types/types'
 export default function Ingredients({ingredientsList, defaultServing}: IngredientsProps) {
     const [serving, setServing] = useState<number>(1);
     const [selectedValue, setSelectedValue] = useState<number>(defaultServing);
+    
     const mainIngredients: Ingredient[] = []
     const optionalIngredients: Ingredient[] = []
     const sauceIngredients: Ingredient[] = []
+
     ingredientsList.forEach( (ingredient: Ingredient) => {
-        if (ingredient.is_main) mainIngredients.push(ingredient);
-        if (ingredient.is_optional) optionalIngredients.push(ingredient);
-        if (ingredient.is_sauce) sauceIngredients.push(ingredient);
+        if (ingredient.type === 'main') mainIngredients.push(ingredient);
+        if (ingredient.type === 'optional') optionalIngredients.push(ingredient);
+        if (ingredient.type === 'sauce') sauceIngredients.push(ingredient);
     });
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedServing = Number(e.target.value)
@@ -37,7 +39,7 @@ return(
             </select>
         </div>
     </div>
-    <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'>
+    <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-4 lg:p-8 my-4'>
         {mainIngredients.length > 0 && (<div className='my-4'> 
         <div className='font-semibold text-lg lg:text-xl'> Main ingredients </div>
             <ul className='mx-4'>

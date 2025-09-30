@@ -28,16 +28,14 @@ export interface Recipe {
     external_link: string;
   }
 
-  export interface Ingredient {
+    export interface Ingredient {
     id: number;
     recipe_id: number;
     // recipe_name: string;
     ingredient_name: string;
     quantity: number;
     unit: string;
-    is_main: boolean;
-    is_optional: boolean;
-    is_sauce: boolean;
+    type: string;
   }
 
   export interface IngredientsProps {

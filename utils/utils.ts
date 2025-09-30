@@ -1,3 +1,5 @@
+import { FormSubmitData } from "@/app/types/types"
+
 export const extractVideoId = (url: string): string | null => {
     const regExp = /(?:youtu\.be\/|youtube\.com\/(?:.*v=|v\/|embed\/))([^#&?]*).*/;
     const match = url.match(regExp);
@@ -9,4 +11,12 @@ export const extractVideoId = (url: string): string | null => {
     const trimmed = str.trim();
     if (!trimmed) return '';
     return trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase()
+  }
+
+  export const mergeIngredients = (data:FormSubmitData) => {
+    return [
+      ...(data.main_ingredients || []).map(item => ({ ...item, type: 'main' })),
+      ...(data.optional_ingredients || []).map(item => ({ ...item, type: 'optional' })),
+      ...(data.sauce_ingredients || []).map(item => ({ ...item, type: 'sauce' })),
+    ];
   }

@@ -3,17 +3,19 @@
 import { useForm, useFieldArray, Controller } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { recipeSchema, RecipeFormData } from "@/utils/validation/recipe";
-import { useState, useActionState, useTransition } from 'react';
+import { useState, useActionState } from 'react';
 import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'; 
 import Link from 'next/link'
+import { useRouter } from "next/navigation"
 
 import Image from 'next/image'
 import fallbackImg from '../../../assets/unavailable.png'
-import { VideoState, FormSubmitData } from '@/app/types/types'
+import { VideoState } from '@/app/types/types'
 import { extractVideoId, nameFormatter } from '@/utils/utils'
 import { createRecipeAction, submitForm, FormState } from "@/app/actions"; 
 import ImageFileUpload from '@/app/(routes)/new-recipe/components/ImageFileUpload'
 import { Tag } from "../../../types/types"
+import { mergeIngredients } from '@/utils/utils'
 
 const addOptionalIngredientsMsg = 'Click the “Add More” button above to add optional ingredients.'
 const addSauceIngredientsMsg = 'Click the “Add More” button above to add sauce ingredients.'
@@ -23,10 +25,14 @@ const videoDefaultValues: VideoState = {
     isVideoValid: false,
     errorMessage: ''
 }
+const submitSuccessMsg = 'Your recipe has been successfully saved!'
+const submitErrorMsg = 'Sorry, something went wrong. Please try again.'
 
 export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [msg, setMsg] = useState("")
     const [video, setVideo] = useState<VideoState>(videoDefaultValues)
+    const router = useRouter();
     const { register, control, handleSubmit,
             getValues, resetField, watch, setError,
             formState: { errors }} = useForm<RecipeFormData>({
@@ -40,10 +46,9 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
             img_link: "",
             external_link: "",
             notes: [{id: 1, desc:""}],
-            main_ingredients: [{id:1, ingredient_name: "", quantity: 0, unit:"",
-                                is_main: true, is_optional: false, is_sauce: false}], 
+            main_ingredients: [{id:1, ingredient_name:"", quantity: 0, unit: "", type:"main"}],
             optional_ingredients: [],
-            sauce_ingredients: [],
+            sauce_ingredients: []
         }
     }
 );
@@ -81,23 +86,9 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
             errorMessage: ''
         })
     }
+
     const onSubmit = async (data:RecipeFormData) => {
-        const mainIngredients = data.main_ingredients.map((item, idx) => ({
-            id: idx + 1, ingredient_name: nameFormatter(item.ingredient_name),
-            quantity: item.quantity ?? 0, unit:item.unit ?? "",
-            is_main: true, is_optional: false, is_sauce: false
-            }))
-        const optionalIngredients =  data.optional_ingredients.map((item, idx) => ({
-            id: idx + 1, ingredient_name: nameFormatter(item.ingredient_name),
-            quantity: item.quantity ?? 0, unit:item.unit ?? "",
-            is_main: false, is_optional: true, is_sauce: false
-            }))  
-        const sauceIngredients = data.sauce_ingredients.map((item, idx) => ({
-            id: idx + 1, ingredient_name: nameFormatter(item.ingredient_name),
-            quantity: item.quantity ?? 0, unit:item.unit ?? "",
-            is_main: false, is_optional: false, is_sauce: true
-            }))       
-        const ingredientsData = [...mainIngredients, ...optionalIngredients, ...sauceIngredients]
+        const ingredientsData = mergeIngredients(data)
         try {
             setIsSubmitting(true)
             const payload = {
@@ -120,54 +111,47 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
               })),
             ingredients: ingredientsData
             };
-            const res = await createRecipeAction(payload);  
-            if (!res.success && res.errors) {
-        // Map server-side errors into RHF `setError`
-        for (const [field, messages] of Object.entries(res.errors)) {
-          if (field in data) {
-            setError(field as keyof RecipeFormData, {
-              type: "server",
-            //   message: messages?.[0] || "Invalid value",
-              message: "Invalid value",
+            const res = await createRecipeAction(payload); 
+            if (res.success) {
+                if (res.data) {
+                setMsg(submitSuccessMsg)
+                setTimeout(() => {
+                    const publicId = res.data[0].public_id;
+                    router.push(`recipes/${publicId}`)            
+                }, 1500)}
+            } 
+            else if (!res.success && res.errors) {
+                 setMsg(submitErrorMsg)
+                // Map server-side errors into RHF `setError`
+                for (const [field] of Object.entries(res.errors)) {
+                if (field in data) {
+                setError(field as keyof RecipeFormData, {
+                type: "server",
+                message: "Invalid value",
 
-            });
-          } else if (field === "global") {
-            setError("root", {
-              type: "server",
-            //   message: messages?.[0],
-              message: "global error",
+                });
+                } else if (field === "global") {
+                setError("root", {
+                type: "server",
+                message: "global error",
+                });}
+                }}
+            } catch(error){
+                console.error('Error:', error)
+            } finally{
+                setIsSubmitting(false)
+            }}
 
-            });
-          }
-        }
-      }
-            console.log("Recipe form inserted:", res);
-        } catch(error){
-            console.error('Error:', error)
-        } finally{
-            setIsSubmitting(false)
-        }}
-
-    const { fields: stepFields, append: appendStep, remove: removeStep } = useFieldArray({
-        control,
-        name: "steps"
-    });
-    const { fields: noteFields, append: appendNote, remove: removeNote } = useFieldArray({
-        control,
-        name: "notes"
-    })
-    const { fields: mainIngredientFields, append: appendMainIngredient, remove: removeMainIngredient } = useFieldArray({
-        control,
-        name: "main_ingredients"
-    })
-    const { fields: optionalIngredientFields, append: appendOptionalIngredient, remove: removeOptionalIngredient } = useFieldArray({
-        control,
-        name: "optional_ingredients"
-    }) 
-    const { fields: sauceIngredientFields, append: appendSauceIngredient, remove: removeSauceIngredient } = useFieldArray({
-        control,
-        name: "sauce_ingredients"
-    }) 
+    const { fields: stepFields, append: appendStep, remove: removeStep } 
+            = useFieldArray({control, name: "steps"});
+    const { fields: noteFields, append: appendNote, remove: removeNote }  
+            = useFieldArray({control, name: "notes"})
+    const { fields: mainIngredientFields, append: appendMainIngredient, remove: removeMainIngredient }  
+            = useFieldArray({ control, name: "main_ingredients" })
+    const { fields: optionalIngredientFields, append: appendOptionalIngredient, remove: removeOptionalIngredient }  
+            = useFieldArray({ control, name: "optional_ingredients"}) 
+    const { fields: sauceIngredientFields, append: appendSauceIngredient, remove: removeSauceIngredient }  
+            = useFieldArray({ control, name: "sauce_ingredients"}) 
     return (
     <main className='min-h-screen lg:min-w-[800px] flex flex-col m-2 p-8 lg:m-10 items-center border-2 border-gray-200'>
         <form className='lg:min-w-[600px] mx-auto' onSubmit={handleSubmit(onSubmit)} >
@@ -267,8 +251,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                     <div className='flex flex-row my-2 justify-between'>
                     <p className='font-semibold lg:text-xl'>Main</p>  
                     <button type="button" 
-                            onClick={() => appendMainIngredient({id:1, ingredient_name: "", quantity: 1, unit:"",
-                                is_main: true, is_optional: false, is_sauce: false})}
+                            onClick={() => appendMainIngredient({id:1, ingredient_name: "", quantity: 1, unit:"", type:'main'})}
                             className=' font-medium  rounded-sm px-2 mx-2 hover:bg-red-200 hover:text-red-800'>
                             <div className='flex'>    
                             <PlusCircleIcon className='w-6 h-6 text-red-600' /> Add more
@@ -329,8 +312,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                      <div className='flex flex-row my-2 justify-between'>
                     <p className='font-semibold lg:text-xl'>Optional</p>  
                     <button type="button" 
-                            onClick={() => appendOptionalIngredient({id:1, ingredient_name: "", quantity: 1, unit:"",
-                                is_main: false, is_optional: true, is_sauce: false})}
+                            onClick={() => appendOptionalIngredient({id:1, ingredient_name: "", quantity: 1, unit:"", type:'optional'})}
                                 className=' font-medium  rounded-sm px-2 mx-2 hover:bg-red-200 hover:text-red-800'>
                             <div className='flex'>    
                             <PlusCircleIcon className='w-6 h-6 text-red-600' /> Add more 
@@ -393,7 +375,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                     <p className='font-semibold lg:text-xl'>Sauce</p>  
                     <button type="button" 
                             onClick={() => appendSauceIngredient({id:1, ingredient_name: "", quantity: 1, unit:"",
-                                is_main: false, is_optional: false, is_sauce: true})}
+                                type: "sauce"})}
                                 className='font-medium rounded-sm px-2 mx-2 hover:bg-red-200 hover:text-red-800'>
                             <div className='flex'>    
                             <PlusCircleIcon className='w-6 h-6 text-red-600' /> Add more 
@@ -565,28 +547,30 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
             </div>
             </section>
 
-            <div className='flex justify-between my-8 max-w-xl lg:text-xl '>
-                <div className=' hover:bg-red-200 rounded-sm'>    
-                <Link href={`/recipes`}>
-                    <button className='h-8 '>
-                        <div className='flex font-semibold items-center pr-2'>
-                            <TrashIcon className='w-6 h-6 text-red-500 mx-2' /> Cancel
-                        </div>
-                    </button>
-                    </Link>
+            <div className='my-8 max-w-xl lg:text-xl '>
+                <div className='flex flex-row justify-between max-w-xl'>
+                    <div className=' hover:bg-red-200 rounded-sm'>    
+                        <Link href={`/recipes`}>
+                        <button className='h-8 '>
+                            <div className='flex font-semibold items-center pr-2'>
+                                <TrashIcon className='w-6 h-6 text-red-500 mx-2' /> Cancel
+                            </div>
+                        </button>
+                        </Link>
+                    </div>
+                    <div className=' hover:bg-red-200 rounded-sm'>   
+                        <button type="submit" className='h-8 '>
+                            <div className='flex font-semibold items-center pr-2'>
+                                <PlusCircleIcon className='w-6 h-6 text-red-500 mx-2' />
+                                {isSubmitting ? 'Creating...' : 'Create'}
+                            </div>
+                        </button>
+                    </div>
                 </div>
-                <div className=' hover:bg-red-200 rounded-sm'>   
-                    <button type="submit" className='h-8 '>
-                        <div className='flex font-semibold items-center pr-2'>
-                            <PlusCircleIcon className='w-6 h-6 text-red-500 mx-2' />
-                            {isSubmitting ? 'Creating...' : 'Create'}
-                        </div>
-                    </button>
-                    {/* <button type="submit" disabled={pending}> pending create recipe test</button> */}
+                <div className='flex justify-center items-center'>
+                   { isSubmitting ? (<span className='font-medium text-xl- mt-4 w-1/2 h-8 bg-gray-300 rounded animate-pulse text-center'>Saving your recipe...</span>) : (<span className='font-medium text-xl mt-4'>{msg}</span>)}
                 </div>
             </div>            
-             {/* Display the success message returned from the server */}
-            {/* {state.message && <p className="mt-4 text-green-600">{state.message}</p>} */}
         </form>
     </main>
     )
