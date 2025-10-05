@@ -176,10 +176,10 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                 </div>   
             </section>    
             <section>
-                <div className='flex flex-col my-8 max-w-xl'>
+                <div aria-label="duration section" className='flex flex-col my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Cook time</p> 
                     <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
-                        <select id="duration" {...register('duration', { valueAsNumber: true })}>
+                        <select aria-label="cook time" id="duration" {...register('duration', { valueAsNumber: true })}>
                             {/* <option value="">Cook time</option> */}
                             <option value="15">15 mins</option>
                             <option value="30">30 mins</option>
@@ -191,10 +191,10 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                 </div>
             </section>
             <section>
-            <div className='flex flex-col my-8 max-w-xl'>
+            <div aria-label="serving section" className='flex flex-col my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Serving</p> 
                     <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
-                        <select id="serving" {...register('serving', { valueAsNumber: true })}>
+                        <select aria-label="serving" id="serving" {...register('serving', { valueAsNumber: true })}>
                         {/* <option value="">Serving</option> */}
                         <option value="1">1 Person</option>
                         <option value="2">2 People</option>
@@ -206,7 +206,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                 </div>
             </section>     
             <section>
-                <div className='my-8 max-w-xl'>
+                <div aria-label="tag section" className='my-8 max-w-xl'>
                 <p className='font-semibold lg:text-xl'>Tags</p> 
                     <div className='flex flex-row border-2 border-gray-300 rounded-sm p-2'>
              <Controller
@@ -220,6 +220,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                     return (
                       <li key={tag.id} className="inline-block m-1">
                         <button
+                          aria-label={tag.name}
                           type="button"
                           onClick={() => {
                             const newSelectedIds = isSelected
@@ -272,11 +273,13 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                         <div className='flex flex-row'>
                             <label htmlFor="ingredientAmount"></label>
                             <input 
+                            aria-label="main ingredient quantity"
                             id="ingredientAmount" type="number" placeholder="Amount"
                             {...register(`main_ingredients.${index}.quantity`, {valueAsNumber: true})}
                             className='w-full lg:w-3/5 border-2 lg:ml-2 border-gray-300 pl-2 py-1 rounded-sm my-2' /> 
                             <label htmlFor="ingredientUnit"></label>
                             <select 
+                            aria-label="main ingredient unit"
                             id="ingredientUnit" 
                             {...register(`main_ingredients.${index}.unit`)}
                             className='w-2/5 text-gray-600 border-2 ml-2 lg:mx-2 border-gray-300 rounded-sm px-2 my-2'>

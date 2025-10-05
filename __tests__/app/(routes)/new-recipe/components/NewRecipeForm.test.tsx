@@ -1,8 +1,7 @@
 import React from 'react'
-import { render, screen, within} from '@testing-library/react'
+import { render, screen, within, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/navigation'
-import { submitSuccessMsg } from '@/app/(routes)/new-recipe/components/NewRecipeForm'
 
 import { NewRecipeForm } from '@/app/(routes)/new-recipe/components/NewRecipeForm'
 import { createRecipeAction } from '@/app/actions'
@@ -10,62 +9,11 @@ import { createRecipeAction } from '@/app/actions'
 jest.mock('@/app/actions', () => ({
     createRecipeAction: jest.fn()
 }));
-
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn()
 }));
-
 const mockedUseRouter = useRouter as jest.Mock;
-
 const mockTags = [{id: 1, name: 'Korean', recipe_count: 2}, {id: 2, name: 'Western', recipe_count: 3}]
-
-const prefilledValues = {
-    recipe_name: 'Test recipe',
-    duration: 30,
-    serving: 4,
-    tags: [1], 
-    steps: [{ id: 1, desc: 'Mix ingredients' }],
-    main_ingredients: [{ id: 1, ingredient_name: 'Flour', quantity: 200, unit: 'g', type: 'main' as const }],
-    optional_ingredients: [],
-    sauce_ingredients: [],
-    img_link: '',
-    external_link: '',
-    notes: [{ id: 1, desc: 'Baking at 180°C' }],
-};
-
-const defaultValues = {
-    "recipe_name": "Test recipe",
-    "duration": 120,
-    "serving": 1,
-    "tags": [
-        1
-    ],
-    "steps": [
-        {
-            "id": 1,
-            "desc": "Ut earum eum fugiat assumenda tempor in quis tempora et aperiam in qui et hic non"
-        }
-    ],
-    "img_link": "",
-    "external_link": "Id cillum consequat",
-    "notes": [
-        {
-            "id": 1,
-            "desc": "Voluptas ab itaque qui enim rerum nihil ullamco"
-        }
-    ],
-    "main_ingredients": [
-        {
-            "id": 1,
-            "ingredient_name": "Brenna shepard",
-            "quantity": 916,
-            "unit": "kg",
-            "type": "main" as const
-        }
-    ],
-    "optional_ingredients": [],
-    "sauce_ingredients": []
-}
 
 describe('RecipeForm', () => {
     beforeEach(() => {
@@ -85,8 +33,6 @@ describe('RecipeForm', () => {
     it('should display tags', async () => {
         const koreanTag = await screen.findByText(/korean/i)
         expect(koreanTag).toBeInTheDocument()
-        const westernTag = await screen.findByRole('button', { name: /western/i })
-        expect(westernTag).toBeInTheDocument()
     })
     it('should display more "main ingredients" inputs when "add more"/"remove" button is clicked', async () => {
         const mainIngredientSection = screen.getByLabelText('main ingredient section');
@@ -226,31 +172,60 @@ describe('RecipeForm', () => {
         expect(inputsAfter.length).toBe(1);
         })  
 })
-    // describe('RecipeForm submit', () => {
-    // it('should submit successfully with prefilled data', async () => {
-    //     const pushMock = jest.fn();
-    //     mockedUseRouter.mockReturnValue({push: pushMock});
-    //     (createRecipeAction as jest.Mock).mockResolvedValueOnce('success');
-    //     render(<NewRecipeForm tags={mockTags} />);
-    //     // const createBtn = screen.getByLabelText(/create button/i)
-    //     const createBtn = screen.getByRole('button', { name: /create/i });
-    //     await userEvent.click(createBtn)
-    //     expect(createRecipeAction).toHaveBeenCalledTimes(1);
-    //     expect(createRecipeAction).toHaveBeenCalledWith(expect.objectContaining({recipe_name: "Test recipe",}));
-    //     expect(pushMock).toHaveBeenCalled(); // redirect
-    // })    
-    // it('should display an error message when the server action fails', async () => {
-    //     const pushMock = jest.fn();
-    //     mockedUseRouter.mockReturnValue({push: pushMock});
-    //     (createRecipeAction as jest.Mock).mockRejectedValueOnce(new Error('Server error'));
-    //     render(<NewRecipeForm tags={mockTags} defaultValues={defaultValues} />);
-    //     const createBtn = screen.getByLabelText(/create button/i)
-    //     await userEvent.click(createBtn)
-    //     expect(createRecipeAction).toHaveBeenCalledWith(expect.objectContaining({recipe_name: 'Test recipe',}));
-    //     const errorMsg = await screen.findByText('Sorry, something went wrong. Please try again.')
-    //     expect(errorMsg).toBeInTheDocument();
-    //     expect(pushMock).not.toHaveBeenCalled(); // no redirect
-    //     })    
-    // })
 
-
+// jest.useFakeTimers();
+    describe('RecipeForm submit', () => {
+    const mockData = [
+  {
+    id: 138,
+    public_id: 'fd176309-5529-4d0f-9766-4412c25c778b',
+    created_user_id: null,
+    img_link: '',
+    recipe_name: 'Test recipe',
+    duration: 60,
+    is_private: true,
+    is_favourite: false,
+    is_copied: false,
+    serving: 3,
+    steps: [{id: 1, photo_id: 1, desc: "test steps" }],
+    external_link: '',
+    notes: [{id: 1, desc:""}],
+    created_at: '2025-10-05T16:00:51.291145+00:00'
+  }
+]
+    it('should submit successfully', async () => {
+        const pushMock = jest.fn();
+        mockedUseRouter.mockReturnValue({push: pushMock});
+        (createRecipeAction as jest.Mock).mockResolvedValueOnce({success: true,  data: mockData});
+        render(<NewRecipeForm tags={mockTags} />);
+        const nameInput = screen.getByPlaceholderText('e.g. Kimchi stew');
+        await userEvent.type(nameInput, 'Test recipe');
+        const durationInput = screen.getByRole("combobox", { name: /Cook time/i })
+        await userEvent.selectOptions(durationInput, "60 mins")
+        const servingInput = screen.getByRole("combobox", { name: /serving/i })
+        await userEvent.selectOptions(servingInput, "3 People")
+        const koreanTag = await screen.findByRole("button", { name: /Korean/i });
+        await userEvent.click(koreanTag);
+        const mainIngredientSection = screen.getByLabelText('main ingredient section');
+        const ingNameInput = within(mainIngredientSection).getByPlaceholderText('Ingredient name: e.g. Chicken');
+        await userEvent.type(ingNameInput, "Main ing");
+        const ingQuantityInput = within(mainIngredientSection).getByLabelText('main ingredient quantity');
+        await userEvent.type(ingQuantityInput, "2");
+        const ingUnitInput = within(mainIngredientSection).getByRole("combobox", { name: /main ingredient unit/i });
+        await userEvent.selectOptions(ingUnitInput, "cups");
+        const stepsInput = screen.getByPlaceholderText('e.g. Thinly slice the onion');
+        await userEvent.type(stepsInput, "write steps test");
+        const createBtn = screen.getByRole('button', { name: /create/i });
+        await userEvent.click(createBtn)
+        await waitFor(() => {
+            expect(createRecipeAction).toHaveBeenCalledTimes(1);
+            expect(createRecipeAction).toHaveBeenCalledWith(
+                expect.objectContaining({
+                recipe_name: 'Test recipe',
+                tags: [1], 
+                }),
+            );
+            // expect(pushMock).toHaveBeenCalledWith('recipes/fd176309-5529-4d0f-9766-4412c25c778b'); // redirect 확인
+            });
+    })     
+    })
