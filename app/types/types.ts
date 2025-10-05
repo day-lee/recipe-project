@@ -104,3 +104,8 @@ export interface VideoInputProps {
     setVideo: React.Dispatch<React.SetStateAction<VideoState>>;
 }
 
+export interface IngredientsInputProps extends InputProps {
+    control: Control<FormSubmitData>;
+    getValues: UseFormGetValues<FormSubmitData>;
+}
+
