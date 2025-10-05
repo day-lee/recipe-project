@@ -1,25 +1,26 @@
 'use client';
 
-import { useForm, useFieldArray, Controller } from 'react-hook-form'
+import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { recipeSchema, RecipeFormData } from "@/utils/validation/recipe";
-import { useState, useActionState } from 'react';
+import { useState } from 'react';
 import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'; 
-import Link from 'next/link'
-import { useRouter } from "next/navigation"
+import Link from 'next/link';
+import { useRouter } from "next/navigation";
 
-import Image from 'next/image'
-import fallbackImg from '../../../assets/unavailable.png'
-import { VideoState } from '@/app/types/types'
-import { extractVideoId, nameFormatter } from '@/utils/utils'
-import { createRecipeAction, submitForm, FormState } from "@/app/actions"; 
-import ImageFileUpload from '@/app/(routes)/new-recipe/components/ImageFileUpload'
-import { Tag } from "../../../types/types"
-import { mergeIngredients } from '@/utils/utils'
+import { VideoState, Tag } from '@/app/types/types';
+import { extractVideoId, nameFormatter, mergeIngredients } from '@/utils/utils';
+import { createRecipeAction } from "@/app/actions"; 
+import ImageFileUpload from '@/app/(routes)/new-recipe/components/ImageFileUpload';
+import NameInput from '@/app/(routes)/new-recipe/components/NameInput';
+import DurationInput from '@/app/(routes)/new-recipe/components/DurationInput';
+import ServingInput from '@/app/(routes)/new-recipe/components/ServingInput';
+import StepsInput from '@/app/(routes)/new-recipe/components/StepsInput';
+import NotesInput from '@/app/(routes)/new-recipe/components/NotesInput';
+import VideoInput from '@/app/(routes)/new-recipe/components/VideoInput';
 
 const addOptionalIngredientsMsg = 'Click the “Add More” button above to add optional ingredients.'
 const addSauceIngredientsMsg = 'Click the “Add More” button above to add sauce ingredients.'
-const videoErrorMsg = 'Please check the YouTube video URL.'
 const videoDefaultValues: VideoState = {
     videoId: '',
     isVideoValid: false,
@@ -54,39 +55,6 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
 );
     const OPTIONAL = getValues("optional_ingredients")
     const SAUCE = getValues("sauce_ingredients")
-    const maxCharStep = 150
-    const maxCharNote = 100
-    const steps = watch('steps', []);
-    const notes = watch('notes', []);
-
-    // const initialState: FormState = { message: ''};
-    // const [state, formAction, pending] = useActionState(submitForm, initialState);
-    const addThumbnail = () => {
-        const VIDEOLINK = getValues("external_link")
-        const id = extractVideoId(VIDEOLINK)
-        if (id){
-            setVideo({
-                videoId: id,
-                isVideoValid: true,
-                errorMessage: ''
-            })
-        } else {
-            setVideo({
-                videoId: '',
-                isVideoValid: false,
-                errorMessage: videoErrorMsg
-            })
-        }
-    }
-    const removeThumbnail = () => {
-        resetField("external_link");
-        setVideo({
-            videoId: '',
-            isVideoValid: false,
-            errorMessage: ''
-        })
-    }
-
     const onSubmit = async (data:RecipeFormData) => {
         const ingredientsData = mergeIngredients(data)
         try {
@@ -142,10 +110,6 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                 setIsSubmitting(false)
             }}
 
-    const { fields: stepFields, append: appendStep, remove: removeStep } 
-            = useFieldArray({control, name: "steps"});
-    const { fields: noteFields, append: appendNote, remove: removeNote }  
-            = useFieldArray({control, name: "notes"})
     const { fields: mainIngredientFields, append: appendMainIngredient, remove: removeMainIngredient }  
             = useFieldArray({ control, name: "main_ingredients" })
     const { fields: optionalIngredientFields, append: appendOptionalIngredient, remove: removeOptionalIngredient }  
@@ -161,87 +125,44 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                     <ImageFileUpload />
                 </div>
             </section>
-            <section> 
-                <div aria-label="name section" className='flex flex-col max-w-xl'>
-                    <div className='mt-8 flex flex-col'> 
-                        <p className='font-semibold lg:text-xl'>Recipe name</p> 
-                        <label htmlFor="recipeName"></label>
-                        <input className='border-2 border-gray-300 p-2 rounded-sm' 
-                        id="name" type="text" placeholder="e.g. Kimchi stew"
-                        {...register('recipe_name', { setValueAs: (v) => nameFormatter(v)})}/>
-                    </div>
-                    <div>
-                    {errors.recipe_name && (<span className="text-red-600 text-sm">{errors.recipe_name.message}</span>)}  
-                    </div>
-                </div>   
-            </section>    
-            <section>
-                <div aria-label="duration section" className='flex flex-col my-8 max-w-xl'>
-                    <p className='font-semibold lg:text-xl'>Cook time</p> 
-                    <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
-                        <select aria-label="cook time" id="duration" {...register('duration', { valueAsNumber: true })}>
-                            {/* <option value="">Cook time</option> */}
-                            <option value="15">15 mins</option>
-                            <option value="30">30 mins</option>
-                            <option value="60">60 mins</option>
-                            <option value="90">90 mins</option>
-                            <option value="120">120 mins</option>
-                        </select>
-                    </div>
-                </div>
-            </section>
-            <section>
-            <div aria-label="serving section" className='flex flex-col my-8 max-w-xl'>
-                    <p className='font-semibold lg:text-xl'>Serving</p> 
-                    <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
-                        <select aria-label="serving" id="serving" {...register('serving', { valueAsNumber: true })}>
-                        {/* <option value="">Serving</option> */}
-                        <option value="1">1 Person</option>
-                        <option value="2">2 People</option>
-                        <option value="3">3 People</option>
-                        <option value="4">4 People</option>
-                        <option value="5">5 People</option>
-                        </select>
-                    </div>
-                </div>
-            </section>     
+            <NameInput register={register} errors={errors} />  
+            <DurationInput register={register}/>
+            <ServingInput  register={register}/>
             <section>
                 <div aria-label="tag section" className='my-8 max-w-xl'>
                 <p className='font-semibold lg:text-xl'>Tags</p> 
                     <div className='flex flex-row border-2 border-gray-300 rounded-sm p-2'>
-             <Controller
-              name="tags" 
-              control={control}
-              rules={{ required: false }} 
-              render={({ field: { onChange, value } }) => (
-                <ul className='flex flex-wrap'>
-                  {tags?.map((tag: Tag) => {
-                    const isSelected = value.includes(tag.id);
-                    return (
-                      <li key={tag.id} className="inline-block m-1">
-                        <button
-                          aria-label={tag.name}
-                          type="button"
-                          onClick={() => {
-                            const newSelectedIds = isSelected
-                              ? value.filter((id) => id !== tag.id) // Remove tag
-                              : [...value, tag.id]; // Add tag
-                            onChange(newSelectedIds); // Update React Hook Form state
-                          }}
-                          className={`border-2 font-medium rounded-full px-2 py-1 text-center
-                                    ${isSelected
-                                      ? 'bg-red-600 text-white border-red-600' // Selected 
-                                      : 'text-gray-900 border-red-600 hover:bg-red-200' // Unselected 
-                                    }`}
-                        >
-                          {tag.name}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            />
+                        <Controller
+                        name="tags" 
+                        control={control}
+                        rules={{ required: false }} 
+                        render={({ field: { onChange, value } }) => (
+                            <ul className='flex flex-wrap'>
+                            {tags?.map((tag: Tag) => {
+                                const isSelected = value.includes(tag.id);
+                                return (
+                                <li key={tag.id} className="inline-block m-1">
+                                    <button
+                                    aria-label={tag.name}
+                                    type="button"
+                                    onClick={() => {
+                                        const newSelectedIds = isSelected
+                                        ? value.filter((id) => id !== tag.id) // Remove tag
+                                        : [...value, tag.id]; // Add tag
+                                        onChange(newSelectedIds); // Update React Hook Form state
+                                    }}
+                                    className={`border-2 font-medium rounded-full px-2 py-1 text-center
+                                                ${isSelected
+                                                ? 'bg-red-600 text-white border-red-600' // Selected 
+                                                : 'text-gray-900 border-red-600 hover:bg-red-200' // Unselected 
+                                                }`}> {tag.name} 
+                                    </button>
+                                </li>
+                                );
+                            })}
+                            </ul>
+                        )}
+                        />
                     </div>
                 </div>
             </section>     
@@ -436,120 +357,9 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                     </div>    
                     </div>   
             </section>     
-            <section >
-            <div aria-label="steps section" className='my-8 max-w-xl'>
-                <div className='flex flex-row justify-between mt-8 max-w-xl'>
-                    <p className='font-semibold lg:text-xl'>Steps</p>
-                    <button aria-label="add more steps button" type="button" 
-                            onClick={() => appendStep({ id: 0, photo_id: 0, desc:""})}
-                            className='font-medium px-2 h-8 mx-2 rounded-sm hover:bg-red-200 '> 
-                     <div className='flex'>
-                        <PlusCircleIcon className='w-6 h-6 text-red-600' /> Add more
-                        </div></button>
-                </div>
-                <div className='border-2 border-gray-200 p-2 lg:p-4 my-4'> 
-                {stepFields.map((field, index) => { 
-                    const currentDesc = steps?.[index]?.desc || ''
-                    const charCount = currentDesc.length
-                    return(
-                    <div key={field.id}>
-                    <div className='w-full'>
-                    <div className='flex flex-row m-2 items-center'> 
-                        <div className='flex items-center w-4 font-bold text-lg'>{index + 1}</div>
-                        <textarea 
-                        className='border-2 border-gray-300 mx-2 px-2 py-1 rounded-sm w-full h-16 resize-y min-h-20 max-h-32'
-                            maxLength={maxCharStep}
-                            placeholder="e.g. Thinly slice the onion" 
-                                {...register(`steps.${index}.desc` as const)}/>
-                           
-                        <button aria-label="remove steps button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeStep(index)}> 
-                            <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
-                        </button>  
-                        </div>
-                    </div> 
-                    <div className=''>
-                        <div className='flex'>
-                         {errors.steps?.[index]?.desc ? (<span className="text-red-600 pl-8 text-sm w-9/12">
-                         {errors.steps[index].desc.message}</span>):(<span className='w-9/12'></span>)}
-                         <span className='flex text-sm text-gray-600 justify-end w-1/6 pr-4'>  {charCount} / {maxCharStep} </span>
-                        </div>
-                    </div>
-                    </div>
-                )})}
-                </div>    
-                </div>
-            </section>
-            <section>
-                <div aria-label="video section" className='my-8 max-w-xl'>
-                    <p className='font-semibold lg:text-xl'>Video</p>
-                    <div className='flex flex-col justify-center border-2 border-gray-200 p-2 lg:p-4 my-4'> 
-                            <div className='flex flex-col lg:flex-row'>
-                            <input id="external_link" 
-                                type="text"
-                                {...register('external_link')}
-                                className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' placeholder="https://youtu.be/..." /> 
-                            <button aria-label="add video thumbnail button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={(addThumbnail)}> 
-                                <div className='flex'>
-                                <PlusCircleIcon className='w-6 h-6 text-red-600 '/>Add</div></button>    
-                            <button aria-label="remove video thumbnail button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={removeThumbnail}>  
-                                <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div></button>  
-                        </div>
-                        <div className='flex justify-center'> 
-                        { video.isVideoValid && (
-                            <div className='flex flex-col items-center'>
-                           <Image className="m-6" src={`https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`} 
-                            alt='youtubeThumbnail' width={300} height={150}/>
-                            <p className='font-medium text-sm'>YouTube video registered successfully!</p>
-                            </div>
-                        )}
-                        {!video.isVideoValid && video.errorMessage && (
-                            <div className='flex flex-col items-center'>
-                             <Image className="m-6" src={fallbackImg} alt='fallbackThumbnailImg' width={200} height={150}/>
-                             <p className='text-red-600 font-medium text-sm'>{video.errorMessage}</p>
-                             </div>
-                        )}
-                        </div>
-                    </div>
-                </div>    
-            </section>
-            <section>
-            <div aria-label="notes section" className='my-8 max-w-xl'>
-                <div className='flex flex-row justify-between'>
-                    <p className='font-semibold lg:text-xl'>Notes</p>
-                    <button aria-label="add more notes button" type="button" 
-                            onClick={() => appendNote({ id: 0, desc:""})}
-                            className=' px-2 h-8 mx-2 rounded-sm hover:bg-red-200 font-semibold'> 
-                        <div className='flex'>
-                        <PlusCircleIcon className='w-6 h-6 text-red-500' /> Add more
-                        </div>
-                    </button>
-                </div>
-                <div className='border-2 border-gray-200 p-2 lg:p-4 my-4'> 
-                {noteFields.map((field, index) => {
-                    const currentDesc = notes?.[index]?.desc || ''
-                    const charCount = currentDesc.length
-                return (
-                    <div key={field.id}>
-                    <div  className='flex flex-row m-2 items-center'> 
-                        <div className='flex items-center w-4 font-bold text-lg'> • </div>
-                        <textarea 
-                            maxLength={maxCharNote}
-                            {...register(`notes.${index}.desc` as const)} 
-                            className='border-2 w-full border-gray-300  mx-2 px-2 py-1 pl-2 rounded-sm resize-y min-h-20 max-h-24'
-                             id="note" placeholder="Any tips?" /> 
-                        <button aria-label="remove notes button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeNote(index)}>
-                        <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
-                        </button>    
-                    </div> 
-                    <div className='flex text-sm text-gray-600 justify-end mr-16'>
-                        {charCount} / {maxCharNote}
-                    </div>
-                    </div>
-                )})}
-                </div>                       
-            </div>
-            </section>
-
+            <StepsInput register={register} errors={errors} control={control} watch={watch}/>
+            <VideoInput register={register} resetField={resetField} getValues={getValues} video={video} setVideo={setVideo} />
+            <NotesInput register={register} control={control} watch={watch}/>
             <div className='my-8 max-w-xl lg:text-xl '>
                 <div className='flex flex-row justify-between max-w-xl'>
                     <div className=' hover:bg-red-200 rounded-sm'>    

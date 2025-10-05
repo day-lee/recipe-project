@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { Control, UseFormWatch, FieldErrors, UseFormRegister, UseFormResetField, UseFormGetValues } from 'react-hook-form';
 
 export interface Tag {
     id: number;
@@ -84,3 +85,22 @@ export interface VideoState {
   isVideoValid: boolean;
   errorMessage: string;
 }
+
+export interface InputProps {
+    register: UseFormRegister<FormSubmitData>;
+    errors: FieldErrors<FormSubmitData>;
+}
+
+export interface InputUseFieldArrayProps extends InputProps{
+    control: Control<FormSubmitData>;
+    watch: UseFormWatch<FormSubmitData>;
+}
+
+export interface VideoInputProps {
+    register: UseFormRegister<FormSubmitData>;
+    resetField: UseFormResetField<FormSubmitData>;
+    getValues: UseFormGetValues<FormSubmitData>;
+    video: VideoState;
+    setVideo: React.Dispatch<React.SetStateAction<VideoState>>;
+}
+
