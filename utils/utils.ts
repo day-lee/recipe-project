@@ -15,8 +15,8 @@ export const extractVideoId = (url: string): string | null => {
 
   export const mergeIngredients = (data:FormSubmitData) => {
     return [
-      ...(data.main_ingredients || []).map(item => ({ ...item, type: 'main' })),
-      ...(data.optional_ingredients || []).map(item => ({ ...item, type: 'optional' })),
-      ...(data.sauce_ingredients || []).map(item => ({ ...item, type: 'sauce' })),
+      ...(data.main_ingredients || []).map(item => ({ ...item, type: 'main' as const })),
+      ...(data.optional_ingredients || []).map(item => ({ ...item, type: 'optional' as const })),
+      ...(data.sauce_ingredients || []).map(item => ({ ...item, type: 'sauce' as const })),
     ];
   }

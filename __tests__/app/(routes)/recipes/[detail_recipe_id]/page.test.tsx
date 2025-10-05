@@ -32,9 +32,7 @@ const mockIngredients = [
         "ingredient_name": "Beef",
         "quantity": 100,
         "unit": "g",
-        "is_main": true,
-        "is_optional": false,
-        "is_sauce": false
+        "type": "main" as const
     },
     {
         "id": 19,
@@ -43,9 +41,7 @@ const mockIngredients = [
         "ingredient_name": "Sesame oil",
         "quantity": 1,
         "unit": "T",
-        "is_main": false,
-        "is_optional": false,
-        "is_sauce": true
+        "type": "sauce" as const
     },
     {
         "id": 18,
@@ -54,9 +50,7 @@ const mockIngredients = [
         "ingredient_name": "Seaweed",
         "quantity": 5,
         "unit": "g",
-        "is_main": true,
-        "is_optional": false,
-        "is_sauce": false
+        "type": "main" as const
     },
     {
         "id": 20,
@@ -65,9 +59,8 @@ const mockIngredients = [
         "ingredient_name": "Soybean sauce",
         "quantity": 1,
         "unit": "T",
-        "is_main": false,
-        "is_optional": false,
-        "is_sauce": true
+        "type": "sauce" as const
+
     },
     {
         "id": 16,
@@ -76,9 +69,8 @@ const mockIngredients = [
         "ingredient_name": "Minced garlic",
         "quantity": 1,
         "unit": "t",
-        "is_main": false,
-        "is_optional": false,
-        "is_sauce": true
+        "type": "sauce" as const
+
     }
 ]
 

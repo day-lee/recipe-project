@@ -12,7 +12,7 @@ export default async function HomePage() {
         Create a new recipe
       </h1>
       <p>Share your yummy ideas!</p>
-      <NewRecipeForm tags={tags} />
+      <NewRecipeForm tags={tags || []} />
     </main>
   );
 }

@@ -54,7 +54,6 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
 );
     const OPTIONAL = getValues("optional_ingredients")
     const SAUCE = getValues("sauce_ingredients")
-    const VIDEOLINK = getValues("external_link")
     const maxCharStep = 150
     const maxCharNote = 100
     const steps = watch('steps', []);
@@ -63,6 +62,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
     // const initialState: FormState = { message: ''};
     // const [state, formAction, pending] = useActionState(submitForm, initialState);
     const addThumbnail = () => {
+        const VIDEOLINK = getValues("external_link")
         const id = extractVideoId(VIDEOLINK)
         if (id){
             setVideo({
@@ -162,7 +162,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                 </div>
             </section>
             <section> 
-                <div className='flex flex-col max-w-xl'>
+                <div aria-label="name section" className='flex flex-col max-w-xl'>
                     <div className='mt-8 flex flex-col'> 
                         <p className='font-semibold lg:text-xl'>Recipe name</p> 
                         <label htmlFor="recipeName"></label>
@@ -247,10 +247,10 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
             <section>
             <div className='my-8 max-w-xl'>
                 <p className='font-semibold lg:text-xl'>Ingredients</p> 
-                <div className='my-4'>
+                <div aria-label="main ingredient section" className='my-4'>
                     <div className='flex flex-row my-2 justify-between'>
                     <p className='font-semibold lg:text-xl'>Main</p>  
-                    <button type="button" 
+                    <button aria-label="add more main ingredient input button" type="button" 
                             onClick={() => appendMainIngredient({id:1, ingredient_name: "", quantity: 1, unit:"", type:'main'})}
                             className=' font-medium  rounded-sm px-2 mx-2 hover:bg-red-200 hover:text-red-800'>
                             <div className='flex'>    
@@ -293,7 +293,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                             </select>
                         </div>
                         <div>
-                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm'
+                        <button aria-label="remove main ingredients input button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm'
                                 onClick={() => removeMainIngredient(index)}> 
                             <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" /> </div>
                         </button>    
@@ -308,10 +308,10 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                     </div>
                     </div>  
                 </div>
-                <div className='my-4'>
+                <div aria-label="optional ingredient section" className='my-4'>
                      <div className='flex flex-row my-2 justify-between'>
                     <p className='font-semibold lg:text-xl'>Optional</p>  
-                    <button type="button" 
+                    <button aria-label="add more optional ingredient input button" type="button" 
                             onClick={() => appendOptionalIngredient({id:1, ingredient_name: "", quantity: 1, unit:"", type:'optional'})}
                                 className=' font-medium  rounded-sm px-2 mx-2 hover:bg-red-200 hover:text-red-800'>
                             <div className='flex'>    
@@ -355,7 +355,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                             </select>
                         </div>
                         <div>
-                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' 
+                        <button aria-label="remove optional ingredients input button"  type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' 
                                 onClick={() => removeOptionalIngredient(index)}> 
                             <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
                         </button>  
@@ -370,10 +370,10 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                      </div>
                     </div>    
                 </div>
-                <div className='my-4'>
+                <div aria-label="sauce ingredient section" className='my-4'>
                      <div className='flex flex-row my-2 justify-between'>
                     <p className='font-semibold lg:text-xl'>Sauce</p>  
-                    <button type="button" 
+                    <button aria-label="add more sauce ingredient input button" type="button" 
                             onClick={() => appendSauceIngredient({id:1, ingredient_name: "", quantity: 1, unit:"",
                                 type: "sauce"})}
                                 className='font-medium rounded-sm px-2 mx-2 hover:bg-red-200 hover:text-red-800'>
@@ -417,7 +417,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                             </select>
                         </div>
                         <div>
-                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' 
+                        <button aria-label="remove sauce ingredients input button"  type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' 
                                 onClick={() => removeSauceIngredient(index)}>
                             <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
                         </button>  
@@ -434,10 +434,10 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                     </div>   
             </section>     
             <section >
-            <div className='my-8 max-w-xl'>
+            <div aria-label="steps section" className='my-8 max-w-xl'>
                 <div className='flex flex-row justify-between mt-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Steps</p>
-                    <button type="button" 
+                    <button aria-label="add more steps button" type="button" 
                             onClick={() => appendStep({ id: 0, photo_id: 0, desc:""})}
                             className='font-medium px-2 h-8 mx-2 rounded-sm hover:bg-red-200 '> 
                      <div className='flex'>
@@ -456,10 +456,10 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                         <textarea 
                         className='border-2 border-gray-300 mx-2 px-2 py-1 rounded-sm w-full h-16 resize-y min-h-20 max-h-32'
                             maxLength={maxCharStep}
-                            placeholder="e.g. Cut onion thinly" 
+                            placeholder="e.g. Thinly slice the onion" 
                                 {...register(`steps.${index}.desc` as const)}/>
                            
-                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeStep(index)}> 
+                        <button aria-label="remove steps button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeStep(index)}> 
                             <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
                         </button>  
                         </div>
@@ -477,7 +477,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                 </div>
             </section>
             <section>
-                <div className='my-8 max-w-xl'>
+                <div aria-label="video section" className='my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Video</p>
                     <div className='flex flex-col justify-center border-2 border-gray-200 p-2 lg:p-4 my-4'> 
                             <div className='flex flex-col lg:flex-row'>
@@ -485,23 +485,23 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                                 type="text"
                                 {...register('external_link')}
                                 className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' placeholder="https://youtu.be/..." /> 
-                            <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={(addThumbnail)}> 
+                            <button aria-label="add video thumbnail button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={(addThumbnail)}> 
                                 <div className='flex'>
                                 <PlusCircleIcon className='w-6 h-6 text-red-600 '/>Add</div></button>    
-                            <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={removeThumbnail}>  
+                            <button aria-label="remove video thumbnail button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={removeThumbnail}>  
                                 <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div></button>  
                         </div>
                         <div className='flex justify-center'> 
                         { video.isVideoValid && (
                             <div className='flex flex-col items-center'>
                            <Image className="m-6" src={`https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`} 
-                           alt='youtube thumbnail' width={300} height={150}/>
+                            alt='youtubeThumbnail' width={300} height={150}/>
                             <p className='font-medium text-sm'>YouTube video registered successfully!</p>
                             </div>
                         )}
                         {!video.isVideoValid && video.errorMessage && (
                             <div className='flex flex-col items-center'>
-                             <Image className="m-6" src={fallbackImg} alt='fallbackImg' width={200} height={150}/>
+                             <Image className="m-6" src={fallbackImg} alt='fallbackThumbnailImg' width={200} height={150}/>
                              <p className='text-red-600 font-medium text-sm'>{video.errorMessage}</p>
                              </div>
                         )}
@@ -510,10 +510,10 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                 </div>    
             </section>
             <section>
-            <div className='my-8 max-w-xl'>
+            <div aria-label="notes section" className='my-8 max-w-xl'>
                 <div className='flex flex-row justify-between'>
                     <p className='font-semibold lg:text-xl'>Notes</p>
-                    <button type="button" 
+                    <button aria-label="add more notes button" type="button" 
                             onClick={() => appendNote({ id: 0, desc:""})}
                             className=' px-2 h-8 mx-2 rounded-sm hover:bg-red-200 font-semibold'> 
                         <div className='flex'>
@@ -534,7 +534,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                             {...register(`notes.${index}.desc` as const)} 
                             className='border-2 w-full border-gray-300  mx-2 px-2 py-1 pl-2 rounded-sm resize-y min-h-20 max-h-24'
                              id="note" placeholder="Any tips?" /> 
-                        <button type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeNote(index)}>
+                        <button aria-label="remove notes button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeNote(index)}>
                         <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
                         </button>    
                     </div> 

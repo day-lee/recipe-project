@@ -29,6 +29,5 @@ export async function createRecipeAction(payload: FormData) {
       success: false,
       errors: { global: [error.message]},
     }}
-     console.log('action------------------',data[0].public_id)
     return {success: true, data };
   }

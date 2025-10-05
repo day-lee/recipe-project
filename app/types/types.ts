@@ -28,14 +28,14 @@ export interface Recipe {
     external_link: string;
   }
 
-    export interface Ingredient {
+  type IngredientType = 'main' | 'optional' | 'sauce';
+  export interface Ingredient {
     id: number;
     recipe_id: number;
-    // recipe_name: string;
     ingredient_name: string;
     quantity: number;
     unit: string;
-    type: string;
+    type: IngredientType;
   }
 
   export interface IngredientsProps {
