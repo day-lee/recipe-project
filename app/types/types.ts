@@ -91,6 +91,11 @@ export interface InputProps {
     errors: FieldErrors<FormSubmitData>;
 }
 
+export interface TagProps {
+    tags: Tag[];
+    control: Control<FormSubmitData>;
+}
+
 export interface InputUseFieldArrayProps extends InputProps{
     control: Control<FormSubmitData>;
     watch: UseFormWatch<FormSubmitData>;
