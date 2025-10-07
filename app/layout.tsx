@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 
-import "./globals.css";
+import "@/app/globals.css";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer"
@@ -33,13 +33,13 @@ export default function RootLayout({
       <body className={`${geistSans.className} antialiased`}>
         <Header />
         <div className="hidden sm:block"><Sidebar /></div>
-        <ThemeProvider
+        {/* <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange>
+          disableTransitionOnChange> */}
           {children}
-        </ThemeProvider>
+        {/* </ThemeProvider> */}
         <Footer />
       </body>
     </html>

@@ -6,7 +6,7 @@ import {
     ChevronRightIcon,
   } from '@heroicons/react/24/solid'; 
 
-import { Tag } from '../../../types/types'
+import { Tag } from '@/app/features/recipes/types/types'
 
 export default function TagCarousel({tags, onClick, selectedTag}: {tags:Tag[] | null;  onClick?: (tagName: string) => void; selectedTag?: string | null;}) {
     const trackRef = useRef<HTMLDivElement | null>(null);

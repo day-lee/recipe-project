@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import { ClockIcon } from '@heroicons/react/24/solid'
 
-import { Step, Note, RecipeDetail, Ingredient } from '../../../types/types'
-import Ingredients from '../components/Ingredients'
-import fallbackImg from '../../../assets/unavailable.png'
+import { Step, Note, RecipeDetail, Ingredient } from '@/app/features/recipes/types/types'
+import Ingredients from '@/app/features/recipes/detail_recipe_id/components/Ingredients'
+import fallbackImg from '@/app/assets/unavailable.png'
 
 
 export default function DetailCard({recipeDetail, ingredients}:{recipeDetail: RecipeDetail, ingredients: Ingredient[]}) {

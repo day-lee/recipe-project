@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { PostgrestError } from '@supabase/supabase-js';
-import { Tag } from "@/app/types/types"
+import { Tag } from "@/app/features/recipes/types/types"
 
 export async function getTags(): Promise<{ data: Tag[] | null; error: PostgrestError | null}> {
 const supabase = await createClient()

@@ -1,4 +1,4 @@
-import { InputProps } from '@/app/types/types'
+import { InputProps } from '@/app/features/recipes/types/types'
 
 export default function NameInput({register, errors}:InputProps) {
     return (

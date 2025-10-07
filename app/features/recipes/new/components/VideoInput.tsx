@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'; 
 
-import { VideoInputProps } from '@/app/types/types'
-import fallbackImg from '../../../assets/unavailable.png';
-import { extractVideoId } from '@/utils/utils';
+import { VideoInputProps } from '@/app/features/recipes/types/types'
+import fallbackImg from '@/app/assets/unavailable.png'
+import { extractVideoId } from '@/app/features/recipes/utils/utils';
 
 export default function VideoInput ({register, resetField, getValues, video, setVideo }: VideoInputProps) {
     const videoErrorMsg = 'Please check the YouTube video URL.'

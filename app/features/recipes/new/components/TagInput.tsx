@@ -1,7 +1,6 @@
 import { Controller } from 'react-hook-form';
 
-
-import { TagProps, Tag } from '@/app/types/types'
+import { TagProps, Tag } from '@/app/features/recipes/types/types'
 
 export default function TagInput({tags, control }:TagProps) {
     return (

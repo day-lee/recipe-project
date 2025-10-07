@@ -1,4 +1,4 @@
-import { FormSubmitData } from "@/app/types/types"
+import { FormSubmitData } from "@/app/features/recipes/types/types"
 
 export const extractVideoId = (url: string): string | null => {
     const regExp = /(?:youtu\.be\/|youtube\.com\/(?:.*v=|v\/|embed\/))([^#&?]*).*/;

@@ -1,6 +1,6 @@
 import { useFieldArray } from 'react-hook-form'
 import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'; 
-import { InputUseFieldArrayProps } from '@/app/types/types'
+import { InputUseFieldArrayProps } from '@/app/features/recipes/types/types'
 
 export default function StepsInput ({register, errors, control, watch}: InputUseFieldArrayProps) {
     const maxCharStep = 150;

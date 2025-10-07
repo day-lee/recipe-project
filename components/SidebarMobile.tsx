@@ -6,8 +6,8 @@ import {
     PlusCircleIcon,
     PencilSquareIcon } from '@heroicons/react/24/outline'; 
 
-import { SidebarProps } from '@/app/types/types';
-import RandomRecipeModalButton from '@/app/(routes)/recipes/components/RandomRecipeModalButton';
+import { SidebarProps } from '@/app/features/recipes/types/types';
+import RandomRecipeModalButton from '@/app/features/random-pick/components/RandomRecipeModalButton';
 
 export default function SidebarMobile({onClick, onMouseLeave, setIsSidebarOpen}: SidebarProps) {
     return(

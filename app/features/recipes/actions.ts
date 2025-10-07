@@ -2,10 +2,10 @@
 
 import { z } from "zod";
 
-import { recipeSchema } from "@/utils/validation/recipe";
+import { recipeSchema } from "@/app/features/recipes/utils/validation/recipe";
 import { createClient } from '@/lib/supabase/server'
-import { FormData } from '@/app/types/types'
-import { mergeIngredients } from "@/utils/utils";
+import { FormData } from '@/app/features/recipes/types/types'
+import { mergeIngredients } from "@/app/features/recipes/utils/utils";
 
 export async function createRecipeAction(payload: FormData) {
     const supabase = await createClient();

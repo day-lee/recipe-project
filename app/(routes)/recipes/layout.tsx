@@ -1,7 +1,7 @@
 'use client';
 import { usePathname } from 'next/navigation';
 
-import Search from "./components/Search";
+import Search from '@/app/features/recipes/detail_recipe_id/components/Search';
 
 export default function SearchLayout( { children }: {children: React.ReactNode }) {
     const pathname = usePathname();

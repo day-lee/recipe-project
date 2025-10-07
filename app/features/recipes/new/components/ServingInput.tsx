@@ -1,4 +1,5 @@
-import { InputProps } from '@/app/types/types'
+import { InputProps } from '@/app/features/recipes/types/types'
+
 export default function ServingInput({register}:Omit<InputProps, "errors">) {
     return (
             <section>

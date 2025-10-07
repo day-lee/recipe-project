@@ -2,26 +2,26 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
-import { recipeSchema, RecipeFormData } from "@/utils/validation/recipe";
+import { recipeSchema, RecipeFormData } from "@/app/features/recipes/utils/validation/recipe";
 import { useState } from 'react';
 import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'; 
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
-import { VideoState, Tag } from '@/app/types/types';
-import { extractVideoId, nameFormatter, mergeIngredients } from '@/utils/utils';
-import { createRecipeAction } from "@/app/actions"; 
-import ImageFileUpload from '@/app/(routes)/new-recipe/components/ImageFileUpload';
-import NameInput from '@/app/(routes)/new-recipe/components/NameInput';
-import DurationInput from '@/app/(routes)/new-recipe/components/DurationInput';
-import TagInput from '@/app/(routes)/new-recipe/components/TagInput';
-import ServingInput from '@/app/(routes)/new-recipe/components/ServingInput';
-import StepsInput from '@/app/(routes)/new-recipe/components/StepsInput';
-import NotesInput from '@/app/(routes)/new-recipe/components/NotesInput';
-import VideoInput from '@/app/(routes)/new-recipe/components/VideoInput';
-import MainIngredientInput from '@/app/(routes)/new-recipe/components/MainIngredientInput';
-import OptionalIngredientInput from '@/app/(routes)/new-recipe/components/OptionalIngredientInput';
-import SauceIngredientInput from '@/app/(routes)/new-recipe/components/SauceIngredientInput';
+import { VideoState, Tag } from '@/app/features/recipes/types/types';
+import { extractVideoId, nameFormatter, mergeIngredients } from '@/app/features/recipes/utils/utils';
+import { createRecipeAction } from "@/app/features/recipes/actions"; 
+import ImageFileUpload from '@/app/features/recipes/new/components/ImageFileUpload';
+import NameInput from '@/app/features/recipes/new/components/NameInput';
+import DurationInput from '@/app/features/recipes/new/components/DurationInput';
+import TagInput from '@/app/features/recipes/new/components/TagInput';
+import ServingInput from '@/app/features/recipes/new/components/ServingInput';
+import StepsInput from '@/app/features/recipes/new/components/StepsInput';
+import NotesInput from '@/app/features/recipes/new/components/NotesInput';
+import VideoInput from '@/app/features/recipes/new/components/VideoInput';
+import MainIngredientInput from '@/app/features/recipes/new/components/MainIngredientInput';
+import OptionalIngredientInput from '@/app/features/recipes/new/components/OptionalIngredientInput';
+import SauceIngredientInput from '@/app/features/recipes/new/components/SauceIngredientInput';
 
 const videoDefaultValues: VideoState = {
     videoId: '',

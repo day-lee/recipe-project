@@ -1,8 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { Suspense } from 'react'
 
-import RecipeList from "./components/RecipeList";
-import TagButton from "./components/TagButton";
+import RecipeList from '@/app/features/recipes/detail_recipe_id/components/RecipeList'
+import TagButton from "@/app/features/recipes/detail_recipe_id/components/TagButton";
 import { getTags } from '@/lib/supabase/rpc/getTags';
 
 export default async function Page(

@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Recipe } from '../../../types/types'
-import fallbackImg from '../../../assets/unavailable.png'
+import { Recipe } from '@/app/features/recipes/types/types'
+import fallbackImg from '@/app/assets/unavailable.png'
 
 export default function RecipeCard({recipe}: {recipe:Recipe}) {
 return(

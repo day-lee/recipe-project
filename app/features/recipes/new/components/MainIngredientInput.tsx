@@ -1,8 +1,8 @@
 import { useFieldArray } from 'react-hook-form'
 import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'; 
 
-import { InputUseFieldArrayProps } from '@/app/types/types'
-import { nameFormatter } from '@/utils/utils';
+import { InputUseFieldArrayProps } from '@/app/features/recipes/types/types'
+import { nameFormatter } from '@/app/features/recipes/utils/utils';
 
 export default function MainIngredientInput ({register, errors, control}: Omit<InputUseFieldArrayProps,"watch">) {
    const { fields: mainIngredientFields, append: appendMainIngredient, remove: removeMainIngredient }  

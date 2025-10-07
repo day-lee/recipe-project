@@ -7,7 +7,8 @@ import {
   PencilSquareIcon,
 } from '@heroicons/react/24/outline'; 
 
-import RandomRecipeModalButton from '@/app/(routes)/recipes/components/RandomRecipeModalButton';
+import RandomRecipeModalButton from '@/app/features/random-pick/components/RandomRecipeModalButton';
+
 
 
 export default function SidebarModal() {
@@ -34,7 +35,7 @@ export default function SidebarModal() {
             </Link>
           </li>
           <li>
-            <Link href="/new-recipe">
+            <Link href="/recipes/new">
               <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold'>
                 <PlusCircleIcon className="w-8 h-8 flex-shrink-0" />
                 <span className={`whitespace-nowrap transition-all duration-300

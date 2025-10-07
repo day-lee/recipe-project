@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import DetailCard from '@/app/(routes)/recipes/components/DetailCard'   
+import DetailCard from '@/app/features/recipes/detail_recipe_id/components/DetailCard'   
 
 const mockRecipeDetail = 
     {

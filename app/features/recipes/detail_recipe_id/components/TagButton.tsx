@@ -3,8 +3,8 @@
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useState } from 'react';
 
-import { Tag } from "../../../types/types"
-import TagCarousel from './TagCarousel'
+import { Tag } from '@/app/features/recipes/types/types'
+import TagCarousel from '@/app/features/recipes/detail_recipe_id/components/TagCarousel'
 
 export default function TagButton({ tags } : {tags: Tag[] | null}) {
     const [selectedTag, setSelectedTag] = useState<string | null>(null);

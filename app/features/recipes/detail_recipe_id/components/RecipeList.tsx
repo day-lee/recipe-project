@@ -1,5 +1,5 @@
-import { Recipe } from '../../../types/types'
-import RecipeCard from './RecipeCard';
+import { Recipe } from '@/app/features/recipes/types/types'
+import RecipeCard from '@/app/features/recipes/detail_recipe_id/components/RecipeCard';
 
 export default async function RecipeList({ recipes}: {recipes: Recipe[]}) {
     return (

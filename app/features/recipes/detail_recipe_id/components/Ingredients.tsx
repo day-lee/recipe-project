@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Ingredient, IngredientsProps } from '../../../types/types'
+import { Ingredient, IngredientsProps } from '@/app/features/recipes/types/types'
 
 export default function Ingredients({ingredientsList, defaultServing}: IngredientsProps) {
     const [serving, setServing] = useState<number>(1);

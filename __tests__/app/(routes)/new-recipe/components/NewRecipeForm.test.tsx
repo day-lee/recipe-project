@@ -3,10 +3,10 @@ import { render, screen, within, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/navigation'
 
-import { NewRecipeForm } from '@/app/(routes)/new-recipe/components/NewRecipeForm'
-import { createRecipeAction } from '@/app/actions'
+import { NewRecipeForm } from '@/app/features/recipes/new/components/NewRecipeForm'
+import { createRecipeAction } from '@/app/features/recipes/actions'
 // 1. mock the server action so we don't hit DB
-jest.mock('@/app/actions', () => ({
+jest.mock('@/features/recipes/actions', () => ({
     createRecipeAction: jest.fn()
 }));
 jest.mock('next/navigation', () => ({

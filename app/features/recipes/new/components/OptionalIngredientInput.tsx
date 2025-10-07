@@ -1,8 +1,8 @@
 import { useFieldArray } from 'react-hook-form'
 import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'; 
 
-import { IngredientsInputProps } from '@/app/types/types'
-import { nameFormatter } from '@/utils/utils';
+import { IngredientsInputProps } from '@/app/features/recipes/types/types'
+import { nameFormatter } from '@/app/features/recipes/utils/utils';
 
 export default function OptionalIngredientInput ({register, getValues, errors, control,}: IngredientsInputProps) {
     const { fields: optionalIngredientFields, append: appendOptionalIngredient, remove: removeOptionalIngredient }  

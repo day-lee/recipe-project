@@ -2,9 +2,7 @@
 import { useRef, useState, FormEvent, ChangeEvent } from 'react';
 import Image from 'next/image'
 import { TrashIcon, ArrowUpOnSquareIcon } from '@heroicons/react/24/outline'; 
-import fallbackImg from '../../../assets/unavailable.png'
-
-
+import fallbackImg from '@/app/assets/unavailable.png'
 
 export default function ImageFileUpload() {
     const inputRef = useRef<HTMLInputElement | null>(null);
