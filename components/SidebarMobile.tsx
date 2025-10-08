@@ -11,7 +11,7 @@ import RandomRecipeModalButton from '@/app/features/random-pick/components/Rando
 
 export default function SidebarMobile({onClick, onMouseLeave, setIsSidebarOpen}: SidebarProps) {
     return(
-        <div className='w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 p-4 border-2 bg-white
+        <div className='w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 p-4 border-[1px] bg-white
                          border-gray-300 rounded-sm absolute top-16 right-0 z-20'
                          onMouseLeave={onMouseLeave}>
             <div className="flex flex-row justify-between items-center h-10 pb-4">

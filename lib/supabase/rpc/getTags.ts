@@ -5,15 +5,16 @@ import { Tag } from "@/app/features/recipes/types/types"
 export async function getTags(): Promise<{ data: Tag[] | null; error: PostgrestError | null}> {
 const supabase = await createClient()
 const { data: tagData, error: tagError } = await supabase   
-.from('tag')
+.from('main_ingredients_tag')
 .select(`
   id,
   tag_name,
-  recipe_count: recipe_tag(id)
+  recipe_count: recipe_main_ingredients_tag(id)
 `)
+.order(`id`)
 
 if (tagError) {
-  console.error('Error calling query for tags:', tagError);
+  console.error('Error calling query for main ingredients tags:', tagError);
   return {data: null, error: tagError};
 }  
 

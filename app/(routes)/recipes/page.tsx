@@ -2,61 +2,41 @@ import { createClient } from '@/lib/supabase/server'
 import { Suspense } from 'react'
 
 import RecipeList from '@/app/features/recipes/detail_recipe_id/components/RecipeList'
-import TagButton from "@/app/features/recipes/detail_recipe_id/components/TagButton";
+import MainSearchFilter from '@/app/features/recipes/detail_recipe_id/components/MainSearchFilter'
 import { getTags } from '@/lib/supabase/rpc/getTags';
 
-export default async function Page(
-  props: {
-      searchParams?: Promise<{
-        query?: string | undefined;
-        tag?: string | undefined;
-      }>
-  }
-) {
+export default async function Page(props: {
+    searchParams?: Promise<{
+        main_ing_tag_param?: string | undefined;
+        cuisine_tag_param?: string | undefined;
+        search_query?: string | undefined;
+      }>;
+}) {
   const searchParam = await props.searchParams;  
-  const query = searchParam?.query || '';
-  const tag = searchParam?.tag || '';
+  const main_ing_tag_param = searchParam?.main_ing_tag_param || '';
+  const cuisine_tag_param = searchParam?.cuisine_tag_param || '';
+  const search_query = searchParam?.search_query || '';
   const supabase = await createClient()
-    if (query === '*') {
+    if (search_query === '*') {
       throw new Error('Search term cannot be *');
-    }  
-    const { data: recipeData, error: recipeError } = await supabase
-    .from('recipe')
-    .select(`
-      id,
-      public_id,
-      recipe_name,
-      is_favourite,
-      duration,
-      img_link,
-      serving,
-      recipe_tag!inner(                 
-        tag!inner(                      
-          tag_name
-        )
-      )
-    `).ilike('recipe_tag.tag.tag_name', `%${tag}%`)
-    .ilike('recipe_name', `%${query}%`);
-    // .eq('recipe.created_user_id', inputUserId)
+    }
+    const { data: recipeData, error: recipeError } = await supabase.rpc('get_main_recipe_with_tag', { main_ing_tag_param, cuisine_tag_param, search_query });
     if (recipeError) {
       console.error('Error fetching recipes:', recipeError);
       return <div>Error loading recipes</div>;
-    }  
-
+    }
     const { data: tags, error: tagError } = await getTags();
     if (tagError) {
-      console.error('Error fetching tags:', tagError);
+      console.error('Error fetching main ingredients tags:', tagError);
     }
-
   return (
-      <div className="flex">
-        <div className="flex flex-col items-center gap-10 max-w-5xl">
+      <div className="flex bg-white">
+        <div className="flex flex-col items-center gap-6 max-w-5xl">
         <Suspense fallback={<div className="mt-96">Loading...</div>}>
-          <TagButton tags={tags}/>
+           <MainSearchFilter tags={tags || []} />
           <RecipeList recipes={recipeData} />
         </Suspense>
         </div>
       </div>
   );
 }
-

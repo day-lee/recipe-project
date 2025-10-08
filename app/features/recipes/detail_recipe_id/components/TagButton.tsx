@@ -1,31 +1,23 @@
 'use client'
 
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { useState } from 'react';
+import { MainIngTagButtonProps } from '@/app/features/recipes/types/types'
 
-import { Tag } from '@/app/features/recipes/types/types'
-import TagCarousel from '@/app/features/recipes/detail_recipe_id/components/TagCarousel'
-
-export default function TagButton({ tags } : {tags: Tag[] | null}) {
-    const [selectedTag, setSelectedTag] = useState<string | null>(null);
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const { replace } = useRouter();
-    
-    const handleTagClick = (tagName:string) => { 
-        const params = new URLSearchParams(searchParams.toString());
-        if (selectedTag === tagName) {
-            setSelectedTag(null);
-            params.delete('tag')
-        } else {
-            setSelectedTag(tagName);
-            params.set('tag', tagName);
-        }
-        replace(`${pathname}?${params.toString()}`);
-    }
+export default function TagButton({ tags, selectedTag, onClick } : MainIngTagButtonProps) {
     return (
-        <div className="relative w-full bg-red-700 ">
-            <TagCarousel tags={tags} onClick={handleTagClick} selectedTag={selectedTag} />
-        </div>
+<div className="relative w-full">
+    <span className="font-semibold mx-2">Main ingredients</span>
+    <div className='flex flex-wrap my-2'>
+        {tags?.map((tag) => (
+            <div key={tag.id} className="mx-1 ">
+                <button
+                    className={`m-1 px-2 py-1 text-sm text-black font-medium rounded-full border-2 hover:bg-red-100 hover:text-red-700 ${
+                        selectedTag === tag.name ? 'bg-red-700 text-white border-red-700' : 'bg-white border-red-700'}`}
+                    onClick={() => onClick?.(tag.name)}>
+                    {tag.name} {tag.recipe_count > 0 ? `(${tag.recipe_count})` : '(0)'}
+                </button>
+            </div>
+        ))}
+    </div>
+</div>
     )
 }

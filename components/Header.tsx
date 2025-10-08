@@ -13,9 +13,9 @@ const handleMouseLeave = () => setIsSidebarOpen(false)
     return (
         <header>
             <div className="relative mx-auto z-40 bg-white">
-                <div className="flex flex-row justify-between px-2  border-b-2 border-gray-200">
+                <div className="flex flex-row justify-between px-2  border-b-[1px] border-gray-200 bg-gray-100">
                     <div className="flex items-center py-1 sm:py-2">
-                        <Link href="/recipes" className="font-bold text-md sm:text-3xl text-red-700 w-1/2 sm:w-full"> 
+                        <Link href="/recipes" className="font-bold text-md sm:text-2xl text-red-700 w-1/2 sm:w-full"> 
                             Recipe Project
                         </Link>
                     </div>                    

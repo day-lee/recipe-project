@@ -1,21 +1,27 @@
-import { Recipe } from '@/app/features/recipes/types/types'
+import { RecipeMain } from '@/app/features/recipes/types/types'
 import RecipeCard from '@/app/features/recipes/detail_recipe_id/components/RecipeCard';
 
-export default async function RecipeList({ recipes}: {recipes: Recipe[]}) {
+const emptyListMsg = 'There is nothing in this tag yet — start adding your recipes!'
+
+export default async function RecipeList({ recipes}: {recipes: RecipeMain[]}) {
+  const resultLength = recipes.length
     return (
-      <>
-      { recipes.length > 0 ?
-        (<div className=''>
+    <div>
+      { resultLength > 0 ?
+        (<>
+        <div className='flex sm:justify-start justify-center pb-4 font-medium'> Found<span className='font-bold mx-1 text-red-700'>{resultLength}</span> recipes</div>
+        <div>
           <ul className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10'>
             {recipes?.map(recipe => (
               <li key={recipe.id}> <RecipeCard recipe={recipe}/> </li>
             ))}
           </ul>
-        </div>) 
+        </div>
+        </>) 
         : 
         (<div> 
-            <p className='flex justify-center items-center font-bold'> There is nothing in this tag yet — start adding your recipes! </p>
+            <p className='flex justify-center items-center font-bold'> {emptyListMsg} </p>
         </div>)}
-    </>
+   </div>
     );
   }

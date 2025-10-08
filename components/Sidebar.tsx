@@ -9,15 +9,12 @@ import {
 
 import RandomRecipeModalButton from '@/app/features/random-pick/components/RandomRecipeModalButton';
 
-
-
 export default function SidebarModal() {
   const [showSidebarModal, setShowSidebarModal] = useState<boolean>(false)
-  
   return (
-    <div className={`fixed min-h-screen left-0 top-0 flex flex-col gap-10 border-x-2 pt-12
-                 border-gray-300 bg-white z-30 transition-all duration-300 ease-out overflow-hidden
-                 ${showSidebarModal ? 'w-48' : 'w-16'}`}
+    <div className={`fixed min-h-screen left-0 top-0 flex flex-col gap-10 border-x-[1px] pt-12
+                 border-gray-300 bg-gray-100 z-30 transition-all duration-300 ease-out overflow-hidden
+                 ${showSidebarModal ? 'w-48' : 'w-14'}`}
                   onMouseEnter={() => setShowSidebarModal(true)}
                   onMouseLeave={() => setShowSidebarModal(false)}
                 >

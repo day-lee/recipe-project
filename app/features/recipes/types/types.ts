@@ -23,11 +23,21 @@ export interface Recipe {
   }  
 
   export interface RecipeDetail extends Recipe {
-    tag_name: string[];
+    tag_name: string;
+    cuisine_tag_name: string;
     notes: Note[];
     steps: Step[];
     external_link: string;
   }
+
+  export interface RecipeMain extends Recipe {
+    main_ingredient_tag: string;
+    cuisine_tag: string;
+    notes: Note[];
+    steps: Step[];
+    external_link: string;
+  }
+
 
   type IngredientType = 'main' | 'optional' | 'sauce';
   export interface Ingredient {
@@ -114,3 +124,8 @@ export interface IngredientsInputProps extends InputProps {
     getValues: UseFormGetValues<FormSubmitData>;
 }
 
+export interface MainIngTagButtonProps {
+  tags: Tag[] | null;
+  selectedTag: string;
+  onClick: (tagName: string) => void;
+}
