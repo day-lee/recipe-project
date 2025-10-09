@@ -9,13 +9,15 @@ import Filter from '@/app/features/recipes/detail_recipe_id/components/Filter';
 import { Tag } from '@/app/features/recipes/types/types'
 
 export default function MainSearchFilter({tags}: {tags:Tag[]}) {
-    const [selectedMainIngTag, setSelectedTag] = useState<string | ''>('');
+    const [searchInput, setSearchInput] = useState<string | ''>('');
+    const [selectedMainIngTag, setSelectedMainIngTag] = useState<string | ''>('');
+    const [selectedCuisineTag, setSelectedCuisineTag] = useState<string | ''>('');
     const searchParams = useSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
     const pathname = usePathname();
     const { replace } = useRouter();
 
-    const handleSearch = useDebouncedCallback((term: string) => {
-        const params = new URLSearchParams(searchParams.toString());
+    const handleSearchDebounced = useDebouncedCallback((term: string) => {
         if (term === '*') { 
             throw new Error('Search term cannot be *'); }
         else if (term) {
@@ -24,17 +26,40 @@ export default function MainSearchFilter({tags}: {tags:Tag[]}) {
             params.delete('search_query');
         }
         replace(`${pathname}?${params.toString()}`);
-        // This will update the URL with search data without reloading the page
-        // and will trigger a re-render of the component that uses the search term.
-    }, 600);    
+    }, 600);   
+
+    const handleSearch = ((term: string) => {
+        setSearchInput(term)
+        handleSearchDebounced(term)
+    })
+
+    const handleCuisineTagChange = (selectedCuisineTag: string) => {
+        if (selectedCuisineTag) {
+            setSelectedCuisineTag(selectedCuisineTag)
+            params.set('cuisine_tag_param', selectedCuisineTag);
+        } else {
+            params.delete('cuisine_tag_param');
+        }
+        replace(`${pathname}?${params.toString()}`);
+    }
+
+    const handleRemove = () => {
+        setSelectedCuisineTag('');
+        setSearchInput('');
+        setSelectedMainIngTag('');
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete('cuisine_tag_param');
+        params.delete('main_ing_tag_param');
+        params.delete('search_query');
+        replace(`${pathname}?${params.toString()}`);
+    }  
 
     const handleMainIngTagClick = (tagName:string) => { 
-        const params = new URLSearchParams(searchParams.toString());
         if (selectedMainIngTag === tagName) {
-            setSelectedTag('');
+            setSelectedMainIngTag('');
             params.delete('main_ing_tag_param')
         } else {
-            setSelectedTag(tagName);
+            setSelectedMainIngTag(tagName);
             params.set('main_ing_tag_param', tagName);
         }
         replace(`${pathname}?${params.toString()}`);
@@ -43,11 +68,11 @@ export default function MainSearchFilter({tags}: {tags:Tag[]}) {
         <div className="max-x-4xl">
             <div className="flex flex-col items-center py-8">
                 <p className="text-4xl font-semibold text-red-800 mb-2 font-serif">Bon Appétit,</p>
-                <p className="text-lg text-gray-600 max-w-md text-center">Deliciously Simple Recipe Selection, Just For You!</p>
+                <p className="text-md text-gray-600 max-w-md text-center">Deliciously Simple Recipe Selection, Just For You!</p>
             </div>
             <div className="border-[1px] border-gray-200 rounded-lg my-2 p-4 bg-red-50 shadow-xl">
-                <Search onChange={handleSearch}/>
-                <Filter />
+                <Search onChange={handleSearch} searchInput={searchInput}/>
+                <Filter onChange={handleCuisineTagChange} onClick={handleRemove} selectedCuisineTag={selectedCuisineTag}/>
                 <TagButton tags={tags} selectedTag={selectedMainIngTag} onClick={handleMainIngTagClick}/>
             </div>
         </div>

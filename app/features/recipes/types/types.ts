@@ -132,4 +132,11 @@ export interface MainIngTagButtonProps {
 
 export interface SearchProps {
     onChange: (term: string) => void
+    searchInput: string;
+}
+
+export interface MainFilterProps {
+  onChange: (selectedCuisineTag: string) => void;
+  onClick: () => void;
+  selectedCuisineTag: string;
 }
