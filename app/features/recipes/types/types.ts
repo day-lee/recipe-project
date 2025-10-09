@@ -129,3 +129,7 @@ export interface MainIngTagButtonProps {
   selectedTag: string;
   onClick: (tagName: string) => void;
 }
+
+export interface SearchProps {
+    onChange: (term: string) => void
+}

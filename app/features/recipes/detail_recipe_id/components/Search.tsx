@@ -1,34 +1,17 @@
 'use client';
 
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { useDebouncedCallback } from "use-debounce";
+import { useSearchParams} from "next/navigation";
+import { SearchProps } from '@/app/features/recipes/types/types'
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-
-export default function Search() {
+export default function Search({onChange}:SearchProps ) {
     const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const { replace } = useRouter();
-
-    const handleSearch = useDebouncedCallback((term: string) => {
-        const params = new URLSearchParams(searchParams.toString());
-        if (term === '*') { 
-            throw new Error('Search term cannot be *'); }
-        else if (term) {
-            params.set('search_query', term);
-        } else {
-            params.delete('search_query');
-        }
-        replace(`${pathname}?${params.toString()}`);
-        // This will update the URL with search data without reloading the page
-        // and will trigger a re-render of the component that uses the search term.
-    }, 600);
     return (
         <div className="relative">
         <label htmlFor="search" className="sr-only">Search</label>
         <input
             className="border-2 border-red-700 block w-full py-2 px-8 rounded-md focus:outline-none" 
             type="text"
-            onChange={(e) => handleSearch(e.target.value)}
+            onChange={(e) => onChange?.(e.target.value)}
             placeholder="Search recipes"
             defaultValue={searchParams.get('search_query')?.toString()}
         />

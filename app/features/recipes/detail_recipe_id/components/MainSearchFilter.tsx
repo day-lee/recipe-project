@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 
 import Search from '@/app/features/recipes/detail_recipe_id/components/Search'
 import TagButton from '@/app/features/recipes/detail_recipe_id/components/TagButton'
@@ -12,6 +13,20 @@ export default function MainSearchFilter({tags}: {tags:Tag[]}) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
+
+    const handleSearch = useDebouncedCallback((term: string) => {
+        const params = new URLSearchParams(searchParams.toString());
+        if (term === '*') { 
+            throw new Error('Search term cannot be *'); }
+        else if (term) {
+            params.set('search_query', term);
+        } else {
+            params.delete('search_query');
+        }
+        replace(`${pathname}?${params.toString()}`);
+        // This will update the URL with search data without reloading the page
+        // and will trigger a re-render of the component that uses the search term.
+    }, 600);    
 
     const handleMainIngTagClick = (tagName:string) => { 
         const params = new URLSearchParams(searchParams.toString());
@@ -31,7 +46,7 @@ export default function MainSearchFilter({tags}: {tags:Tag[]}) {
                 <p className="text-lg text-gray-600 max-w-md text-center">Deliciously Simple Recipe Selection, Just For You!</p>
             </div>
             <div className="border-[1px] border-gray-200 rounded-lg my-2 p-4 bg-red-50 shadow-xl">
-                <Search />
+                <Search onChange={handleSearch}/>
                 <Filter />
                 <TagButton tags={tags} selectedTag={selectedMainIngTag} onClick={handleMainIngTagClick}/>
             </div>
