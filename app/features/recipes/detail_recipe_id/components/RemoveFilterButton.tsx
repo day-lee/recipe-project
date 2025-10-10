@@ -2,7 +2,6 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import { RemoveFilterProps } from '@/app/features/recipes/types/types'
 
 export default function RemoveFilterButton({selectedCuisineTag, selectedMainIngTagId, searchInput, onClick}: RemoveFilterProps) {
-    console.log('search:', searchInput, 'cuisine:', selectedCuisineTag, 'main:', selectedMainIngTagId)
     return(
     <>
     { (searchInput || selectedCuisineTag || selectedMainIngTagId ) && (
