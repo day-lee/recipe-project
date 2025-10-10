@@ -6,7 +6,15 @@ export interface Tag {
     name: string;
     recipe_count: number;
   }
-
+export interface MainIngredientTag {
+    id: number;
+    tag_name: string;
+    recipe_count: number;
+  }  
+export interface CuisineTag {
+    id: number;
+    cuisine_tag_name: string;
+  }  
   export interface Step {
     id: number;
     photo_id?: number;
@@ -69,7 +77,8 @@ export interface Recipe {
     recipe_name: string;
     duration: number;
     serving: number;
-    tags: number[];
+    main_ingredient_tag: number;
+    cuisine_tag: number;
     steps: Step[];
     img_link: string;
     external_link: string;
@@ -79,64 +88,70 @@ export interface Recipe {
     sauce_ingredients: Omit<Ingredient, "recipe_id">[];
 }
 
-export interface FormData {
-  recipe_name: string;
-  duration: number;
-  serving: number;
-  steps: Step[];
-  img_link: string;
-  external_link: string;
-  notes: Note[];
-  ingredients: Omit<Ingredient, "recipe_id">[];
-}
+  export interface FormData {
+    recipe_name: string;
+    duration: number;
+    serving: number;
+    steps: Step[];
+    img_link: string;
+    external_link: string;
+    notes: Note[];
+    ingredients: Omit<Ingredient, "recipe_id">[];
+  }
 
-export interface VideoState {
-  videoId: string;
-  isVideoValid: boolean;
-  errorMessage: string;
-}
+  export interface VideoState {
+    videoId: string;
+    isVideoValid: boolean;
+    errorMessage: string;
+  }
 
-export interface InputProps {
+  export interface InputProps {
     register: UseFormRegister<FormSubmitData>;
     errors: FieldErrors<FormSubmitData>;
-}
+  }
 
-export interface TagProps {
-    tags: Tag[];
+  export interface TagProps {
+    mainIngredientTag: MainIngredientTag[];
     control: Control<FormSubmitData>;
-}
+  }
 
-export interface InputUseFieldArrayProps extends InputProps{
+  export interface InputUseFieldArrayProps extends InputProps{
     control: Control<FormSubmitData>;
     watch: UseFormWatch<FormSubmitData>;
-}
+  }
 
-export interface VideoInputProps {
+  export interface VideoInputProps {
     register: UseFormRegister<FormSubmitData>;
     resetField: UseFormResetField<FormSubmitData>;
     getValues: UseFormGetValues<FormSubmitData>;
     video: VideoState;
     setVideo: React.Dispatch<React.SetStateAction<VideoState>>;
-}
+  }
 
-export interface IngredientsInputProps extends InputProps {
+  export interface IngredientsInputProps extends InputProps {
     control: Control<FormSubmitData>;
     getValues: UseFormGetValues<FormSubmitData>;
-}
+  }
 
-export interface MainIngTagButtonProps {
-  tags: Tag[] | null;
-  selectedTag: string;
-  onClick: (tagName: string) => void;
-}
+  export interface MainIngTagButtonProps {
+    mainIngredientTags: MainIngredientTag[] | null;
+    selectedMainIngTagId: number | undefined;
+    onClick: (tagId: number, tagName: string) => void;
+  }
 
-export interface SearchProps {
+  export interface SearchProps {
     onChange: (term: string) => void
     searchInput: string;
-}
+  }
 
-export interface MainFilterProps {
-  onChange: (selectedCuisineTag: string) => void;
-  onClick: () => void;
-  selectedCuisineTag: string;
-}
+  export interface MainFilterProps {
+    onChange: (selectedCuisineTag: string) => void;
+    selectedCuisineTag: string;
+  }
+
+  export interface RemoveFilterProps {
+    onClick: () => void;
+    selectedMainIngTagId: number | undefined;
+    searchInput: string;
+    selectedCuisineTag: string;
+  }
