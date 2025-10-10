@@ -4,7 +4,7 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
 import Search from '@/app/features/recipes/detail_recipe_id/components/Search'
-import TagButton from '@/app/features/recipes/detail_recipe_id/components/TagButton'
+import MainIngTagButton from '@/app/features/recipes/detail_recipe_id/components/MainIngTagButton'
 import CuisineFilter from '@/app/features/recipes/detail_recipe_id/components/CuisineFilter';
 import RemoveFilterButton from '@/app/features/recipes/detail_recipe_id/components/RemoveFilterButton';
 import { MainIngredientTag } from '@/app/features/recipes/types/types';
@@ -76,7 +76,7 @@ export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTa
                 <CuisineFilter onChange={handleCuisineTagChange} selectedCuisineTag={selectedCuisineTag}/>
                 <RemoveFilterButton onClick={handleFilterRemove} searchInput={searchInput} selectedCuisineTag={selectedCuisineTag} selectedMainIngTagId={selectedMainIngTagId} />
                 </div>
-                <TagButton mainIngredientTags={mainIngredientTags} selectedMainIngTagId={selectedMainIngTagId}  onClick={handleMainIngTagClick}/>
+                <MainIngTagButton mainIngredientTags={mainIngredientTags} selectedMainIngTagId={selectedMainIngTagId} onClick={handleMainIngTagClick}/>
             </div>
         </div>
     );

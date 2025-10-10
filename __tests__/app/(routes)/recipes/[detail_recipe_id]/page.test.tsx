@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+ import userEvent from '@testing-library/user-event'
 import DetailCard from '@/app/features/recipes/detail_recipe_id/components/DetailCard'   
 
 const mockRecipeDetail = 
@@ -9,7 +10,8 @@ const mockRecipeDetail =
         "duration": 30,
         "img_link": "https://day-lee.github.io/recipe-book-food-photos/seaweed-soup.png",
         "serving": 1,
-        "tag_name": ["Korean", "Soup"],
+        "tag_name": 'Beef',
+        "cuisine_tag_name": "Korean",
         "notes": [
             {
                 "id": 1,
@@ -80,7 +82,7 @@ describe("RecipeDetailPage", () => {
         expect(screen.getByText("Seaweed soup")).toBeInTheDocument();
         expect(screen.getByText(/30 mins/)).toBeInTheDocument();
         expect(screen.getByText("Korean")).toBeInTheDocument();
-        expect(screen.getByText("Soup")).toBeInTheDocument();
+        expect(screen.getByText("Beef")).toBeInTheDocument();
         expect(screen.getByRole("option", { name: /1 Person/})).toBeInTheDocument();
         expect(screen.getByText(/Beef 100g/)).toBeInTheDocument();
         expect(screen.getByText(/Sesame oil/)).toBeInTheDocument();
@@ -91,9 +93,9 @@ describe("RecipeDetailPage", () => {
         render(<DetailCard recipeDetail={mockRecipeDetail} ingredients={mockIngredients} />) 
         expect(screen.getByText(/Beef 100g/)).toBeInTheDocument();
         const select = screen.getByRole('combobox');
-        fireEvent.change(select, { target: { value: '2'}})
+        await userEvent.selectOptions(select, '2')
         expect(screen.getByText(/Beef 200g/)).toBeInTheDocument();
-        fireEvent.change(select, { target: { value: '3'}})
+        await userEvent.selectOptions(select, '3')
         expect(screen.getByText(/Beef 300g/)).toBeInTheDocument();
     })
     it('should load a youtube video when there is video section', () => {

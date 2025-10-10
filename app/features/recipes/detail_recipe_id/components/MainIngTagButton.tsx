@@ -2,7 +2,7 @@
 
 import { MainIngTagButtonProps } from '@/app/features/recipes/types/types'
 
-export default function TagButton({ mainIngredientTags, selectedMainIngTagId, onClick } : MainIngTagButtonProps) {
+export default function MainIngTagButton({ mainIngredientTags, selectedMainIngTagId, onClick } : MainIngTagButtonProps) {
    return (
 <div className="relative w-full">
     <span className="font-semibold mx-2">Main ingredients</span>

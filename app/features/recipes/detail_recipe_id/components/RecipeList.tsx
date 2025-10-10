@@ -1,7 +1,7 @@
 import { RecipeMain } from '@/app/features/recipes/types/types'
 import RecipeCard from '@/app/features/recipes/detail_recipe_id/components/RecipeCard';
 
-const emptyListMsg = 'There is nothing in this tag yet — start adding your recipes!'
+export const emptyListMsg = 'There is nothing in this tag yet — start adding your recipes!'
 
 export default async function RecipeList({ recipes}: {recipes: RecipeMain[]}) {
   const resultLength = recipes.length

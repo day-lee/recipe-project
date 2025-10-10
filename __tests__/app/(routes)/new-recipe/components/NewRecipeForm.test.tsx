@@ -6,15 +6,38 @@ import { useRouter } from 'next/navigation'
 import { NewRecipeForm } from '@/app/features/recipes/new/components/NewRecipeForm'
 import { createRecipeAction } from '@/app/features/recipes/actions'
 // 1. mock the server action so we don't hit DB
-jest.mock('@/features/recipes/actions', () => ({
+jest.mock('@/app/features/recipes/actions', () => ({
     createRecipeAction: jest.fn()
 }));
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn()
 }));
 const mockedUseRouter = useRouter as jest.Mock;
-const mockTags = [{id: 1, name: 'Korean', recipe_count: 2}, {id: 2, name: 'Western', recipe_count: 3}]
+const mockMainIngredientTag = [
+    {
+        "id": 1,
+        "tag_name": "Chicken",
+        "recipe_count": 1
+    },
+    {
+        "id": 2,
+        "tag_name": "Pork",
+        "recipe_count": 2
 
+    },
+    {
+        "id": 3,
+        "tag_name": "Beef",
+        "recipe_count": 2
+
+    },
+    {
+        "id": 11,
+        "tag_name": "Seafood",
+        "recipe_count": 3
+
+    }
+]
 describe('RecipeForm', () => {
     beforeEach(() => {
         jest.clearAllMocks()
@@ -22,7 +45,7 @@ describe('RecipeForm', () => {
         mockedUseRouter.mockReturnValue({
             push: pushMock
         });
-        render(<NewRecipeForm tags={mockTags} />);
+        render(<NewRecipeForm mainIngredientTag={mockMainIngredientTag} />);
     }) 
     it('should display a validation error if name is empty', async () => {
         const createBtn = screen.getByRole('button', { name: /Create/i });
@@ -31,8 +54,10 @@ describe('RecipeForm', () => {
         expect(errorMsg).toBeInTheDocument()
     })
     it('should display tags', async () => {
-        const koreanTag = await screen.findByText(/korean/i)
-        expect(koreanTag).toBeInTheDocument()
+        const cuisineTag = await screen.findByText(/korean/i)
+        expect(cuisineTag).toBeInTheDocument()
+        const mainIngredientTag = await screen.findByText(/Chicken/i)
+        expect(mainIngredientTag).toBeInTheDocument()
     })
     it('should display more "main ingredients" inputs when "add more"/"remove" button is clicked', async () => {
         const mainIngredientSection = screen.getByLabelText('main ingredient section');
@@ -173,7 +198,6 @@ describe('RecipeForm', () => {
         })  
 })
 
-// jest.useFakeTimers();
     describe('RecipeForm submit', () => {
     const mockData = [
   {
@@ -197,15 +221,18 @@ describe('RecipeForm', () => {
         const pushMock = jest.fn();
         mockedUseRouter.mockReturnValue({push: pushMock});
         (createRecipeAction as jest.Mock).mockResolvedValueOnce({success: true,  data: mockData});
-        render(<NewRecipeForm tags={mockTags} />);
+        render(<NewRecipeForm  mainIngredientTag={mockMainIngredientTag} />);
         const nameInput = screen.getByPlaceholderText('e.g. Kimchi stew');
         await userEvent.type(nameInput, 'Test recipe');
-        const durationInput = screen.getByRole("combobox", { name: /Cook time/i })
+        const durationInput = screen.getByLabelText("cook time")
         await userEvent.selectOptions(durationInput, "60 mins")
         const servingInput = screen.getByRole("combobox", { name: /serving/i })
         await userEvent.selectOptions(servingInput, "3 People")
-        const koreanTag = await screen.findByRole("button", { name: /Korean/i });
-        await userEvent.click(koreanTag);
+        const cuisineTagSelect = await screen.findByLabelText("cuisine tag");
+        await userEvent.selectOptions(cuisineTagSelect, 'Korean')
+        const mainIngredientTag = await screen.findByRole("button", { name: /Pork/i });
+        expect(mainIngredientTag).toBeInTheDocument();
+        await userEvent.click(mainIngredientTag);
         const mainIngredientSection = screen.getByLabelText('main ingredient section');
         const ingNameInput = within(mainIngredientSection).getByPlaceholderText('Ingredient name: e.g. Chicken');
         await userEvent.type(ingNameInput, "Main ing");
@@ -221,8 +248,9 @@ describe('RecipeForm', () => {
             expect(createRecipeAction).toHaveBeenCalledTimes(1);
             expect(createRecipeAction).toHaveBeenCalledWith(
                 expect.objectContaining({
-                recipe_name: 'Test recipe',
-                tags: [1], 
+                recipe_name: 'Test recipe', 
+                cuisine_tag: 1, 
+                // main_ingredient_tag: "Pork"
                 }),
             );
             // expect(pushMock).toHaveBeenCalledWith('recipes/fd176309-5529-4d0f-9766-4412c25c778b'); // redirect 확인
