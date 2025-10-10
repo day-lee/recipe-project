@@ -8,13 +8,14 @@ import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
-import { VideoState, Tag } from '@/app/features/recipes/types/types';
+import { VideoState, MainIngredientTag } from '@/app/features/recipes/types/types';
 import { extractVideoId, nameFormatter, mergeIngredients } from '@/app/features/recipes/utils/utils';
 import { createRecipeAction } from "@/app/features/recipes/actions"; 
 import ImageFileUpload from '@/app/features/recipes/new/components/ImageFileUpload';
 import NameInput from '@/app/features/recipes/new/components/NameInput';
 import DurationInput from '@/app/features/recipes/new/components/DurationInput';
-import TagInput from '@/app/features/recipes/new/components/TagInput';
+import CuisineTagInput from '@/app/features/recipes/new/components/CuisineTagInput';
+import MainIngredientTagInput from '@/app/features/recipes/new/components/MainIngredientTagInput';
 import ServingInput from '@/app/features/recipes/new/components/ServingInput';
 import StepsInput from '@/app/features/recipes/new/components/StepsInput';
 import NotesInput from '@/app/features/recipes/new/components/NotesInput';
@@ -31,7 +32,7 @@ const videoDefaultValues: VideoState = {
 const submitSuccessMsg = 'Your recipe has been successfully saved!'
 const submitErrorMsg = 'Sorry, something went wrong. Please try again.'
 
-export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
+export function NewRecipeForm({ mainIngredientTag } : { mainIngredientTag: MainIngredientTag[] | []}) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [msg, setMsg] = useState("")
     const [video, setVideo] = useState<VideoState>(videoDefaultValues)
@@ -44,7 +45,8 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
             recipe_name: '',
             duration: 30,
             serving: 2,
-            tags: [],
+            main_ingredient_tag: 1,
+            cuisine_tag: 1,
             steps: [{id: 1, photo_id: undefined, desc: "" }],
             img_link: "",
             external_link: "",
@@ -66,7 +68,8 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
               recipe_name: nameFormatter(data.recipe_name),
               duration: data.duration || 15,
               serving: data.serving || 1,
-              tags: data.tags, 
+              main_ingredient_tag: data.main_ingredient_tag,
+              cuisine_tag: data.cuisine_tag,
               external_link: extractVideoId(data.external_link) ?? "",
               steps: data.steps.map((step, idx) => ({
                 id: idx + 1,
@@ -85,7 +88,7 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                 setMsg(submitSuccessMsg)
                 setTimeout(() => {
                     const publicId = res.data[0].public_id;
-                    router.push(`recipes/${publicId}`)            
+                    router.push(`${publicId}`)            
                 }, 1500)}
             } 
             else if (!res.success && res.errors) {
@@ -95,7 +98,6 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
                 setError(field as keyof RecipeFormData, {
                 type: "server",
                 message: "Invalid value",
-
                 });
                 } else if (field === "global") {
                 setError("root", {
@@ -119,8 +121,9 @@ export function NewRecipeForm({ tags } : { tags: Tag[] | []}) {
             </section>
             <NameInput register={register} errors={errors} />  
             <DurationInput register={register}/>
-            <ServingInput  register={register}/>
-            <TagInput  tags={tags} control={control}/>
+            <ServingInput register={register}/>
+            <CuisineTagInput register={register}/>
+            <MainIngredientTagInput mainIngredientTag={mainIngredientTag} control={control}/>
             <section>
                 <div className='my-8 max-w-xl'>
                     <p className='font-semibold lg:text-xl'>Ingredients</p> 

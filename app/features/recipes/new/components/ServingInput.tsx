@@ -4,7 +4,7 @@ export default function ServingInput({register}:Omit<InputProps, "errors">) {
     return (
             <section>
                 <div aria-label="serving section" className='flex flex-col my-8 max-w-xl'>
-                    <p className='font-semibold lg:text-xl'>Serving</p> 
+                    <p className='font-semibold lg:text-xl pb-2'>Serving</p> 
                     <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
                         <select aria-label="serving" id="serving" {...register('serving', { valueAsNumber: true })}>
                         {/* <option value="">Serving</option> */}

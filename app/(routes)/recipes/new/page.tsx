@@ -1,8 +1,8 @@
 import { NewRecipeForm } from '@/app/features/recipes/new/components/NewRecipeForm'
-import { getTags } from '@/lib/supabase/rpc/getTags';
+import { getMainIngredientTags } from '@/lib/supabase/rpc/getMainIngredientTags';
 
 export default async function HomePage() {
-    const { data: tags, error: tagError } = await getTags();
+    const { data: mainIngredientTag, error: tagError } = await getMainIngredientTags();
     if (tagError) {
       console.error('Error fetching tags:', tagError);
     }  
@@ -12,7 +12,7 @@ export default async function HomePage() {
         Create a new recipe
       </h1>
       <p>Share your yummy ideas!</p>
-      <NewRecipeForm tags={tags || []} />
+      <NewRecipeForm mainIngredientTag={mainIngredientTag || []} />
     </main>
   );
 }

@@ -4,7 +4,7 @@ export default function DurationInput({register}:Omit<InputProps, "errors">) {
     return (
             <section>
                 <div aria-label="duration section" className='flex flex-col my-8 max-w-xl'>
-                    <p className='font-semibold lg:text-xl'>Cook time</p> 
+                    <p className='font-semibold lg:text-xl pb-2'>Cook time</p> 
                     <div className='text-gray-600 border-2 border-gray-300 rounded-sm p-2'>
                         <select aria-label="cook time" id="duration" {...register('duration', { valueAsNumber: true })}>
                             {/* <option value="">Cook time</option> */}
