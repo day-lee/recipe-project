@@ -1,4 +1,4 @@
-import { RecipeForm } from '@/app/(routes)/recipes/new/components/RecipeForm'
+import { RecipeForm } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm'
 import { getMainIngredientTags } from '@/lib/supabase/rpc/getMainIngredientTags';
 
 export default async function HomePage() {

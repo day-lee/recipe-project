@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
-import Search from '@/app/(routes)/recipes/components/Search'
-import MainIngTagButton from '@/app/(routes)/recipes/components/MainIngTagButton'
-import CuisineFilter from '@/app/(routes)/recipes/components/CuisineFilter';
-import RemoveFilterButton from '@/app/(routes)/recipes/components/RemoveFilterButton';
+import Search from '@/app/(routes)/recipes/components/mainPage/Search'
+import MainIngTagButton from '@/app/(routes)/recipes/components/mainPage/MainIngTagButton'
+import CuisineFilter from '@/app/(routes)/recipes/components/mainPage/CuisineFilter';
+import RemoveFilterButton from '@/app/(routes)/recipes/components/mainPage/RemoveFilterButton';
 import { MainIngredientTag } from '@/app/types/types';
 
 export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTags: MainIngredientTag[]}) {

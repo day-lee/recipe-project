@@ -11,18 +11,18 @@ import { useRouter } from "next/navigation";
 import { VideoState, MainIngredientTag } from '@/app/types/types';
 import { extractVideoId, nameFormatter, mergeIngredients } from '@/app/utils/utils';
 import { createRecipeAction } from "@/app/(routes)/recipes/actions"; 
-import ImageFileUpload from '@/app/(routes)/recipes/new/components/ImageFileUpload';
-import NameInput from '@/app/(routes)/recipes/new/components/NameInput';
-import DurationInput from '@/app/(routes)/recipes/new/components/DurationInput';
-import CuisineTagInput from '@/app/(routes)/recipes/new/components/CuisineTagInput';
-import MainIngredientTagInput from '@/app/(routes)/recipes/new/components/MainIngredientTagInput';
-import ServingInput from '@/app/(routes)/recipes/new/components/ServingInput';
-import StepsInput from '@/app/(routes)/recipes/new/components/StepsInput';
-import NotesInput from '@/app/(routes)/recipes/new/components/NotesInput';
-import VideoInput from '@/app/(routes)/recipes/new/components/VideoInput';
-import MainIngredientInput from '@/app/(routes)/recipes/new/components/MainIngredientInput';
-import OptionalIngredientInput from '@/app/(routes)/recipes/new/components/OptionalIngredientInput';
-import SauceIngredientInput from '@/app/(routes)/recipes/new/components/SauceIngredientInput';
+import ImageFileUpload from '@/app/(routes)/recipes/components/recipeForm/ImageFileUpload';
+import NameInput from '@/app/(routes)/recipes/components/recipeForm/NameInput';
+import DurationInput from '@/app/(routes)/recipes/components/recipeForm/DurationInput';
+import CuisineTagInput from '@/app/(routes)/recipes/components/recipeForm/CuisineTagInput';
+import MainIngredientTagInput from '@/app/(routes)/recipes/components/recipeForm/MainIngredientTagInput';
+import ServingInput from '@/app/(routes)/recipes/components/recipeForm/ServingInput';
+import StepsInput from '@/app/(routes)/recipes/components/recipeForm/StepsInput';
+import NotesInput from '@/app/(routes)/recipes/components/recipeForm/NotesInput';
+import VideoInput from '@/app/(routes)/recipes/components/recipeForm/VideoInput';
+import MainIngredientInput from '@/app/(routes)/recipes/components/recipeForm/MainIngredientInput';
+import OptionalIngredientInput from '@/app/(routes)/recipes/components/recipeForm/OptionalIngredientInput';
+import SauceIngredientInput from '@/app/(routes)/recipes/components/recipeForm/SauceIngredientInput';
 
 const videoDefaultValues: VideoState = {
     videoId: '',

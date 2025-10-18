@@ -1,5 +1,5 @@
 import { RecipeMain } from '@/app/types/types'
-import RecipeCard from '@/app/(routes)/recipes/components/RecipeCard';
+import RecipeCard from '@/app/(routes)/recipes/components/mainPage/RecipeCard';
 
 export const emptyListMsg = 'There is nothing in this tag yet — start adding your recipes!'
 

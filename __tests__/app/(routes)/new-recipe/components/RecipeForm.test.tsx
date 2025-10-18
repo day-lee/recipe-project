@@ -3,7 +3,7 @@ import { render, screen, within, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/navigation'
 
-import { RecipeForm } from '@/app/(routes)/recipes/new/components/RecipeForm';
+import { RecipeForm } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm';
 import { createRecipeAction } from '@/app/(routes)/recipes/actions'
 // 1. mock the server action so we don't hit DB
 jest.mock('@/app/(routes)/recipes/actions', () => ({

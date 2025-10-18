@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import RecipeList from '@/app/(routes)/recipes/components/RecipeList';
+import RecipeList from '@/app/(routes)/recipes/components/mainPage/RecipeList';
 
 let mockReplace = jest.fn()
 jest.mock("next/navigation", () => ({
@@ -8,7 +8,7 @@ jest.mock("next/navigation", () => ({
   usePathname: () => "/recipes",
 }))
 
-import MainIngTagButton from '@/app/(routes)/recipes/components/MainIngTagButton';
+import MainIngTagButton from '@/app/(routes)/recipes/components/mainPage/MainIngTagButton';
 
 const mockRecipes = [
     {
