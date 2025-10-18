@@ -7,7 +7,7 @@ import {
   PencilSquareIcon,
 } from '@heroicons/react/24/outline'; 
 
-import RandomRecipeModalButton from '@/app/features/random-pick/components/RandomRecipeModalButton';
+import RandomRecipeModalButton from '@/app/(routes)/random-pick/components/RandomRecipeModalButton';
 
 export default function SidebarModal() {
   const [showSidebarModal, setShowSidebarModal] = useState<boolean>(false)

@@ -6,8 +6,8 @@ import {
     PlusCircleIcon,
     PencilSquareIcon } from '@heroicons/react/24/outline'; 
 
-import { SidebarProps } from '@/app/features/recipes/types/types';
-import RandomRecipeModalButton from '@/app/features/random-pick/components/RandomRecipeModalButton';
+import { SidebarProps } from '@/app/types/types';
+import RandomRecipeModalButton from '@/app/(routes)/random-pick/components/RandomRecipeModalButton';
 
 export default function SidebarMobile({onClick, onMouseLeave, setIsSidebarOpen}: SidebarProps) {
     return(
@@ -22,7 +22,7 @@ export default function SidebarMobile({onClick, onMouseLeave, setIsSidebarOpen}:
             </div>
             <div className="flex flex-col text-lg font-semibold">
                 <div className='flex flex-row hover:text-red-700'>
-                    <Link href="/new-recipe">
+                    <Link href="/recipes/new">
                     <div className='flex items-center gap-4 hover:text-red-700'>
                     <PlusCircleIcon className="w-8 h-8 hover:-translate-x-1" /> 
                     <span>New recipe</span>

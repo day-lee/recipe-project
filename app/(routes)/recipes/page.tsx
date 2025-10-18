@@ -1,8 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { Suspense } from 'react'
 
-import RecipeList from '@/app/features/recipes/detail_recipe_id/components/RecipeList'
-import MainSearchFilter from '@/app/features/recipes/detail_recipe_id/components/MainSearchFilter'
+import RecipeList from '@/app/(routes)/recipes/components/RecipeList'
+import MainSearchFilter from '@/app/(routes)/recipes/components/MainSearchFilter'
 import { getMainIngredientTags } from '@/lib/supabase/rpc/getMainIngredientTags';
 
 export default async function Page(props: {

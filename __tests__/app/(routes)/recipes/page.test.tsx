@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import RecipeList from '@/app/features/recipes/detail_recipe_id/components/RecipeList'
+import RecipeList from '@/app/(routes)/recipes/components/RecipeList';
 
 let mockReplace = jest.fn()
 jest.mock("next/navigation", () => ({
@@ -8,7 +8,7 @@ jest.mock("next/navigation", () => ({
   usePathname: () => "/recipes",
 }))
 
-import TagButton from '@/app/features/recipes/detail_recipe_id/components/TagButton'
+import MainIngTagButton from '@/app/(routes)/recipes/components/MainIngTagButton';
 
 const mockRecipes = [
     {
@@ -71,19 +71,19 @@ describe("RecipeList", () => {
 
 describe("TagsButton", () => {
     test('should render all tags', () => {
-        render (<TagButton tags={mockTags} />)
+        render (<MainIngTagButton tags={mockTags} />)
         expect(screen.getByText("Korean (7)")).toBeInTheDocument();
         expect(screen.getByText("Western (2)")).toBeInTheDocument();
         expect(screen.getByText("Chicken (4)")).toBeInTheDocument();
         expect(screen.getByText("International (3)")).toBeInTheDocument();
     });
     test('should change the url to "?tags=..." when clicking the tag', () => {
-        render (<TagButton tags={mockTags} />)
+        render (<MainIngTagButton tags={mockTags} />)
         fireEvent.click(screen.getByText("Korean (7)"))
         expect(mockReplace).toHaveBeenCalledWith('/recipes?tag=Korean')
     });
     test('should remove the query param when clicking again', () => {
-        render (<TagButton tags={mockTags} />)
+        render (<MainIngTagButton tags={mockTags} />)
         fireEvent.click(screen.getByText('Korean (7)'))
         expect(mockReplace).toHaveBeenCalledWith('/recipes?tag=Korean')
         mockReplace.mockClear()

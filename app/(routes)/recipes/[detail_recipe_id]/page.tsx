@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 
-import DetailCard from '@/app/features/recipes/detail_recipe_id/components/DetailCard'
+import DetailCard from '@/app/(routes)/recipes/[detail_recipe_id]/components/DetailCard'
 
 export default async function Page({ params }: {
     params: Promise<{ detail_recipe_id: string }>

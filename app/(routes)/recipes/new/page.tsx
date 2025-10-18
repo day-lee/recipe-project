@@ -1,4 +1,4 @@
-import { NewRecipeForm } from '@/app/features/recipes/new/components/NewRecipeForm'
+import { RecipeForm } from '@/app/(routes)/recipes/new/components/RecipeForm'
 import { getMainIngredientTags } from '@/lib/supabase/rpc/getMainIngredientTags';
 
 export default async function HomePage() {
@@ -12,7 +12,7 @@ export default async function HomePage() {
         Create a new recipe
       </h1>
       <p>Share your yummy ideas!</p>
-      <NewRecipeForm mainIngredientTag={mainIngredientTag || []} />
+      <RecipeForm mainIngredientTag={mainIngredientTag || []} />
     </main>
   );
 }
