@@ -4,10 +4,10 @@ import { z } from "zod";
 
 import { recipeSchema } from "@/app/utils/validation/recipe";
 import { createClient } from '@/lib/supabase/server'
-import { FormData } from '@/app/types/types'
+import { FormSubmitData } from '@/app/types/types'
 import { mergeIngredients } from "@/app/utils/utils";
 
-export async function createRecipeAction(payload: FormData) {
+export async function createRecipeAction(payload: FormSubmitData) {
     const supabase = await createClient();
     const result = recipeSchema.safeParse(payload); 
     if (!result.success) {

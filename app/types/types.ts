@@ -6,15 +6,18 @@ export interface Tag {
     name: string;
     recipe_count: number;
   }
+
 export interface MainIngredientTag {
     id: number;
     tag_name: string;
     recipe_count: number;
   }  
+
 export interface CuisineTag {
     id: number;
     cuisine_tag_name: string;
   }  
+
   export interface Step {
     id: number;
     photo_id?: number;
@@ -41,13 +44,13 @@ export interface Recipe {
   export interface RecipeMain extends Recipe {
     main_ingredient_tag: string;
     cuisine_tag: string;
-    notes: Note[];
+    notes: Note[]; 
     steps: Step[];
     external_link: string;
   }
 
-
   type IngredientType = 'main' | 'optional' | 'sauce';
+
   export interface Ingredient {
     id: number;
     recipe_id: number;
@@ -67,12 +70,6 @@ export interface Recipe {
     desc: string;
   }
 
-  export interface SidebarProps {
-    onClick?: () => void;
-    onMouseLeave?: () => void;
-    setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
-  }
-
   export interface FormSubmitData {
     recipe_name: string;
     duration: number;
@@ -87,17 +84,6 @@ export interface Recipe {
     optional_ingredients: Omit<Ingredient, "recipe_id">[];
     sauce_ingredients: Omit<Ingredient, "recipe_id">[];
 }
-
-  export interface FormData {
-    recipe_name: string;
-    duration: number;
-    serving: number;
-    steps: Step[];
-    img_link: string;
-    external_link: string;
-    notes: Note[];
-    ingredients: Omit<Ingredient, "recipe_id">[];
-  }
 
   export interface VideoState {
     videoId: string;
@@ -137,6 +123,12 @@ export interface Recipe {
     mainIngredientTags: MainIngredientTag[] | null;
     selectedMainIngTagId: number | undefined;
     onClick: (tagId: number, tagName: string) => void;
+  }
+
+    export interface SidebarProps {
+    onClick?: () => void;
+    onMouseLeave?: () => void;
+    setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
   }
 
   export interface SearchProps {
