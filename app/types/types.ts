@@ -7,7 +7,7 @@ export interface Tag {
     recipe_count: number;
   }
 
-export interface MainIngredientTag {
+export interface MainListIngredientTag {
     id: number;
     tag_name: string;
     recipe_count: number;
@@ -73,7 +73,7 @@ export interface Recipe {
   type RecipeFormModeType = 'create' | 'edit';
 
   export interface RecipeFromProps {
-      mainIngredientTag: MainIngredientTag[] | [];
+      mainIngredientTag: MainListIngredientTag[] | [];
       mode: RecipeFormModeType;
       defaultValues?: FormSubmitData;
       recipeId?: string;
@@ -106,7 +106,7 @@ export interface Recipe {
   }
 
   export interface TagProps {
-    mainIngredientTag: MainIngredientTag[];
+    mainIngredientTag: MainListIngredientTag[];
     control: Control<FormSubmitData>;
   }
 
@@ -129,7 +129,7 @@ export interface Recipe {
   }
 
   export interface MainIngTagButtonProps {
-    mainIngredientTags: MainIngredientTag[] | null;
+    mainIngredientTags: MainListIngredientTag[] | null;
     selectedMainIngTagId: number | undefined;
     onClick: (tagId: number, tagName: string) => void;
   }

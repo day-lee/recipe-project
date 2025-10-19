@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form';
 
-import { TagProps, MainIngredientTag } from '@/app/types/types'
+import { TagProps, MainListIngredientTag } from '@/app/types/types'
 
 export default function MainIngredientTagInput({mainIngredientTag, control }:TagProps) {
     return (
@@ -14,7 +14,7 @@ export default function MainIngredientTagInput({mainIngredientTag, control }:Tag
                         rules={{ required: true }} 
                         render={({ field: { onChange, value } }) => (
                             <ul className='flex flex-wrap'>
-                            {mainIngredientTag?.map((tag: MainIngredientTag) => {
+                            {mainIngredientTag?.map((tag: MainListIngredientTag) => {
                                 const isSelected = value === tag.id;
                                 return (
                                 <li key={tag.id} className="inline-block m-1">

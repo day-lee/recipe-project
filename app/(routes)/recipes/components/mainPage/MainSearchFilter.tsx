@@ -7,9 +7,9 @@ import Search from '@/app/(routes)/recipes/components/mainPage/Search'
 import MainIngTagButton from '@/app/(routes)/recipes/components/mainPage/MainIngTagButton'
 import CuisineFilter from '@/app/(routes)/recipes/components/mainPage/CuisineFilter';
 import RemoveFilterButton from '@/app/(routes)/recipes/components/mainPage/RemoveFilterButton';
-import { MainIngredientTag } from '@/app/types/types';
+import { MainListIngredientTag } from '@/app/types/types';
 
-export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTags: MainIngredientTag[]}) {
+export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTags: MainListIngredientTag[]}) {
     const [searchInput, setSearchInput] = useState<string | ''>('');
     const [selectedMainIngTagId, setSelectedMainIngTagId] = useState<number | undefined>(undefined);
     const [selectedCuisineTag, setSelectedCuisineTag] = useState<string | ''>('');

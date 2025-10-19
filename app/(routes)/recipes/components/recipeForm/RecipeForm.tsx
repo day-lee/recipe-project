@@ -38,11 +38,8 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } 
     const [msg, setMsg] = useState("")
     const [video, setVideo] = useState<VideoState>(videoDefaultValues)
     const router = useRouter();
-    const { register, control, handleSubmit,
-            getValues, resetField, watch, setError,
-            formState: { errors }} = useForm<RecipeFormData>({
-        resolver: zodResolver(recipeSchema),
-        defaultValues: {
+
+    const CREATE_DEFAULT_VALUES: RecipeFormData = {
             recipe_name: '',
             duration: 30,
             serving: 2,
@@ -54,8 +51,22 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } 
             notes: [{id: 1, desc:""}],
             main_ingredients: [{id:1, ingredient_name:"", quantity: 0, unit: "", type: "main"}],
             optional_ingredients: [],
-            sauce_ingredients: []
+            sauce_ingredients: []        
+    }
+
+    const formDefaultValues = () => {
+        if (mode === 'create') {
+            return CREATE_DEFAULT_VALUES;
+        } else {
+            return defaultValues || CREATE_DEFAULT_VALUES;
         }
+    }
+
+    const { register, control, handleSubmit,
+            getValues, resetField, watch, setError,
+            formState: { errors }} = useForm<RecipeFormData>({
+        resolver: zodResolver(recipeSchema),
+        defaultValues: formDefaultValues()
     }
 );
     const onSubmit = async (data:RecipeFormData) => {
