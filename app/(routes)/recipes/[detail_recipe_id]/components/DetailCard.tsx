@@ -3,12 +3,11 @@ import Link from 'next/link'
 import { ClockIcon } from '@heroicons/react/24/solid'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 
-import { Step, Note, RecipeDetail, Ingredient } from '@/app/types/types'
+import { Step, Note, RecipeDetail, GroupedIngredientsList } from '@/app/types/types'
 import Ingredients from '@/app/(routes)/recipes/[detail_recipe_id]/components/Ingredients'
 import fallbackImg from '@/app/assets/unavailable.png'
 
-
-export default function DetailCard({recipeDetail, ingredients}:{recipeDetail: RecipeDetail, ingredients: Ingredient[]}) {
+export default function DetailCard({recipeDetail, ingredients}:{recipeDetail: RecipeDetail, ingredients: GroupedIngredientsList}) {
 const { recipe_name, public_id, external_link, duration, img_link, tag_name, cuisine_tag_name, notes, steps, serving } = recipeDetail
     return(
          <main className='min-h-screen max-w-2xl flex flex-col m-2 md:m-16 lg:m-32 items-center border-2 border-red-700 p-4'>

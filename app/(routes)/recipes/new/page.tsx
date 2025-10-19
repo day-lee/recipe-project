@@ -1,8 +1,8 @@
 import { RecipeForm } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm'
-import { getMainIngredientTags } from '@/app/(routes)/recipes/actions';
+import { getMainIngredientTagsList } from '@/app/(routes)/recipes/actions';
 
 export default async function NewRecipeFormPage() {
-    const { data: mainIngredientTag, error: tagError } = await getMainIngredientTags();
+    const { data: mainIngredientTag, error: tagError } = await getMainIngredientTagsList();
     if (tagError) {
       console.error('Error fetching tags:', tagError);
     }  

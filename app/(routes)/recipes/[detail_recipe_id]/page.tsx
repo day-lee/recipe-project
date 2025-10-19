@@ -1,17 +1,14 @@
 import Link from 'next/link';
 
 import DetailCard from '@/app/(routes)/recipes/[detail_recipe_id]/components/DetailCard'
-import { getDetailRecipeWithTag, getIngredients } from '@/app/(routes)/recipes/actions';
+import { getRecipeDetails } from '@/app/(routes)/recipes/actions';
 
 export default async function Page({ params }: {
     params: Promise<{ detail_recipe_id: string }>
 }) {
 const { detail_recipe_id: recipe_public_id } = await params     
-const { data: recipeDetail, error: recipeError } = await getDetailRecipeWithTag(recipe_public_id)
-const { id } = recipeDetail!;
-const { data: ingredients, error: ingredientError } = await getIngredients(id)
-
-if (recipeError || ingredientError || !recipeDetail || !ingredients) {
+const { data: recipeDetails, error: recipeDetailsError } = await getRecipeDetails(recipe_public_id);
+if (recipeDetailsError || !recipeDetails) {
   return (
     <div className='flex flex-col items-center mt-20'> Cannot find the recipe. 
       <Link 
@@ -22,7 +19,8 @@ if (recipeError || ingredientError || !recipeDetail || !ingredients) {
     </div>
   )
 } 
+const ingredients = recipeDetails.ingredients
   return (
-    <DetailCard recipeDetail={recipeDetail} ingredients={ingredients} />
+    <DetailCard recipeDetail={recipeDetails} ingredients={ingredients} />
   )
 }

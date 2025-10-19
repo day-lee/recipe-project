@@ -34,11 +34,14 @@ export interface Recipe {
   }  
 
   export interface RecipeDetail extends Recipe {
+    tag_name_id: number;
     tag_name: string;
+    cuisine_tag_id: number;
     cuisine_tag_name: string;
     notes: Note[];
     steps: Step[];
     external_link: string;
+    ingredients: GroupedIngredientsList;
   }
 
   export interface RecipeMain extends Recipe {
@@ -60,9 +63,15 @@ export interface Recipe {
     type: IngredientType;
   }
 
-  export interface IngredientsProps {
-    ingredientsList: Ingredient[];
-    defaultServing: number;
+export interface GroupedIngredientsList {
+  mainIngredients: Ingredient[];
+  sauceIngredients: Ingredient[];
+  optionalIngredients: Ingredient[];
+}
+
+export interface IngredientsProps {
+  ingredientsList: GroupedIngredientsList;
+  defaultServing: number;
 }
 
   export interface Note {

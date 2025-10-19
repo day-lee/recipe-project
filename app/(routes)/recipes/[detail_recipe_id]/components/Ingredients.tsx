@@ -2,21 +2,13 @@
 
 import { useState } from 'react';
 
-import { Ingredient, IngredientsProps } from '@/app/types/types'
+import { IngredientsProps } from '@/app/types/types'
 
 export default function Ingredients({ingredientsList, defaultServing}: IngredientsProps) {
     const [serving, setServing] = useState<number>(1);
     const [selectedValue, setSelectedValue] = useState<number>(defaultServing);
-    
-    const mainIngredients: Ingredient[] = []
-    const optionalIngredients: Ingredient[] = []
-    const sauceIngredients: Ingredient[] = []
+    const { mainIngredients, optionalIngredients, sauceIngredients} = ingredientsList
 
-    ingredientsList.forEach( (ingredient: Ingredient) => {
-        if (ingredient.type === 'main') mainIngredients.push(ingredient);
-        if (ingredient.type === 'optional') optionalIngredients.push(ingredient);
-        if (ingredient.type === 'sauce') sauceIngredients.push(ingredient);
-    });
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedServing = Number(e.target.value)
         setSelectedValue(selectedServing)

@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 
 import RecipeList from '@/app/(routes)/recipes/components/mainPage/RecipeList'
 import MainSearchFilter from '@/app/(routes)/recipes/components/mainPage/MainSearchFilter'
-import { getMainIngredientTags } from '@/app/(routes)/recipes/actions';
+import { getMainIngredientTagsList } from '@/app/(routes)/recipes/actions';
 
 export default async function Page(props: {
     searchParams?: Promise<{
@@ -28,7 +28,7 @@ export default async function Page(props: {
       console.error('Error fetching recipes:', recipeError);
       return <div>Error loading recipes</div>;
     }
-    const { data: mainIngredientTag, error: tagError } = await getMainIngredientTags();
+    const { data: mainIngredientTag, error: tagError } = await getMainIngredientTagsList();
     if (tagError) {
       console.error('Error fetching main ingredients tags:', tagError);
     }

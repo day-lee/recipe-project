@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/server'
 import { FormSubmitData, MainListIngredientTag, RecipeDetail } from '@/app/types/types'
 import { mergeIngredients } from "@/app/utils/utils";
 
-export async function getMainIngredientTags(): Promise<{ data: MainListIngredientTag[] | null; error: PostgrestError | null}> {
+export async function getMainIngredientTagsList(): Promise<{ data: MainListIngredientTag[] | null; error: PostgrestError | null}> {
 const supabase = await createClient()
 const { data: tagData, error: tagError } = await supabase   
     .from('main_ingredients_tag')
@@ -59,25 +59,14 @@ export async function createRecipe(payload: FormSubmitData) {
     return {success: true, data };
   }
 
-  export async function getDetailRecipeWithTag(detail_recipe_id: string) {
+  export async function getRecipeDetails(detail_recipe_id: string) {
     const supabase = await createClient()
-    const { data: recipeDetail, error:recipeDetailError } = await supabase
-            .rpc('get_detail_recipe_with_tag', { detail_recipe_id });
+    const { data: recipeDetails, error:recipeDetailError } = await supabase
+            .rpc('get_recipe_details', { detail_recipe_id });
     if (recipeDetailError) {
-        console.error('Error fetching recipe detail with tag:', recipeDetailError);
+        console.error('Error fetching full recipe details:', recipeDetailError);
         return {data: null, error: recipeDetailError};
       }   
-    const recipeDetailResult = Array.isArray(recipeDetail) ? recipeDetail[0] : recipeDetail  
+    const recipeDetailResult = Array.isArray(recipeDetails) ? recipeDetails[0] : recipeDetails 
       return {data: recipeDetailResult as RecipeDetail, error: null};
   }
-
-export async function getIngredients(ingredient_recipe_id: number) {
-    const supabase = await createClient();
-    const { data: ingredients, error:recipeIngredientError } = await supabase
-            .rpc('get_ingredients', { ingredient_recipe_id: ingredient_recipe_id});
-    if (recipeIngredientError) {
-        console.error('Error fetching recipe ingredients:', recipeIngredientError);
-        return {data: null, error: recipeIngredientError};
-      }    
-    return {data: ingredients, error: null};  
-}
