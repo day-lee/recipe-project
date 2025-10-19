@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 
 import RecipeList from '@/app/(routes)/recipes/components/mainPage/RecipeList'
 import MainSearchFilter from '@/app/(routes)/recipes/components/mainPage/MainSearchFilter'
-import { getMainIngredientTags } from '@/lib/supabase/rpc/getMainIngredientTags';
+import { getMainIngredientTags } from '@/app/(routes)/recipes/actions';
 
 export default async function Page(props: {
     searchParams?: Promise<{

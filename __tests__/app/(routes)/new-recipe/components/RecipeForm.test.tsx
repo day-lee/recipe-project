@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/navigation'
 
 import { RecipeForm } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm';
-import { createRecipeAction } from '@/app/(routes)/recipes/actions'
+import { createRecipe } from '@/app/(routes)/recipes/actions'
 // 1. mock the server action so we don't hit DB
 jest.mock('@/app/(routes)/recipes/actions', () => ({
-    createRecipeAction: jest.fn()
+    createRecipe: jest.fn()
 }));
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn()
@@ -220,7 +220,7 @@ describe('RecipeForm', () => {
     it('should submit successfully', async () => {
         const pushMock = jest.fn();
         mockedUseRouter.mockReturnValue({push: pushMock});
-        (createRecipeAction as jest.Mock).mockResolvedValueOnce({success: true,  data: mockData});
+        (createRecipe as jest.Mock).mockResolvedValueOnce({success: true,  data: mockData});
         render(<RecipeForm  mainIngredientTag={mockMainIngredientTag} />);
         const nameInput = screen.getByPlaceholderText('e.g. Kimchi stew');
         await userEvent.type(nameInput, 'Test recipe');
@@ -245,8 +245,8 @@ describe('RecipeForm', () => {
         const createBtn = screen.getByRole('button', { name: /create/i });
         await userEvent.click(createBtn)
         await waitFor(() => {
-            expect(createRecipeAction).toHaveBeenCalledTimes(1);
-            expect(createRecipeAction).toHaveBeenCalledWith(
+            expect(createRecipe).toHaveBeenCalledTimes(1);
+            expect(createRecipe).toHaveBeenCalledWith(
                 expect.objectContaining({
                 recipe_name: 'Test recipe', 
                 cuisine_tag: 1, 

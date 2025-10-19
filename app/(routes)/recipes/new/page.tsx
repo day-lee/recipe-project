@@ -1,5 +1,5 @@
 import { RecipeForm } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm'
-import { getMainIngredientTags } from '@/lib/supabase/rpc/getMainIngredientTags';
+import { getMainIngredientTags } from '@/app/(routes)/recipes/actions';
 
 export default async function NewRecipeFormPage() {
     const { data: mainIngredientTag, error: tagError } = await getMainIngredientTags();

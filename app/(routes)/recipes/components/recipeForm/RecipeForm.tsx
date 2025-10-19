@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 import { VideoState, RecipeFromProps } from '@/app/types/types';
 import { extractVideoId, nameFormatter, mergeIngredients } from '@/app/utils/utils';
-import { createRecipeAction } from "@/app/(routes)/recipes/actions"; 
+import { createRecipe } from "@/app/(routes)/recipes/actions"; 
 import ImageFileUpload from '@/app/(routes)/recipes/components/recipeForm/ImageFileUpload';
 import NameInput from '@/app/(routes)/recipes/components/recipeForm/NameInput';
 import DurationInput from '@/app/(routes)/recipes/components/recipeForm/DurationInput';
@@ -32,6 +32,20 @@ const videoDefaultValues: VideoState = {
 const submitSuccessMsg = 'Your recipe has been successfully saved!'
 const submitErrorMsg = 'Sorry, something went wrong. Please try again.'
 
+const CREATE_DEFAULT_VALUES: RecipeFormData = {
+    recipe_name: '',
+    duration: 30,
+    serving: 2,
+    main_ingredient_tag: 1,
+    cuisine_tag: 1,
+    steps: [{id: 1, photo_id: undefined, desc: "" }],
+    img_link: "",
+    external_link: "",
+    notes: [{id: 1, desc:""}],
+    main_ingredients: [{id:1, ingredient_name:"", quantity: 0, unit: "", type: "main"}],
+    optional_ingredients: [],
+    sauce_ingredients: []        
+}
 
 export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } : RecipeFromProps) {
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -39,27 +53,9 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } 
     const [video, setVideo] = useState<VideoState>(videoDefaultValues)
     const router = useRouter();
 
-    const CREATE_DEFAULT_VALUES: RecipeFormData = {
-            recipe_name: '',
-            duration: 30,
-            serving: 2,
-            main_ingredient_tag: 1,
-            cuisine_tag: 1,
-            steps: [{id: 1, photo_id: undefined, desc: "" }],
-            img_link: "",
-            external_link: "",
-            notes: [{id: 1, desc:""}],
-            main_ingredients: [{id:1, ingredient_name:"", quantity: 0, unit: "", type: "main"}],
-            optional_ingredients: [],
-            sauce_ingredients: []        
-    }
-
     const formDefaultValues = () => {
-        if (mode === 'create') {
-            return CREATE_DEFAULT_VALUES;
-        } else {
-            return defaultValues || CREATE_DEFAULT_VALUES;
-        }
+        if (mode === 'create') return CREATE_DEFAULT_VALUES;
+        else return defaultValues || CREATE_DEFAULT_VALUES;
     }
 
     const { register, control, handleSubmit,
@@ -94,7 +90,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } 
               })),
             ingredients: ingredientsData
             };
-            const res = await createRecipeAction(payload); 
+            const res = await createRecipe(payload); 
             if (res.success) {
                 if (res.data) {
                 setMsg(submitSuccessMsg)

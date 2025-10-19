@@ -1,5 +1,5 @@
 import { RecipeForm } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm'
-import { getMainIngredientTags } from '@/lib/supabase/rpc/getMainIngredientTags';
+import { getMainIngredientTags } from '@/app/(routes)/recipes/actions';
 
 export default async function EditRecipeFormPage({ params }: {params: Promise<{detail_recipe_id: string}>}) {
    const { detail_recipe_id } = await params 
