@@ -70,6 +70,15 @@ export interface Recipe {
     desc: string;
   }
 
+  type RecipeFormModeType = 'create' | 'edit';
+
+  export interface RecipeFromProps {
+      mainIngredientTag: MainIngredientTag[] | [];
+      mode: RecipeFormModeType;
+      defaultValues?: FormSubmitData;
+      recipeId?: string;
+  }
+
   export interface FormSubmitData {
     recipe_name: string;
     duration: number;

@@ -1,5 +1,7 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { ClockIcon } from '@heroicons/react/24/solid'
+import { PencilSquareIcon } from '@heroicons/react/24/outline'
 
 import { Step, Note, RecipeDetail, Ingredient } from '@/app/types/types'
 import Ingredients from '@/app/(routes)/recipes/[detail_recipe_id]/components/Ingredients'
@@ -7,12 +9,12 @@ import fallbackImg from '@/app/assets/unavailable.png'
 
 
 export default function DetailCard({recipeDetail, ingredients}:{recipeDetail: RecipeDetail, ingredients: Ingredient[]}) {
-const { recipe_name, external_link, duration, img_link, tag_name, cuisine_tag_name, notes, steps, serving } = recipeDetail
+const { recipe_name, public_id, external_link, duration, img_link, tag_name, cuisine_tag_name, notes, steps, serving } = recipeDetail
     return(
-         <main className='min-h-screen flex flex-col m-2 md:m-16 lg:m-32 items-center border-2 border-red-700 p-4'>
+         <main className='min-h-screen max-w-2xl flex flex-col m-2 md:m-16 lg:m-32 items-center border-2 border-red-700 p-4'>
             {img_link ? <Image className='m-8' priority={true} src={img_link} alt={recipe_name} width={400} height={150}/> 
                       : <Image className="m-8" src={fallbackImg} alt='fallbackImg' width={400} height={150}/>}
-            <div className='text-3xl font-semibold'> {recipe_name}</div>   
+            <div className='max-w-md text-2xl font-semibold text-center'> {recipe_name}</div>   
             <div className='flex flex-row items-center m-4'>
                 <ClockIcon className="h-6 w-6 ml-2 text-gray-500" />
                 <div className='text-gray-700 ml-2'> <span> {duration} mins</span></div>
@@ -61,6 +63,16 @@ const { recipe_name, external_link, duration, img_link, tag_name, cuisine_tag_na
                     </div>   
             </section>
             )}
+            <Link href={`/recipes/${public_id}/edit/`}>
+            <div className=' hover:bg-red-200 rounded-sm'>   
+                <button type="submit" className='h-8 '>
+                    <div className='flex font-semibold items-center pr-2'>
+                        <PencilSquareIcon className='w-6 h-6 mx-2' />
+                        <span>Edit Recipe</span>
+                    </div>
+                </button>
+            </div>    
+            </Link>     
         </main>
     )
 }

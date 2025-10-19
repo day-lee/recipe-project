@@ -1,7 +1,7 @@
 import { RecipeForm } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm'
 import { getMainIngredientTags } from '@/lib/supabase/rpc/getMainIngredientTags';
 
-export default async function HomePage() {
+export default async function NewRecipeFormPage() {
     const { data: mainIngredientTag, error: tagError } = await getMainIngredientTags();
     if (tagError) {
       console.error('Error fetching tags:', tagError);
@@ -12,7 +12,7 @@ export default async function HomePage() {
         Create a new recipe
       </h1>
       <p>Share your yummy ideas!</p>
-      <RecipeForm mainIngredientTag={mainIngredientTag || []} />
+      <RecipeForm mainIngredientTag={mainIngredientTag || []} mode="create" />
     </main>
   );
 }

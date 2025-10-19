@@ -8,7 +8,7 @@ import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
-import { VideoState, MainIngredientTag } from '@/app/types/types';
+import { VideoState, RecipeFromProps } from '@/app/types/types';
 import { extractVideoId, nameFormatter, mergeIngredients } from '@/app/utils/utils';
 import { createRecipeAction } from "@/app/(routes)/recipes/actions"; 
 import ImageFileUpload from '@/app/(routes)/recipes/components/recipeForm/ImageFileUpload';
@@ -32,7 +32,8 @@ const videoDefaultValues: VideoState = {
 const submitSuccessMsg = 'Your recipe has been successfully saved!'
 const submitErrorMsg = 'Sorry, something went wrong. Please try again.'
 
-export function RecipeForm({ mainIngredientTag } : { mainIngredientTag: MainIngredientTag[] | []}) {
+
+export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } : RecipeFromProps) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [msg, setMsg] = useState("")
     const [video, setVideo] = useState<VideoState>(videoDefaultValues)
@@ -51,7 +52,7 @@ export function RecipeForm({ mainIngredientTag } : { mainIngredientTag: MainIngr
             img_link: "",
             external_link: "",
             notes: [{id: 1, desc:""}],
-            main_ingredients: [{id:1, ingredient_name:"", quantity: 0, unit: "", type:"main"}],
+            main_ingredients: [{id:1, ingredient_name:"", quantity: 0, unit: "", type: "main"}],
             optional_ingredients: [],
             sauce_ingredients: []
         }
