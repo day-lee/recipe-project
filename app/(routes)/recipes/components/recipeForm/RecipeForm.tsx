@@ -95,7 +95,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } 
                 if (res.data) {
                 setMsg(submitSuccessMsg)
                 setTimeout(() => {
-                    const publicId = res.data[0].public_id;
+                    const publicId = res.data.public_id;
                     if (mode === 'create'){
                         router.push(`/recipes/${publicId}`) 
                     } else {

@@ -18,6 +18,11 @@ const mockRecipes = [
         "duration": 30,
         "img_link": "https://day-lee.github.io/recipe-book-food-photos/kimchi-stew.png",
         "serving": 2,
+        "main_ingredient_tag": 'Veggie',
+        "cuisine_tag": "Korean",
+        "notes": [],
+        "steps": [],
+        "external_link": ""
     },
     {
         "id": 5,
@@ -26,27 +31,32 @@ const mockRecipes = [
         "duration": 30,
         "img_link": "https://day-lee.github.io/recipe-book-food-photos/5-english-breakfast.png",
         "serving": 1,
+        "main_ingredient_tag": 'Others',
+        "cuisine_tag": "Western",
+        "notes": [],
+        "steps": [],
+        "external_link": ""
     }]
 
 const mockTags = [
     {
         "id": 1,
-        "name": "Korean",
+        "tag_name": "Korean",
         "recipe_count": 7
     },
     {
         "id": 2,
-        "name": "Western",
+        "tag_name": "Western",
         "recipe_count": 2
     },
     {
         "id": 3,
-        "name": "Chicken",
+        "tag_name": "Chicken",
         "recipe_count": 4
     },
     {
         "id": 11,
-        "name": "International",
+        "tag_name": "International",
         "recipe_count": 3
     }
 ]
@@ -71,21 +81,21 @@ describe("RecipeList", () => {
 
 describe("TagsButton", () => {
     test('should render all tags', () => {
-        render (<MainIngTagButton tags={mockTags} />)
+        render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={jest.fn()}/>)
         expect(screen.getByText("Korean (7)")).toBeInTheDocument();
         expect(screen.getByText("Western (2)")).toBeInTheDocument();
         expect(screen.getByText("Chicken (4)")).toBeInTheDocument();
         expect(screen.getByText("International (3)")).toBeInTheDocument();
     });
-    test('should change the url to "?tags=..." when clicking the tag', () => {
-        render (<MainIngTagButton tags={mockTags} />)
+    test('should change the url to "?cuisine_tag_param=..." when clicking the cuisine tag', () => {
+        render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={jest.fn()}/>)
         fireEvent.click(screen.getByText("Korean (7)"))
-        expect(mockReplace).toHaveBeenCalledWith('/recipes?tag=Korean')
+        expect(mockReplace).toHaveBeenCalledWith('/recipes?cuisine_tag_param=Korean')
     });
     test('should remove the query param when clicking again', () => {
-        render (<MainIngTagButton tags={mockTags} />)
+        render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={jest.fn()}/>)
         fireEvent.click(screen.getByText('Korean (7)'))
-        expect(mockReplace).toHaveBeenCalledWith('/recipes?tag=Korean')
+        expect(mockReplace).toHaveBeenCalledWith('/recipes?cuisine_tag_param=Korean')
         mockReplace.mockClear()
         fireEvent.click(screen.getByText('Korean (7)'))
         expect(mockReplace).toHaveBeenCalledWith('/recipes?')

@@ -78,7 +78,7 @@ const mockIngredients = [
 
 describe("RecipeDetailPage", () => {
     it('should render recipe detail page - required details: name, time, tag, serving, ingredients, steps ', () => {
-        render(<DetailCard recipeDetail={mockRecipeDetail} ingredients={mockIngredients} />) 
+        render(<DetailCard recipeDetail={mockRecipeDetail change} ingredients={mockIngredients} />) 
         expect(screen.getByText("Seaweed soup")).toBeInTheDocument();
         expect(screen.getByText(/30 mins/)).toBeInTheDocument();
         expect(screen.getByText("Korean")).toBeInTheDocument();
