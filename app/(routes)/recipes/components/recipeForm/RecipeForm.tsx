@@ -63,8 +63,8 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } 
             formState: { errors }} = useForm<RecipeFormData>({
         resolver: zodResolver(recipeSchema),
         defaultValues: formDefaultValues()
-    }
-);
+    });
+
     const onSubmit = async (data:RecipeFormData) => {
         const ingredientsData = mergeIngredients(data)
         try {
@@ -158,7 +158,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } 
                         <button type="submit" className='h-8 '>
                             <div className='flex font-semibold items-center pr-2'>
                                 <PlusCircleIcon className='w-6 h-6 text-red-500 mx-2' />
-                                {isSubmitting ? 'Creating...' : 'Create'}
+                              {mode === 'edit' ? 'Edit' : `${isSubmitting ? 'Creating...' : 'Create'}` } 
                             </div>
                         </button>
                     </div>
