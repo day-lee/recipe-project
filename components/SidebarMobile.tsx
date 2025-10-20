@@ -29,14 +29,14 @@ export default function SidebarMobile({onClick, onMouseLeave, setIsSidebarOpen}:
                     </div>
                     </Link>
                 </div>
-                <div className='flex flex-row hover:text-red-700 my-2'>
+                {/* <div className='flex flex-row hover:text-red-700 my-2'>
                     <Link href="/">
                     <div className='flex items-center gap-4 hover:text-red-700'>
                     <PencilSquareIcon className="w-8 h-8 hover:-translate-x-1" /> 
                     <span> Meal plan</span>
                      </div>
                     </Link>
-                </div>
+                </div> */}
                 <div className='flex flex-row hover:text-red-700'>
                     <RandomRecipeModalButton setIsSidebarOpen={setIsSidebarOpen} />
                 </div>

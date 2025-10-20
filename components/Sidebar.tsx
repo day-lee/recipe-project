@@ -47,7 +47,7 @@ export default function SidebarModal() {
               <RandomRecipeModalButton showModal={showSidebarModal} setIsSidebarOpen={setShowSidebarModal} />
             </div>
           </li>
-          <li>
+          {/* <li>
             <Link href="/">
               <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold'>
                 <PencilSquareIcon className="w-8 h-8 flex-shrink-0" />
@@ -57,7 +57,7 @@ export default function SidebarModal() {
                 </span>
               </div>
             </Link>
-          </li>
+          </li> */}
         </div>
       </ul>
     </div>
