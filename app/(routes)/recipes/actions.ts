@@ -34,7 +34,7 @@ const mainIngredientTag: MainListIngredientTag[] = (tagData || []).map(tag => ({
 return {data: mainIngredientTag as MainListIngredientTag[], error: null}
 }
 
-export async function createRecipe(payload: FormSubmitData) {
+export async function upsertRecipe(payload: FormSubmitData, mode: 'create' | 'edit', recipeId?: string) {
     const supabase = await createClient();
     const result = recipeSchema.safeParse(payload); 
     if (!result.success) {
@@ -47,16 +47,27 @@ export async function createRecipe(payload: FormSubmitData) {
     const mergedData = {
       ...result.data, ingredients
     }
-    const { data, error } = await supabase.rpc("create_new_recipe_jsonb", {
-      recipe_data: mergedData,
-    }
-  );
-    if (error) {
-      return {
-      success: false,
-      errors: { global: [error.message]},
-    }}
-    return {success: true, data };
+    if (mode === 'create') {
+        const { data, error } = await supabase.rpc("create_new_recipe_jsonb", {
+          recipe_data: mergedData,
+        });
+        if (error) {
+          return {
+          success: false,
+          errors: { global: [error.message]},
+        }}
+        return {success: true, data };
+      } else {
+            const { data, error } = await supabase.rpc("update_recipe_jsonb", {
+          recipe_id_param: recipeId, recipe_data: mergedData
+        });
+        if (error) {
+          return {
+          success: false,
+          errors: { global: [error.message]},
+        }}
+        return {success: true, data };
+      }
   }
 
   export async function getRecipeDetails(detail_recipe_id: string) {

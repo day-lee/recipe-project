@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 import { VideoState, RecipeFromProps } from '@/app/types/types';
 import { extractVideoId, nameFormatter, mergeIngredients } from '@/app/utils/utils';
-import { createRecipe } from "@/app/(routes)/recipes/actions"; 
+import { upsertRecipe } from "@/app/(routes)/recipes/actions"; 
 import ImageFileUpload from '@/app/(routes)/recipes/components/recipeForm/ImageFileUpload';
 import NameInput from '@/app/(routes)/recipes/components/recipeForm/NameInput';
 import DurationInput from '@/app/(routes)/recipes/components/recipeForm/DurationInput';
@@ -90,13 +90,17 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } 
               })),
             ingredients: ingredientsData
             };
-            const res = await createRecipe(payload); 
+            const res = await upsertRecipe(payload, mode, recipeId); 
             if (res.success) {
                 if (res.data) {
                 setMsg(submitSuccessMsg)
                 setTimeout(() => {
                     const publicId = res.data[0].public_id;
-                    router.push(`${publicId}`)            
+                    if (mode === 'create'){
+                        router.push(`/recipes/${publicId}`) 
+                    } else {
+                        router.replace(`/recipes/${publicId}`) 
+                    }
                 }, 1500)}
             } 
             else if (!res.success && res.errors) {
