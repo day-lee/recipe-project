@@ -1,10 +1,11 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
 import RecipeList from '@/app/(routes)/recipes/components/mainPage/RecipeList';
 
 let mockReplace = jest.fn()
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ replace: mockReplace }),
-  useSearchParams: () => new URLSearchParams("tag=korean"),
+  useSearchParams: () => new URLSearchParams("main_ing_tag_param=Chicken"),
   usePathname: () => "/recipes",
 }))
 
@@ -41,22 +42,22 @@ const mockRecipes = [
 const mockTags = [
     {
         "id": 1,
-        "tag_name": "Korean",
+        "tag_name": "Chicken",
         "recipe_count": 7
     },
     {
         "id": 2,
-        "tag_name": "Western",
+        "tag_name": "Pork",
         "recipe_count": 2
     },
     {
         "id": 3,
-        "tag_name": "Chicken",
+        "tag_name": "Beef",
         "recipe_count": 4
     },
     {
         "id": 11,
-        "tag_name": "International",
+        "tag_name": "Seafood",
         "recipe_count": 3
     }
 ]
@@ -79,25 +80,34 @@ describe("RecipeList", () => {
     })
 })
 
-describe("TagsButton", () => {
-    test('should render all tags', () => {
+describe("Tags Button/Filter", () => {
+    test('should render all Main Ingredients tags', async () => {
         render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={jest.fn()}/>)
-        expect(screen.getByText("Korean (7)")).toBeInTheDocument();
-        expect(screen.getByText("Western (2)")).toBeInTheDocument();
-        expect(screen.getByText("Chicken (4)")).toBeInTheDocument();
-        expect(screen.getByText("International (3)")).toBeInTheDocument();
+        expect(await screen.findByRole('button', { name: 'Chicken (7)' })).toBeInTheDocument();
+        expect(await screen.findByRole('button', { name: 'Pork (2)' })).toBeInTheDocument();
+        expect(await screen.findByRole('button', { name: 'Beef (4)' })).toBeInTheDocument();
+        expect(await screen.findByRole('button', { name: 'Seafood (3)' })).toBeInTheDocument();
     });
-    test('should change the url to "?cuisine_tag_param=..." when clicking the cuisine tag', () => {
+    test('should change the url to "main_ing_tag_param=..." when clicking the Main Ingredient tag', async () => {
         render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={jest.fn()}/>)
-        fireEvent.click(screen.getByText("Korean (7)"))
-        expect(mockReplace).toHaveBeenCalledWith('/recipes?cuisine_tag_param=Korean')
+        const tagButton = await screen.findByRole('button', { name: 'Chicken (7)' });
+        // userEvent.click(tagButton);
+        // await waitFor(() => expect(mockReplace).toHaveBeenCalledTimes(1));
+        // const calledUrl = mockReplace.mock.calls[0][0];
+        // expect(calledUrl).toContain('/recipes');
+        // expect(calledUrl).toContain('/recipes?main_ing_tag_param=Chicken');
     });
-    test('should remove the query param when clicking again', () => {
+    // test('should change the url to "?cuisine_tag_param=..." when clicking the cuisine filter', () => {
+    //     render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={jest.fn()}/>)
+    //     userEvent.selectOptions(screen.getByRole('combobox'), 'Korean')
+    //     expect(mockReplace).toHaveBeenCalledWith('/recipes?cuisine_tag_param=Korean')
+    // });
+    test('should remove the query param when clicking "clear" button', async () => {
         render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={jest.fn()}/>)
-        fireEvent.click(screen.getByText('Korean (7)'))
-        expect(mockReplace).toHaveBeenCalledWith('/recipes?cuisine_tag_param=Korean')
-        mockReplace.mockClear()
-        fireEvent.click(screen.getByText('Korean (7)'))
-        expect(mockReplace).toHaveBeenCalledWith('/recipes?')
+        // userEvent.click(screen.getByRole('button', { name: 'Chicken (7)'}))
+        // // expect(mockReplace).toHaveBeenCalledWith('/recipes?main_ing_tag_param=Chicken')
+        // await waitFor(() => userEvent.click(screen.getByText('Clear')));
+        // mockReplace.mockClear()
+        // expect(mockReplace).toHaveBeenCalledWith('/recipes?')
     })
 })

@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event'
 import { useRouter } from 'next/navigation'
 
 import { RecipeForm } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm';
-import { createRecipe } from '@/app/(routes)/recipes/actions'
+import { upsertRecipe } from '@/app/(routes)/recipes/actions'
 // 1. mock the server action so we don't hit DB
 jest.mock('@/app/(routes)/recipes/actions', () => ({
-    createRecipe: jest.fn()
+    upsertRecipe: jest.fn() as jest.Mock
 }));
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn()
@@ -45,7 +45,7 @@ describe('RecipeForm', () => {
         mockedUseRouter.mockReturnValue({
             push: pushMock
         });
-        render(<RecipeForm mainIngredientTag={mockMainIngredientTag} />);
+        render(<RecipeForm mainIngredientTag={mockMainIngredientTag} mode='create' />);
     }) 
     it('should display a validation error if name is empty', async () => {
         const createBtn = screen.getByRole('button', { name: /Create/i });
@@ -220,8 +220,8 @@ describe('RecipeForm', () => {
     it('should submit successfully', async () => {
         const pushMock = jest.fn();
         mockedUseRouter.mockReturnValue({push: pushMock});
-        (createRecipe as jest.Mock).mockResolvedValueOnce({success: true,  data: mockData});
-        render(<RecipeForm  mainIngredientTag={mockMainIngredientTag} />);
+        (upsertRecipe as jest.Mock).mockResolvedValueOnce({success: true,  data: mockData});
+        render(<RecipeForm  mainIngredientTag={mockMainIngredientTag} mode="create" />);
         const nameInput = screen.getByPlaceholderText('e.g. Kimchi stew');
         await userEvent.type(nameInput, 'Test recipe');
         const durationInput = screen.getByLabelText("cook time")
@@ -245,15 +245,14 @@ describe('RecipeForm', () => {
         const createBtn = screen.getByRole('button', { name: /create/i });
         await userEvent.click(createBtn)
         await waitFor(() => {
-            expect(createRecipe).toHaveBeenCalledTimes(1);
-            expect(createRecipe).toHaveBeenCalledWith(
+            expect(upsertRecipe).toHaveBeenCalledTimes(1);
+            const mockUpsertRecipe = upsertRecipe as jest.Mock;
+            expect(mockUpsertRecipe.mock.calls[0][0]).toEqual(
                 expect.objectContaining({
-                recipe_name: 'Test recipe', 
-                cuisine_tag: 1, 
-                // main_ingredient_tag: "Pork"
-                }),
+                    recipe_name: 'Test recipe', 
+                    cuisine_tag: 1, 
+                })
             );
-            // expect(pushMock).toHaveBeenCalledWith('recipes/fd176309-5529-4d0f-9766-4412c25c778b'); // redirect 확인
-            });
+        });
     })     
     })
