@@ -6,6 +6,7 @@ import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import { Step, Note, RecipeDetail, GroupedIngredientsList } from '@/app/types/types'
 import Ingredients from '@/app/(routes)/recipes/[detail_recipe_id]/components/Ingredients'
 import fallbackImg from '@/app/assets/unavailable.png'
+import DeleteRecipeBtn from '../../components/recipeForm/DeleteRecipeBtn'
 
 export default function DetailCard({recipeDetail, ingredients}:{recipeDetail: RecipeDetail, ingredients: GroupedIngredientsList}) {
 const { recipe_name, public_id, external_link, duration, img_link, tag_name, cuisine_tag_name, notes, steps, serving } = recipeDetail
@@ -62,16 +63,23 @@ const { recipe_name, public_id, external_link, duration, img_link, tag_name, cui
                     </div>   
             </section>
             )}
-            <Link href={`/recipes/${public_id}/edit/`}>
-            <div className=' hover:bg-red-200 rounded-sm'>   
-                <button type="submit" className='h-8 '>
-                    <div className='flex font-semibold items-center pr-2'>
-                        <PencilSquareIcon className='w-6 h-6 mx-2' />
-                        <span>Edit Recipe</span>
-                    </div>
-                </button>
-            </div>    
-            </Link>     
+            <div className='flex flex-row justify-between w-full'>
+                <div>
+                    <DeleteRecipeBtn recipePublicId={public_id} />  
+                </div>
+                <div>
+                    <Link href={`/recipes/${public_id}/edit/`}>
+                    <div className=' hover:bg-red-200 rounded-sm'>   
+                        <button type="submit" className='h-8 '>
+                            <div className='flex font-semibold items-center pr-2'>
+                                <PencilSquareIcon className='w-6 h-6 mx-2' />
+                                <span>Edit Recipe</span>
+                            </div>
+                        </button>
+                    </div>    
+                    </Link>   
+                </div>
+            </div>
         </main>
     )
 }

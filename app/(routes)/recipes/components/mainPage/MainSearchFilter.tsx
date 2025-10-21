@@ -55,11 +55,11 @@ export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTa
     }  
 
     const handleMainIngTagClick = (tagId:number, tagName: string) => { 
-        setSelectedMainIngTagId(tagId)
         if (selectedMainIngTagId === tagId) {
             setSelectedMainIngTagId(undefined)
             params.delete('main_ing_tag_param')
         } else {
+            setSelectedMainIngTagId(tagId)
             params.set('main_ing_tag_param', tagName);
         }
         replace(`${pathname}?${params.toString()}`);

@@ -147,7 +147,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } 
             <StepsInput register={register} errors={errors} control={control} watch={watch}/>
             <VideoInput register={register} resetField={resetField} getValues={getValues} video={video} setVideo={setVideo} />
             <NotesInput register={register} control={control} watch={watch}/>
-            <div className='my-8 max-w-xl lg:text-xl '>
+            <div className='my-8 max-w-xl '>
                 <div className='flex flex-row justify-between max-w-xl'>
                     <div className=' hover:bg-red-200 rounded-sm'>    
                         <Link href={`/recipes`}>

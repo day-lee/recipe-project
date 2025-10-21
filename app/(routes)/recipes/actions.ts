@@ -34,6 +34,18 @@ const mainIngredientTag: MainListIngredientTag[] = (tagData || []).map(tag => ({
 return {data: mainIngredientTag as MainListIngredientTag[], error: null}
 }
 
+export async function getRecipeDetails(detail_recipe_id: string) {
+  const supabase = await createClient()
+  const { data: recipeDetails, error:recipeDetailError } = await supabase
+          .rpc('get_recipe_details', { detail_recipe_id });
+  if (recipeDetailError) {
+      console.error('Error fetching full recipe details:', recipeDetailError);
+      return {data: null, error: recipeDetailError};
+    }   
+  const recipeDetailResult = Array.isArray(recipeDetails) ? recipeDetails[0] : recipeDetails 
+    return {data: recipeDetailResult as RecipeDetail, error: null};
+}
+
 export async function upsertRecipe(payload: FormSubmitData, mode: 'create' | 'edit', recipeId?: string) {
     const supabase = await createClient();
     try {
@@ -86,14 +98,36 @@ export async function upsertRecipe(payload: FormSubmitData, mode: 'create' | 'ed
   }
   }
 
-  export async function getRecipeDetails(detail_recipe_id: string) {
-    const supabase = await createClient()
-    const { data: recipeDetails, error:recipeDetailError } = await supabase
-            .rpc('get_recipe_details', { detail_recipe_id });
-    if (recipeDetailError) {
-        console.error('Error fetching full recipe details:', recipeDetailError);
-        return {data: null, error: recipeDetailError};
-      }   
-    const recipeDetailResult = Array.isArray(recipeDetails) ? recipeDetails[0] : recipeDetails 
-      return {data: recipeDetailResult as RecipeDetail, error: null};
+export async function deleteRecipe(recipePublicId: string) {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc('delete_recipe', { recipe_id_param: recipePublicId });
+    if (error) {
+      console.error('Error deleting recipe:', error);
+      return {
+        success: false,
+        error: error.message
+      }
+    }
+    if (!data.success) {
+      return {
+          success: false,
+          error: data.error
+      };
+    }
+    return {
+      success: true,
+      deletedRecipeId: data.deleted_recipe_id,     
+      deletedAt: data.deleted_at
+    }
   }
+  catch(error) {
+    console.error('Unexpected error deleting recipe:', error);
+    return {
+      success: false,
+      error: 'Failed to delete recipe'
+    }
+  }
+}
+
+
