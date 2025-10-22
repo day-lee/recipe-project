@@ -4,7 +4,7 @@ import RecipeList from '@/app/(routes)/recipes/components/mainPage/RecipeList';
 
 let mockReplace = jest.fn()
 jest.mock("next/navigation", () => ({
-  useRouter: () => ({ replace: mockReplace }),
+  useRouter: () => ({ replace: mockReplace as jest.Mock }),
   useSearchParams: () => new URLSearchParams("main_ing_tag_param=Chicken"),
   usePathname: () => "/recipes",
 }))
@@ -81,6 +81,7 @@ describe("RecipeList", () => {
 })
 
 describe("Tags Button/Filter", () => {
+    const mockHandleCLick = jest.fn();
     test('should render all Main Ingredients tags', async () => {
         render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={jest.fn()}/>)
         expect(await screen.findByRole('button', { name: 'Chicken (7)' })).toBeInTheDocument();
@@ -89,13 +90,14 @@ describe("Tags Button/Filter", () => {
         expect(await screen.findByRole('button', { name: 'Seafood (3)' })).toBeInTheDocument();
     });
     test('should change the url to "main_ing_tag_param=..." when clicking the Main Ingredient tag', async () => {
-        render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={jest.fn()}/>)
+        render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={mockHandleCLick}/>)
         const tagButton = await screen.findByRole('button', { name: 'Chicken (7)' });
-        // userEvent.click(tagButton);
-        // await waitFor(() => expect(mockReplace).toHaveBeenCalledTimes(1));
-        // const calledUrl = mockReplace.mock.calls[0][0];
-        // expect(calledUrl).toContain('/recipes');
-        // expect(calledUrl).toContain('/recipes?main_ing_tag_param=Chicken');
+        userEvent.click(tagButton);
+        expect(tagButton).toHaveClass('bg-red-700');
+        expect(tagButton.onclick).toBeTruthy(); 
+        await waitFor(() => expect(mockReplace).toHaveBeenCalledTimes(1));
+        const calledUrl = mockReplace.mock.calls[0][0];
+        expect(calledUrl).toContain('/recipes?main_ing_tag_param=Chicken');
     });
     // test('should change the url to "?cuisine_tag_param=..." when clicking the cuisine filter', () => {
     //     render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={jest.fn()}/>)

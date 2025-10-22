@@ -53,12 +53,6 @@ export function LoginForm({
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account <hr></hr>
-            <p className="text-red-600 border-2 m-2 my-4 border-red-600 p-2">
-            <span className="font-semibold">Guest access credentials:</span> <br></br> 
-            Email: guest@recipeproject.com <br></br>
-            Password: ForGuest:)
-            </p>
           </CardDescription>
         </CardHeader>
         <CardContent>
