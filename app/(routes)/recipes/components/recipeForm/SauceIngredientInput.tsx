@@ -46,7 +46,7 @@ export default function SauceIngredientInput ({register, getValues, errors, cont
                             {...register(`sauce_ingredients.${index}.unit`)}
                             className='w-2/5 text-gray-600 border-2 ml-2 lg:mx-2 border-gray-300 rounded-sm px-2 my-2'>
                                 <option value="">Unit</option>
-                                <option value="tbsp">T</option>
+                                <option value="Tbsp">T</option>
                                 <option value="tsp">t</option>
                                 <option value="g">g</option>
                                 <option value="kg">kg</option>
