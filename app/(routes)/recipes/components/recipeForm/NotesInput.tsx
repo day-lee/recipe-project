@@ -35,7 +35,7 @@ export default function NotesInput ({register, control, watch}: Omit<InputUseFie
                             className='border-2 w-full border-gray-300  mx-2 px-2 py-1 pl-2 rounded-sm resize-y min-h-20 max-h-24'
                              id="note" placeholder="Any tips?" /> 
                         <button aria-label="remove notes button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeNote(index)}>
-                        <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
+                        <div className='flex'> <TrashIcon className="h-6 w-6 text-red-700" />  </div>
                         </button>    
                     </div> 
                     <div className='flex text-sm text-gray-600 justify-end mr-16'>

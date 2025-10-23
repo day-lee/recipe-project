@@ -44,9 +44,9 @@ export default function VideoInput ({register, resetField, getValues, video, set
                                 className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' placeholder="https://youtu.be/..." /> 
                             <button aria-label="add video thumbnail button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={addThumbnail}> 
                                 <div className='flex'>
-                                <PlusCircleIcon className='w-6 h-6 text-red-600 '/>Add</div></button>    
+                                <PlusCircleIcon className='w-6 h-6 text-red-700 '/>Add</div></button>    
                             <button aria-label="remove video thumbnail button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={removeThumbnail}>  
-                                <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div></button>  
+                                <div className='flex'> <TrashIcon className="h-6 w-6 text-red-700" />  </div></button>  
                         </div>
                         <div className='flex justify-center'> 
                         { video.isVideoValid && (
@@ -59,7 +59,7 @@ export default function VideoInput ({register, resetField, getValues, video, set
                         {!video.isVideoValid && video.errorMessage && (
                             <div className='flex flex-col items-center'>
                              <Image className="m-6" src={fallbackImg} alt='fallbackThumbnailImg' width={200} height={150}/>
-                             <p className='text-red-600 font-medium text-sm'>{video.errorMessage}</p>
+                             <p className='text-red-700 font-medium text-sm'>{video.errorMessage}</p>
                              </div>
                         )}
                         </div>

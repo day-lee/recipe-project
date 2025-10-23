@@ -16,7 +16,7 @@ export default function StepsInput ({register, errors, control, watch}: InputUse
                             onClick={() => appendStep({ id: 0, photo_id: 0, desc:""})}
                             className='font-medium px-2 h-8 mx-2 rounded-sm hover:bg-red-200 '> 
                      <div className='flex'>
-                        <PlusCircleIcon className='w-6 h-6 text-red-600' /> Add more
+                        <PlusCircleIcon className='w-6 h-6 text-red-700' /> Add more
                         </div></button>
                 </div>
                 <div className='border-2 border-gray-200 p-2 lg:p-4 my-4'> 
@@ -35,13 +35,13 @@ export default function StepsInput ({register, errors, control, watch}: InputUse
                                 {...register(`steps.${index}.desc` as const)}/>
                            
                         <button aria-label="remove steps button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeStep(index)}> 
-                            <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
+                            <div className='flex'> <TrashIcon className="h-6 w-6 text-red-700" />  </div>
                         </button>  
                         </div>
                     </div> 
                     <div className=''>
                         <div className='flex'>
-                         {errors.steps?.[index]?.desc ? (<span className="text-red-600 pl-8 text-sm w-9/12">
+                         {errors.steps?.[index]?.desc ? (<span className="text-red-700 pl-8 text-sm w-9/12">
                          {errors.steps[index].desc.message}</span>):(<span className='w-9/12'></span>)}
                          <span className='flex text-sm text-gray-600 justify-end w-1/6 pr-4'>  {charCount} / {maxCharStep} </span>
                         </div>

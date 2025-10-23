@@ -26,8 +26,8 @@ export default function MainIngredientTagInput({mainIngredientTag, control }:Tag
                                     }}
                                     className={`border-2 font-medium rounded-full px-2 py-1 text-center
                                                 ${isSelected
-                                                ? 'bg-red-600 text-white border-red-600' // Selected 
-                                                : 'text-gray-900 border-red-600 hover:bg-red-200' // Unselected 
+                                                ? 'bg-red-700 text-white border-red-700' // Selected 
+                                                : 'text-gray-900 border-red-700 hover:bg-red-200' // Unselected 
                                                 }`}> {tag.tag_name} 
                                     </button>
                                 </li>

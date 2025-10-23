@@ -17,7 +17,7 @@ export default function OptionalIngredientInput ({register, getValues, errors, c
                             onClick={() => appendOptionalIngredient({id:1, ingredient_name: "", quantity: 1, unit:"", type:'optional'})}
                                 className=' font-medium  rounded-sm px-2 mx-2 hover:bg-red-200 hover:text-red-800'>
                             <div className='flex'>    
-                            <PlusCircleIcon className='w-6 h-6 text-red-600' /> Add more 
+                            <PlusCircleIcon className='w-6 h-6 text-red-700' /> Add more 
                             </div>
                             </button>
                     </div>
@@ -59,12 +59,12 @@ export default function OptionalIngredientInput ({register, getValues, errors, c
                         <div>
                         <button aria-label="remove optional ingredients input button"  type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' 
                                 onClick={() => removeOptionalIngredient(index)}> 
-                            <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" />  </div>
+                            <div className='flex'> <TrashIcon className="h-6 w-6 text-red-700" />  </div>
                         </button>  
                         </div>  
                         </div>
                         <div>
-                            {errors.optional_ingredients?.[index]?.ingredient_name && (<span className="text-red-600 text-sm pl-2">
+                            {errors.optional_ingredients?.[index]?.ingredient_name && (<span className="text-red-700 text-sm pl-2">
                             {errors.optional_ingredients[index].ingredient_name.message}</span>)}  
                         </div>
                     </div>

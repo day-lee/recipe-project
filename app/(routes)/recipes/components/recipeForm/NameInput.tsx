@@ -12,7 +12,7 @@ export default function NameInput({register, errors}:InputProps) {
                         {...register('recipe_name')}/>
                     </div>
                     <div>
-                    {errors.recipe_name && (<span className="text-red-600 text-sm">{errors.recipe_name.message}</span>)}  
+                    {errors.recipe_name && (<span className="text-red-700 text-sm">{errors.recipe_name.message}</span>)}  
                     </div>
                 </div>   
             </section>    

@@ -55,7 +55,6 @@ export default function ImageFileUpload() {
       };
     return (
         <>
-        {/* <form onSubmit={handleSubmit} className='flex flex-col items-center'> */}
         <div className='flex flex-col items-center'>
             <input type="file"  onChange={handleFileChange} accept="image/*"
                    ref={inputRef} style={{ display: "none" }}/>
@@ -69,7 +68,7 @@ export default function ImageFileUpload() {
                 <button type="button" onClick={handleCancel}
                     className=""> 
                     <div className='flex flex-col items-center hover:bg-red-200 rounded-sm p-1'>
-                    <TrashIcon className="h-8 w-8 text-red-600" /> 
+                    <TrashIcon className="h-8 w-8 text-red-700" /> 
                     Cancel
                     </div>
                 </button>
@@ -81,7 +80,6 @@ export default function ImageFileUpload() {
                 ): 
                 (<Image className="m-8" src={fallbackImg} alt='fallbackImg' width={200} height={150}/>
                 )}
-        {/* </form>     */}
         </div>
       </>
     )

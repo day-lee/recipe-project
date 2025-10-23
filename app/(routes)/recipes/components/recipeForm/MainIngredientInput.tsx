@@ -15,7 +15,7 @@ export default function MainIngredientInput ({register, errors, control}: Omit<I
                             onClick={() => appendMainIngredient({id:1, ingredient_name: "", quantity: 1, unit:"", type:'main'})}
                             className=' font-medium  rounded-sm px-2 mx-2 hover:bg-red-200 hover:text-red-800'>
                             <div className='flex'>    
-                            <PlusCircleIcon className='w-6 h-6 text-red-600' /> Add more
+                            <PlusCircleIcon className='w-6 h-6 text-red-700' /> Add more
                             </div>
                             </button>
                     </div>
@@ -58,12 +58,12 @@ export default function MainIngredientInput ({register, errors, control}: Omit<I
                         <div>
                         <button aria-label="remove main ingredients input button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm'
                                 onClick={() => removeMainIngredient(index)}> 
-                            <div className='flex'> <TrashIcon className="h-6 w-6 text-red-600" /> </div>
+                            <div className='flex'> <TrashIcon className="h-6 w-6 text-red-700" /> </div>
                         </button>    
                         </div>
                     </div>
                     <div>
-                        {errors.main_ingredients?.[index]?.ingredient_name && (<span className="text-red-600 text-sm pl-2">
+                        {errors.main_ingredients?.[index]?.ingredient_name && (<span className="text-red-700 text-sm pl-2">
                         {errors.main_ingredients[index].ingredient_name.message}</span>)}  
                     </div>
                     </div>

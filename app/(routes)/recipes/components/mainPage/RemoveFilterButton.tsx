@@ -9,7 +9,7 @@ export default function RemoveFilterButton({selectedCuisineTag, selectedMainIngT
             className=""> 
             <div className='flex items-center hover:bg-red-200 rounded-sm px-2 py-1 mx-2 
                             border-2 border-red-700 text-red-700 font-medium'>
-            <TrashIcon className="h-4 w-4 mr-2 text-red-600" />  Clear
+            <TrashIcon className="h-4 w-4 mr-2 text-red-700" />  Clear
             </div>
         </button>
     )}

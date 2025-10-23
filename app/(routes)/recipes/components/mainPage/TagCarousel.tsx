@@ -22,7 +22,7 @@ export default function TagCarousel({tags, onClick, selectedTag}: {tags:Tag[] | 
         <div ref={trackRef} className='flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar my-2 mx-8'>
             {tags?.map((tag) => (
                 <div key={tag.id} className="flex-shrink-0 mx-1 my-2 snap-start relative">
-                    <button className={`m-2 p-2 text-black font-medium bg-white rounded-sm hover:text-red-600 hover:font-semibold ${selectedTag === tag.name ? 'text-red-600 font-semibold' : ''}`}
+                    <button className={`m-2 p-2 text-black font-medium bg-white rounded-sm hover:text-red-700 hover:font-semibold ${selectedTag === tag.name ? 'text-red-700 font-semibold' : ''}`}
                     onClick={() => onClick?.(tag.name)}> 
                     {tag.name} {tag.recipe_count > 0 ? `(${tag.recipe_count})` : '(0)'} 
                     </button>

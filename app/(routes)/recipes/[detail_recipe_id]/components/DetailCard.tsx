@@ -23,8 +23,8 @@ const { recipe_name, public_id, external_link, duration, img_link, tag_name, cui
             </div>
             <div className='mb-4'>
                 <ul className='flex flex-row'>
-                    <li className='border-2 text-gray-900 font-medium border-red-600 rounded-full px-2 py-1 text-center mx-1' key={tag_name}>{tag_name}</li>
-                    <li className='border-2 text-gray-900 font-medium border-red-600 rounded-full px-2 py-1 text-center mx-1' key={cuisine_tag_name}>{cuisine_tag_name}</li>
+                    <li className='border-2 text-gray-900 font-medium border-red-700 rounded-full px-2 py-1 text-center mx-1' key={tag_name}>{tag_name}</li>
+                    <li className='border-2 text-gray-900 font-medium border-red-700 rounded-full px-2 py-1 text-center mx-1' key={cuisine_tag_name}>{cuisine_tag_name}</li>
                 </ul>
             </div>
             <Ingredients ingredientsList={ingredients} defaultServing={serving} />
