@@ -130,4 +130,30 @@ export async function deleteRecipe(recipePublicId: string) {
   }
 }
 
-
+export const uploadImage = async (file: File) => {
+  const supabase = await createClient()
+  try {
+    // create file name
+    const fileName = `${file.name}-${Date.now()}`
+    const folderPath = `recipe-main/${fileName}`;
+    // upload on Supabase Storage
+    const { data, error } = await supabase.storage
+      .from('recipe-image')
+      .upload(folderPath, file)
+    if (error) throw error
+    // get Public URL 
+    const { data: { publicUrl } } = supabase.storage
+      .from('recipe-image')
+      .getPublicUrl(folderPath)
+    return { 
+      success: true, 
+      url: publicUrl, 
+      path: folderPath 
+    }
+  } catch (error) {
+    return { 
+      success: false, 
+      error: error
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { Control, UseFormWatch, FieldErrors, UseFormRegister, UseFormResetField, UseFormGetValues } from 'react-hook-form';
+import { Control, UseFormWatch, FieldErrors, UseFormRegister, UseFormResetField, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 
 export interface Tag {
     id: number;
@@ -96,6 +96,7 @@ export interface IngredientsProps {
     cuisine_tag: number;
     steps: Step[];
     img_link: string;
+    // img_file?: string;
     external_link: string;
     notes: Note[];
     main_ingredients: Omit<Ingredient, "recipe_id">[];
@@ -107,6 +108,14 @@ export interface IngredientsProps {
     videoId: string;
     isVideoValid: boolean;
     errorMessage: string;
+  }
+
+  export interface ImageUploadProps {
+    register: UseFormRegister<FormSubmitData>;
+    watch: UseFormWatch<FormSubmitData>;
+    setValue: UseFormSetValue<FormSubmitData>;
+    previewUrl: string;
+    setPreviewUrl: React.Dispatch<React.SetStateAction<string>>;
   }
 
   export interface InputProps {

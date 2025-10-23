@@ -34,6 +34,7 @@ export const recipeSchema = z.object({
   cuisine_tag: z.number(),
   steps: z.array(step),
   img_link: z.string(),
+  img_file: z.any().optional(),
   external_link: z.string(),
   notes: z.array(note),
   main_ingredients: z.array(ingredient),
