@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { VideoState, RecipeFromProps } from '@/app/types/types';
 import { extractVideoId, nameFormatter, mergeIngredients } from '@/app/utils/utils';
 import { upsertRecipe } from "@/app/(routes)/recipes/actions"; 
-import ImageFileUpload from '@/app/(routes)/recipes/components/recipeForm/ImageFileUpload';
+import MainImageUpload from '@/app/(routes)/recipes/components/recipeForm/MainImageUpload';
 import NameInput from '@/app/(routes)/recipes/components/recipeForm/NameInput';
 import DurationInput from '@/app/(routes)/recipes/components/recipeForm/DurationInput';
 import CuisineTagInput from '@/app/(routes)/recipes/components/recipeForm/CuisineTagInput';
@@ -23,6 +23,7 @@ import VideoInput from '@/app/(routes)/recipes/components/recipeForm/VideoInput'
 import MainIngredientInput from '@/app/(routes)/recipes/components/recipeForm/MainIngredientInput';
 import OptionalIngredientInput from '@/app/(routes)/recipes/components/recipeForm/OptionalIngredientInput';
 import SauceIngredientInput from '@/app/(routes)/recipes/components/recipeForm/SauceIngredientInput';
+import { uploadImage } from '@/app/(routes)/recipes/actions';
 
 const videoDefaultValues: VideoState = {
     videoId: '',
@@ -46,32 +47,39 @@ const CREATE_DEFAULT_VALUES: RecipeFormData = {
     optional_ingredients: [],
     sauce_ingredients: []        
 }
-
 export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } : RecipeFromProps) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [msg, setMsg] = useState("")
     const [video, setVideo] = useState<VideoState>(videoDefaultValues)
+    const [previewUrl, setPreviewUrl] = useState<string>();
     const router = useRouter();
 
     const formDefaultValues = () => {
         if (mode === 'create') return CREATE_DEFAULT_VALUES;
         else return defaultValues || CREATE_DEFAULT_VALUES;
     }
-
     const { register, control, handleSubmit,
-            getValues, resetField, watch, setError,
+            getValues, setValue, resetField, watch, setError,
             formState: { errors }} = useForm<RecipeFormData>({
         resolver: zodResolver(recipeSchema),
         defaultValues: formDefaultValues()
     });
-
     const onSubmit = async (data:RecipeFormData) => {
         const ingredientsData = mergeIngredients(data)
         try {
+            let imageUrl = data.img_link;
+            if (data.img_file?.[0]) {
+                const uploadResult = await uploadImage(data.img_file[0]);
+                if (!uploadResult.success) {
+                    console.error('Image upload failed:', uploadResult);
+                    return
+                }
+                imageUrl = uploadResult.url || '';
+            }
             setIsSubmitting(true)
             const payload = {
               ...data,
-              img_link: "https://day-lee.github.io/recipe-book-food-photos/placeholder-image.png", 
+              img_link: imageUrl, 
               created_user_id: 2,   
               recipe_name: nameFormatter(data.recipe_name),
               duration: data.duration || 15,
@@ -128,7 +136,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } 
             <section> 
                 <p className='font-semibold lg:text-xl'>Main photo</p>
                 <div className='flex items-center justify-center'>
-                    <ImageFileUpload />
+                    <MainImageUpload register={register} watch={watch} setValue={setValue} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} />
                 </div>
             </section>
             <NameInput register={register} errors={errors} />  
