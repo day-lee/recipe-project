@@ -91,15 +91,17 @@ export interface IngredientsProps {
 
   type RecipeFormModeType = 'create' | 'edit';
 
-  export interface RecipeFromProps {
+  export interface RecipeFormProps {
       mainIngredientTag: MainListIngredientTag[] | [];
       mode: RecipeFormModeType;
       defaultValues?: FormSubmitData;
       recipeId?: string;
+      userId: string;
   }
 
   export interface FormSubmitData {
     recipe_name: string;
+    created_user_id: string;
     duration: number;
     serving: number;
     main_ingredient_tag: number;

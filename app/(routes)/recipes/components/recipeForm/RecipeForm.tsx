@@ -8,7 +8,7 @@ import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
-import { VideoState, RecipeFromProps } from '@/app/types/types';
+import { VideoState, RecipeFormProps } from '@/app/types/types';
 import { extractVideoId, nameFormatter, mergeIngredients } from '@/app/utils/utils';
 import { upsertRecipe } from "@/app/(routes)/recipes/actions"; 
 import MainImageUpload from '@/app/(routes)/recipes/components/recipeForm/MainImageUpload';
@@ -35,6 +35,7 @@ const submitErrorMsg = 'Sorry, something went wrong. Please try again.'
 
 const CREATE_DEFAULT_VALUES: RecipeFormData = {
     recipe_name: '',
+    created_user_id: '',
     duration: 30,
     serving: 2,
     main_ingredient_tag: 1,
@@ -47,7 +48,7 @@ const CREATE_DEFAULT_VALUES: RecipeFormData = {
     optional_ingredients: [],
     sauce_ingredients: []        
 }
-export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } : RecipeFromProps) {
+export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, userId} : RecipeFormProps) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [msg, setMsg] = useState("")
     const [video, setVideo] = useState<VideoState>(videoDefaultValues)
@@ -80,7 +81,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId } 
             const payload = {
               ...data,
               img_link: imageUrl, 
-              created_user_id: 2,   
+              created_user_id: userId,   
               recipe_name: nameFormatter(data.recipe_name),
               duration: data.duration || 15,
               serving: data.serving || 1,

@@ -40,6 +40,7 @@ export const recipeSchema = z.object({
   main_ingredients: z.array(ingredient),
   optional_ingredients: z.array(ingredient),
   sauce_ingredients: z.array(ingredient),
+  created_user_id: z.string()
 });
 
 export type RecipeFormData = z.infer<typeof recipeSchema>;

@@ -15,13 +15,14 @@ export default async function EditRecipeFormPage({ params }: {params: Promise<{d
   const { created_user_id } = recipeDetails
   const supabase = await createClient()
   const { data } = await supabase.auth.getClaims();
-  const user = data?.claims?.sub;
+  const user = data?.claims?.sub ?? "anonymous";
   
   if (recipeDetailsError) {
     console.error('Error fetching recipe details:', recipeDetailsError);
     return <div> Cannot find the recipe details.</div>
   }
   const defaultValues = {
+    created_user_id: recipeDetails?.created_user_id,
     recipe_name: recipeDetails?.recipe_name || '',
     duration: recipeDetails?.duration || 30,
     serving: recipeDetails?.serving || 2, 
@@ -43,7 +44,7 @@ export default async function EditRecipeFormPage({ params }: {params: Promise<{d
       { user === created_user_id ? (    
         <>  
         <p>Share your yummy ideas!</p>
-      <RecipeForm mainIngredientTag={mainIngredientTag || []} recipeId={detail_recipe_id} mode="edit" defaultValues={defaultValues} /> </>) 
+      <RecipeForm mainIngredientTag={mainIngredientTag || []} recipeId={detail_recipe_id} mode="edit" defaultValues={defaultValues} userId={user} /> </>) 
       : (<div> {noAccessMsg}</div>)}
     </main>
   );
