@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
 import { Control, UseFormWatch, FieldErrors, UseFormRegister, UseFormResetField, UseFormGetValues, UseFormSetValue } from 'react-hook-form';
-
 export interface Tag {
     id: number;
     name: string;
@@ -27,6 +26,7 @@ export interface CuisineTag {
 export interface Recipe {
     id: number;
     public_id: string;
+    created_user_id: string;
     recipe_name: string;
     duration: number;
     img_link: string;
@@ -51,6 +51,16 @@ export interface Recipe {
     steps: Step[];
     external_link: string;
   }
+
+  export interface RecipeListProps {
+    recipes: RecipeMain[];
+  }
+
+  export interface RecipeCardProps {
+    recipe: RecipeMain;
+  }
+
+  export type user = string | undefined;
 
   type IngredientType = 'main' | 'optional' | 'sauce';
 

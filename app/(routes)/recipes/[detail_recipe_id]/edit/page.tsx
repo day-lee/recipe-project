@@ -1,5 +1,9 @@
+import { createClient } from '@/lib/supabase/server'
+
 import { RecipeForm } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm'
 import { getMainIngredientTagsList, getRecipeDetails } from '@/app/(routes)/recipes/actions';
+
+const noAccessMsg = 'You don’t have access to this page.'
 
 export default async function EditRecipeFormPage({ params }: {params: Promise<{detail_recipe_id: string}>}) {
    const { detail_recipe_id } = await params 
@@ -8,6 +12,11 @@ export default async function EditRecipeFormPage({ params }: {params: Promise<{d
       console.error('Error fetching tags:', tagError);
     }  
   const { data: recipeDetails, error: recipeDetailsError } = await getRecipeDetails(detail_recipe_id);
+  const { created_user_id } = recipeDetails
+  const supabase = await createClient()
+  const { data } = await supabase.auth.getClaims();
+  const user = data?.claims?.sub;
+  
   if (recipeDetailsError) {
     console.error('Error fetching recipe details:', recipeDetailsError);
     return <div> Cannot find the recipe details.</div>
@@ -31,8 +40,11 @@ export default async function EditRecipeFormPage({ params }: {params: Promise<{d
       <h1 className="text-2xl font-bold text-center">
         Edit a recipe
       </h1>
-      <p>Share your yummy ideas!</p>
-      <RecipeForm mainIngredientTag={mainIngredientTag || []} recipeId={detail_recipe_id} mode="edit" defaultValues={defaultValues} /> 
+      { user === created_user_id ? (    
+        <>  
+        <p>Share your yummy ideas!</p>
+      <RecipeForm mainIngredientTag={mainIngredientTag || []} recipeId={detail_recipe_id} mode="edit" defaultValues={defaultValues} /> </>) 
+      : (<div> {noAccessMsg}</div>)}
     </main>
   );
 }

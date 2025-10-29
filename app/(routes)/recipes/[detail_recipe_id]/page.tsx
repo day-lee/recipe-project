@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/server'
 
 import DetailCard from '@/app/(routes)/recipes/[detail_recipe_id]/components/DetailCard'
 import { getRecipeDetails } from '@/app/(routes)/recipes/actions';
@@ -6,6 +7,9 @@ import { getRecipeDetails } from '@/app/(routes)/recipes/actions';
 export default async function Page({ params }: {
     params: Promise<{ detail_recipe_id: string }>
 }) {
+const supabase = await createClient()
+const { data } = await supabase.auth.getClaims();
+const user = data?.claims?.sub;
 const { detail_recipe_id: recipe_public_id } = await params     
 const { data: recipeDetails, error: recipeDetailsError } = await getRecipeDetails(recipe_public_id);
 if (recipeDetailsError || !recipeDetails) {
@@ -21,6 +25,6 @@ if (recipeDetailsError || !recipeDetails) {
 } 
 const ingredients = recipeDetails.ingredients
   return (
-    <DetailCard recipeDetail={recipeDetails} ingredients={ingredients} />
+    <DetailCard recipeDetail={recipeDetails} ingredients={ingredients} user={user}/>
   )
 }
