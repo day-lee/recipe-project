@@ -36,7 +36,7 @@ export default async function Page(props: {
       <div className="flex bg-white">
         <div className="flex flex-col items-center gap-6 max-w-5xl">
         <Suspense fallback={<div className="mt-96">Loading...</div>}>
-           <MainSearchFilter mainIngredientTags={mainIngredientTag || []} />
+          <MainSearchFilter mainIngredientTags={mainIngredientTag || []} />
           <RecipeList recipes={recipeData} />
         </Suspense>
         </div>
