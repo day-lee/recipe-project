@@ -65,7 +65,7 @@ export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTa
         replace(`${pathname}?${params.toString()}`);
     }
     return (
-        <div className="max-x-4xl">
+        <div className="w-full">
             <div className="flex flex-col items-center py-8">
                 <p className="text-4xl font-semibold text-red-800 mb-2 font-serif">Bon Appétit,</p>
                 <p className="text-md text-gray-600 max-w-md text-center">Deliciously Simple Recipe Selection, Just For You!</p>

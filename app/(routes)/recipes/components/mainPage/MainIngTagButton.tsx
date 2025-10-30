@@ -14,7 +14,7 @@ export default function MainIngTagButton({ mainIngredientTags, selectedMainIngTa
                                 hover:bg-red-100 hover:text-red-700 ${
                         selectedMainIngTagId === tag.id ? 'bg-red-700 text-white border-red-700' : 'bg-white border-red-700'}`}
                     onClick={() => onClick?.(tag.id, tag.tag_name)}>
-                    {tag.tag_name} {tag.recipe_count > 0 ? `(${tag.recipe_count})` : '(0)'}
+                    {tag.tag_name} 
                 </button>
             </div>
         ))}
