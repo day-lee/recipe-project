@@ -4,9 +4,7 @@ const nameErrorMsg = 'Recipe name must be at least 3 characters long'
 const ingredientErrorMsg = 'Recipe ingredients must be at least 3 characters long'
 const ingredientQuantityErrorMsg = 'Please enter a valid quantity for the ingredient.'
 const ingredientUnitErrorMsg = 'Please enter a valid unit for the ingredient.'
-const videoErrorMsg = 'Please check the YouTube video URL.'
 const stepErrorMsg = 'Please add a step for your recipe.'
-const youtubeVideoIdLength = 11;
 
 const step =  z.object({
     photo_id: z.number().optional(),

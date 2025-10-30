@@ -13,29 +13,6 @@ export default function ImageFileUpload() {
         inputRef.current?.click(); // trigger hidden file input
       };
 
-    const handleSubmit = async (e:FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (!file) {
-            console.log('Please select a file.');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('image', file);
-
-        const response = await fetch('/api/upload', {
-            method: 'POST',
-            body: formData,
-        });
-
-        if (!response.ok) {
-            throw new Error('Upload failed.');
-        }   
-
-        const result = await response.json();
-        console.log('Server response:', result);
-    }
-
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.[0]) {
             const selected = e.target.files[0];

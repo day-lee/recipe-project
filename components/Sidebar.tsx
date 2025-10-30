@@ -4,7 +4,6 @@ import Link from 'next/link'
 import {
   BookOpenIcon,
   PlusCircleIcon,
-  PencilSquareIcon,
 } from '@heroicons/react/24/outline'; 
 
 import RandomRecipeModalButton from '@/app/(routes)/random-pick/components/RandomRecipeModalButton';

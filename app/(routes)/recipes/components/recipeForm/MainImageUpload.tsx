@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { ImageUploadProps } from '@/app/types/types'
 
 export default function MainImageUpload({ register, watch, setValue, previewUrl, setPreviewUrl }: ImageUploadProps)  {
-    const [originalImg, setOriginalImg] = useState<string>(previewUrl)
+    const [originalImg] = useState<string>(previewUrl)
     const selectedFile = watch('img_file');
 
     useEffect(() => {

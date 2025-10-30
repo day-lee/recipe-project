@@ -9,10 +9,9 @@ import { createClient } from '@/lib/supabase/client'
 import Modal from './RandomRecipeModal'
 
 const loadingMessage = "Finding the perfect recipe for you..."
-const finalMessage = "Here's your recipe!"
 
-export default function RandomRecipeModalButton({ setIsSidebarOpen, showModal }:
-                         {setIsSidebarOpen: Dispatch<SetStateAction<boolean>>, showModal?: boolean}) {
+export default function RandomRecipeModalButton({ setIsSidebarOpen }:
+                         {setIsSidebarOpen: Dispatch<SetStateAction<boolean>>}) {
   const router = useRouter()
   const [isRandomRecipeModalOpen, setIsRandomRecipeModalOpen] = useState<boolean>(false)
   const [loading, setLoading] = useState<string>(loadingMessage)
@@ -47,7 +46,7 @@ export default function RandomRecipeModalButton({ setIsSidebarOpen, showModal }:
       router.push(public_id ? `/recipes/${public_id}` : '/recipes')
       // router.push(id ? `/recipes/3` : '/recipes')
     }, 900)
-  }, [router])
+  }, [router, setIsSidebarOpen])
   return (
     <>
      <button onClick={onClick}><div className='flex gap-4 items-center'> 

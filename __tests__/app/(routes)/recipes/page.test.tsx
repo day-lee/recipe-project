@@ -84,14 +84,14 @@ describe("Tags Button/Filter", () => {
     const mockHandleCLick = jest.fn();
     test('should render all Main Ingredients tags', async () => {
         render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={jest.fn()}/>)
-        expect(await screen.findByRole('button', { name: 'Chicken (7)' })).toBeInTheDocument();
-        expect(await screen.findByRole('button', { name: 'Pork (2)' })).toBeInTheDocument();
-        expect(await screen.findByRole('button', { name: 'Beef (4)' })).toBeInTheDocument();
-        expect(await screen.findByRole('button', { name: 'Seafood (3)' })).toBeInTheDocument();
+        expect(await screen.findByRole('button', { name: 'Chicken' })).toBeInTheDocument();
+        expect(await screen.findByRole('button', { name: 'Pork' })).toBeInTheDocument();
+        expect(await screen.findByRole('button', { name: 'Beef' })).toBeInTheDocument();
+        expect(await screen.findByRole('button', { name: 'Seafood' })).toBeInTheDocument();
     });
     test('should change the url to "main_ing_tag_param=..." when clicking the Main Ingredient tag', async () => {
         render (<MainIngTagButton mainIngredientTags={mockTags} selectedMainIngTagId={1} onClick={mockHandleCLick}/>)
-        const tagButton = await screen.findByRole('button', { name: 'Chicken (7)' });
+        const tagButton = await screen.findByRole('button', { name: 'Chicken' });
         userEvent.click(tagButton);
         expect(tagButton).toHaveClass('bg-red-700');
         expect(tagButton.onclick).toBeTruthy(); 

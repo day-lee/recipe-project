@@ -137,7 +137,7 @@ export const uploadImage = async (file: File) => {
     const fileName = `${file.name}-${Date.now()}`
     const folderPath = `recipe-main/${fileName}`;
     // upload on Supabase Storage
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from('recipe-image')
       .upload(folderPath, file)
     if (error) throw error

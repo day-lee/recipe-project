@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {
     XMarkIcon,
     PlusCircleIcon,
-    PencilSquareIcon } from '@heroicons/react/24/outline'; 
+    } from '@heroicons/react/24/outline'; 
 
 import { SidebarProps } from '@/app/types/types';
 import RandomRecipeModalButton from '@/app/(routes)/random-pick/components/RandomRecipeModalButton';
