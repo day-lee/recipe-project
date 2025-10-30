@@ -32,6 +32,7 @@ const videoDefaultValues: VideoState = {
 }
 const submitSuccessMsg = 'Your recipe has been successfully saved!'
 const submitErrorMsg = 'Sorry, something went wrong. Please try again.'
+const unavailableImg = 'https://uzedwhzjchxkoacuansf.supabase.co/storage/v1/object/public/recipe-image/recipe-main/unavailable.png'
 
 const CREATE_DEFAULT_VALUES: RecipeFormData = {
     recipe_name: '',
@@ -48,16 +49,17 @@ const CREATE_DEFAULT_VALUES: RecipeFormData = {
     optional_ingredients: [],
     sauce_ingredients: []        
 }
+
 export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, userId} : RecipeFormProps) {
+    const previewImg = defaultValues?.img_link || ""
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [msg, setMsg] = useState("")
     const [video, setVideo] = useState<VideoState>(videoDefaultValues)
-    const [previewUrl, setPreviewUrl] = useState<string>();
+    const [previewUrl, setPreviewUrl] = useState<string>(previewImg);
     const router = useRouter();
 
     const formDefaultValues = () => {
-        if (mode === 'create') return CREATE_DEFAULT_VALUES;
-        else return defaultValues || CREATE_DEFAULT_VALUES;
+        return mode === 'create' ? CREATE_DEFAULT_VALUES : defaultValues || CREATE_DEFAULT_VALUES
     }
     const { register, control, handleSubmit,
             getValues, setValue, resetField, watch, setError,
@@ -75,12 +77,12 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
                     console.error('Image upload failed:', uploadResult);
                     return
                 }
-                imageUrl = uploadResult.url || '';
+                imageUrl = uploadResult.url || ''; 
             }
             setIsSubmitting(true)
             const payload = {
               ...data,
-              img_link: imageUrl, 
+              img_link: imageUrl || unavailableImg, 
               created_user_id: userId,   
               recipe_name: nameFormatter(data.recipe_name),
               duration: data.duration || 15,

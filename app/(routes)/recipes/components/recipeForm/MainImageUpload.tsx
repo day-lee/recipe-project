@@ -1,12 +1,16 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 import { ImageUploadProps } from '@/app/types/types'
 
 export default function MainImageUpload({ register, watch, setValue, previewUrl, setPreviewUrl }: ImageUploadProps)  {
+    const [originalImg, setOriginalImg] = useState<string>(previewUrl)
     const selectedFile = watch('img_file');
+    console.log("original", originalImg, '----', "previewImg", previewUrl, "---------", "selectedFile", selectedFile)
+
     useEffect(() => {
-        if (selectedFile && selectedFile.length > 0){
+        if (previewUrl) return
+        else if(selectedFile && selectedFile.length === 1){
             const objectUrl = URL.createObjectURL(selectedFile[0]);
             setPreviewUrl(objectUrl); // blob:http://localhost:3005/5f001c97-699a-448e-8c9a-43956f63ea97
         return () => URL.revokeObjectURL(objectUrl);
@@ -14,10 +18,18 @@ export default function MainImageUpload({ register, watch, setValue, previewUrl,
             setPreviewUrl('');
         }
     },[selectedFile, setPreviewUrl])
+
     const handleRemoveImg = () => {
+        if (originalImg == previewUrl) {
         setValue('img_file', '');
         setValue('img_link', ''); 
         setPreviewUrl('');
+        } 
+        else if (originalImg != previewUrl && selectedFile) {
+        setPreviewUrl(originalImg);
+        setValue('img_file', '');
+        setValue('img_link', originalImg); 
+        }
     }
     return (
  <div className="space-y-4">
