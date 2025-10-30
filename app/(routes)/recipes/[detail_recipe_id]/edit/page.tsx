@@ -12,7 +12,7 @@ export default async function EditRecipeFormPage({ params }: {params: Promise<{d
       console.error('Error fetching tags:', tagError);
     }  
   const { data: recipeDetails, error: recipeDetailsError } = await getRecipeDetails(detail_recipe_id);
-  const { created_user_id } = recipeDetails
+  const created_user_id = recipeDetails?.created_user_id
   const supabase = await createClient()
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims?.sub ?? "anonymous";
