@@ -43,7 +43,7 @@ export default function SidebarModal() {
           </li>
           <li>
             <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold'>
-              <RandomRecipeModalButton showModal={showSidebarModal} setIsSidebarOpen={setShowSidebarModal} />
+              <RandomRecipeModalButton setIsSidebarOpen={setShowSidebarModal} />
             </div>
           </li>
           {/* <li>
