@@ -6,7 +6,6 @@ import { ImageUploadProps } from '@/app/types/types'
 export default function MainImageUpload({ register, watch, setValue, previewUrl, setPreviewUrl }: ImageUploadProps)  {
     const [originalImg, setOriginalImg] = useState<string>(previewUrl)
     const selectedFile = watch('img_file');
-    console.log("original", originalImg, '----', "previewImg", previewUrl, "---------", "selectedFile", selectedFile)
 
     useEffect(() => {
         if (previewUrl) return
