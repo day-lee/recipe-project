@@ -33,9 +33,9 @@ export default async function Page(props: {
       console.error('Error fetching main ingredients tags:', tagError);
     }
   return (
-      <div className="flex bg-white">
-        <div className="flex flex-col items-center gap-6 max-w-5xl">
-        <Suspense fallback={<div className="mt-96">Loading...</div>}>
+      <div className="flex bg-white justify-center">
+        <div className="flex flex-col items-center max-w-5xl">
+        <Suspense fallback={<div className="flex items-center mt-96 text-lg font-semibold w-full h-16 text-center">Loading...</div>}>
           <MainSearchFilter mainIngredientTags={mainIngredientTag || []} />
           <RecipeList recipes={recipeData} />
         </Suspense>

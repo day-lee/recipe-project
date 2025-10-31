@@ -1,13 +1,9 @@
 import { AuthButton } from "@/components/auth-button";
-import { LoginForm } from "@/components/login-form";
-import { createClient } from "@/lib/supabase/server";
+// import { LoginForm } from "@/components/login-form";
+import Link from 'next/link'
 
-
+const ctaButton = 'Discover All Amazing Recipes'
 export default async function Home() {
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getClaims();
-  const user = data?.claims;
-
   return (
     <main className="min-h-screen flex flex-col items-center">
       <div className="flex-1 w-full flex flex-col gap-20 items-center">
@@ -20,10 +16,19 @@ export default async function Home() {
              <AuthButton />
           </div>
         {/* </nav> */}
-        <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5">
-         {!user &&( <LoginForm />)}
-          <main className="flex-1 flex flex-col gap-6 px-4">
-          </main>
+        <div className="flex-1 flex flex-col gap-10 max-w-5xl p-5 items-center">
+          <div className="flex flex-col items-center">
+            <p className="text-5xl sm:text-8xl font-semibold text-red-800 mb-4 sm:mb-8 font-serif">Bon Appétit,</p>
+            <p className="text-xl sm:text-2xl text-gray-600 text-center">Deliciously Simple Recipe Selection, Just For You!</p>
+          </div>
+          <div className="flex flex-col px-4 py-8">
+              <Link href={`/recipes`}>
+              <button type="submit" 
+                      className="w-full bg-red-700 border-2 m-1 px-4 py-4 rounded-md text-lg font-bold text-white hover:bg-red-800" >
+                {ctaButton}
+              </button>
+              </Link>
+          </div>
         </div>
       </div>
     </main>
