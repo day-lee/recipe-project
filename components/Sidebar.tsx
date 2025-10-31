@@ -17,8 +17,8 @@ export default function SidebarModal() {
                   onMouseEnter={() => setShowSidebarModal(true)}
                   onMouseLeave={() => setShowSidebarModal(false)}
                 >
-      <ul className='w-full min-w-0 gap-1 ml-1'>
-        <div className='relative flex w-full min-w-0 flex-col p-2 pt-4 gap-4 font-medium'>
+      <div className='w-full min-w-0 gap-1 ml-1'>
+        <ul className='relative flex w-full min-w-0 flex-col p-2 pt-4 gap-4 font-medium'>
           <li>
             <Link href="/recipes">
               <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold'>
@@ -57,8 +57,8 @@ export default function SidebarModal() {
               </div>
             </Link>
           </li> */}
-        </div>
-      </ul>
+        </ul>
+      </div>
     </div>
   )
 }

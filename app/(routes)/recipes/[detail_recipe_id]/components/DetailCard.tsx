@@ -14,7 +14,7 @@ const { recipe_name, public_id, created_user_id, external_link, duration, img_li
          <main className='min-h-screen max-w-2xl flex flex-col m-2 md:m-16 lg:m-32 items-center border-2 border-red-700 p-4'>
             {img_link ? <Image className='m-8' priority={true} src={img_link} alt={recipe_name} width={360} 
                                 height={360} sizes="(max-width: 668px) 90vw, 60vw" style={{ width: '60%', height: 'auto' }} /> 
-                      : <Image className="m-8" src={fallbackImg} alt='fallbackImg'  width={360} 
+                      : <Image className="m-8" priority={true} src={fallbackImg} alt='fallbackImg'  width={360} 
                                 height={360} sizes="(max-width: 668px) 90vw, 60vw" style={{ width: '60%', height: 'auto' }} />}
             <div className='max-w-md text-2xl font-semibold text-center'> {recipe_name}</div>   
             <div className='flex flex-row items-center m-4'>

@@ -9,6 +9,8 @@ import CuisineFilter from '@/app/(routes)/recipes/components/mainPage/CuisineFil
 import RemoveFilterButton from '@/app/(routes)/recipes/components/mainPage/RemoveFilterButton';
 import { MainListIngredientTag } from '@/app/types/types';
 
+export const catchPhrase = 'Effortlessly Delicious Recipes, Just for You!'
+
 export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTags: MainListIngredientTag[]}) {
     const [searchInput, setSearchInput] = useState<string | ''>('');
     const [selectedMainIngTagId, setSelectedMainIngTagId] = useState<number | undefined>(undefined);
@@ -68,7 +70,7 @@ export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTa
         <div className="w-full">
             <div className="flex flex-col items-center py-8">
                 <p className="text-4xl font-semibold text-red-800 mb-2 font-serif">Bon Appétit,</p>
-                <p className="text-md text-gray-600 max-w-md text-center">Deliciously Simple Recipe Selection, Just For You!</p>
+                <p className="text-md text-gray-600 max-w-md text-center">{catchPhrase}</p>
             </div>
             <div className="border-[1px] border-gray-200 rounded-lg my-2 p-4 bg-red-50 shadow-xl">
                 <Search onChange={handleSearch} searchInput={searchInput}/>
