@@ -43,7 +43,7 @@ export default function StepsInput ({register, errors, control, watch}: InputUse
                         <div className='flex'>
                          {errors.steps?.[index]?.desc ? (<span className="text-red-700 pl-8 text-sm w-9/12">
                          {errors.steps[index].desc.message}</span>):(<span className='w-9/12'></span>)}
-                         <span className='flex text-sm text-gray-600 justify-end w-1/2 sm:w-1/6 pr-10 sm:pr-2'>  {charCount} / {maxCharStep} </span>
+                         <span className='flex text-sm text-gray-600 justify-end sm:justify-center w-1/4 sm:w-1/4 pr-8 sm:pr-2'>  {charCount} / {maxCharStep} </span>
                         </div>
                     </div>
                     </div>
