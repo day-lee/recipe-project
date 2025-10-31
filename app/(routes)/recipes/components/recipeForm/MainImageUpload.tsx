@@ -2,31 +2,38 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 import { ImageUploadProps } from '@/app/types/types'
+import { emptyFile } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm'
 
-export default function MainImageUpload({ register, watch, setValue, previewUrl, setPreviewUrl }: ImageUploadProps)  {
+export default function MainImageUpload({ register, setValue, previewUrl, setPreviewUrl, selectedFile, setSelectedFile }: ImageUploadProps)  {
     const [originalImg] = useState<string>(previewUrl)
-    const selectedFile = watch('img_file');
-
     useEffect(() => {
         if (previewUrl) return
-        else if(selectedFile && selectedFile.length === 1){
-            const objectUrl = URL.createObjectURL(selectedFile[0]);
-            setPreviewUrl(objectUrl); // blob:http://localhost:3005/5f001c97-699a-448e-8c9a-43956f63ea97
+        else if(selectedFile && selectedFile.name !== 'null_img.png'){
+            const objectUrl = URL.createObjectURL(selectedFile);
+            setPreviewUrl(objectUrl);
+            setSelectedFile(selectedFile)
         return () => URL.revokeObjectURL(objectUrl);
             } else {
             setPreviewUrl('');
         }
-    },[selectedFile, setPreviewUrl])
-
+    },[selectedFile])
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file && file.name !== 'null_img.png') {
+        setSelectedFile(file);
+      } else {
+        setSelectedFile(emptyFile)
+      }
+    }
     const handleRemoveImg = () => {
         if (originalImg == previewUrl) {
-        setValue('img_file', '');
+        setSelectedFile(emptyFile)
         setValue('img_link', ''); 
         setPreviewUrl('');
         } 
         else if (originalImg != previewUrl && selectedFile) {
         setPreviewUrl(originalImg);
-        setValue('img_file', '');
+        setSelectedFile(emptyFile)
         setValue('img_link', originalImg); 
         }
     }
@@ -41,14 +48,13 @@ export default function MainImageUpload({ register, watch, setValue, previewUrl,
             <input
               type="file"
               accept="image/*"
-              {...register('img_file')}
+              onChange={handleImageChange}
               className="block w-full text-sm text-gray-500
                 file:mr-4 file:py-2 file:px-4
                 file:rounded-lg file:border-0
                 file:text-sm file:font-semibold
                 file:bg-red-100 file:text-red-700
                 hover:file:bg-red-200 hover:cursor-pointer"
-                
             />
             <p className="text-gray-500 text-sm mt-2">
               Select the image file
@@ -78,6 +84,5 @@ export default function MainImageUpload({ register, watch, setValue, previewUrl,
       {/* Hidden field for image URL */}
       <input type="hidden" {...register('img_link')} />
     </div>
-          
     )
 }

@@ -50,12 +50,16 @@ const CREATE_DEFAULT_VALUES: RecipeFormData = {
     sauce_ingredients: []        
 }
 
+const blob = new Blob([], { type: 'image/png'})
+export const emptyFile = new File([blob], "null_img.png")
+
 export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, userId} : RecipeFormProps) {
     const previewImg = defaultValues?.img_link || ""
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [msg, setMsg] = useState("")
     const [video, setVideo] = useState<VideoState>(videoDefaultValues)
     const [previewUrl, setPreviewUrl] = useState<string>(previewImg);
+    const [selectedFile, setSelectedFile] = useState<File>(emptyFile);
     const router = useRouter();
 
     const formDefaultValues = () => {
@@ -71,8 +75,8 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
         const ingredientsData = mergeIngredients(data)
         try {
             let imageUrl = data.img_link;
-            if (data.img_file?.[0]) {
-                const uploadResult = await uploadImage(data.img_file[0]);
+            if (selectedFile && selectedFile.name !== 'null_img.png') {
+                const uploadResult = await uploadImage(selectedFile);
                 if (!uploadResult.success) {
                     console.error('Image upload failed:', uploadResult);
                     return
@@ -139,7 +143,9 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
             <section> 
                 <p className='font-semibold lg:text-xl'>Main photo</p>
                 <div className='flex items-center justify-center'>
-                    <MainImageUpload register={register} watch={watch} setValue={setValue} previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} />
+                    <MainImageUpload register={register} watch={watch} setValue={setValue} 
+                                     previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} 
+                                     selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
                 </div>
             </section>
             <NameInput register={register} errors={errors} />  

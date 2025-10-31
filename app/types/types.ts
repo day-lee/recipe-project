@@ -108,7 +108,6 @@ export interface IngredientsProps {
     cuisine_tag: number;
     steps: Step[];
     img_link: string;
-    // img_file?: string;
     external_link: string;
     notes: Note[];
     main_ingredients: Omit<Ingredient, "recipe_id">[];
@@ -128,6 +127,8 @@ export interface IngredientsProps {
     setValue: UseFormSetValue<FormSubmitData>;
     previewUrl: string;
     setPreviewUrl: React.Dispatch<React.SetStateAction<string>>;
+    selectedFile: File;
+    setSelectedFile: React.Dispatch<React.SetStateAction<File>>;
   }
 
   export interface InputProps {
