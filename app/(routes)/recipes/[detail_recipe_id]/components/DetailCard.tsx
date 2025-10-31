@@ -11,7 +11,7 @@ import DeleteRecipeBtn from '../../components/recipeForm/DeleteRecipeBtn'
 export default function DetailCard({recipeDetail, ingredients, user}:{recipeDetail: RecipeDetail, ingredients: GroupedIngredientsList, user:user}) {
 const { recipe_name, public_id, created_user_id, external_link, duration, img_link, tag_name, cuisine_tag_name, notes, steps, serving } = recipeDetail
     return(
-         <main className='min-h-screen max-w-2xl flex flex-col m-2 md:m-16 lg:m-32 items-center border-2 border-red-700 p-4'>
+         <main className='min-h-screen max-w-2xl flex flex-col m-2 md:mx-16 lg:mx-32 items-center border-2 border-red-700 p-4'>
             {img_link ? <Image className='m-8' priority={true} src={img_link} alt={recipe_name} width={360} 
                                 height={360} sizes="(max-width: 668px) 90vw, 60vw" style={{ width: '60%', height: 'auto' }} /> 
                       : <Image className="m-8" priority={true} src={fallbackImg} alt='fallbackImg'  width={360} 
