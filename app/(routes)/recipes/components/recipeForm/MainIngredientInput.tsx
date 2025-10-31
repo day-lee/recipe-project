@@ -30,7 +30,7 @@ export default function MainIngredientInput ({register, errors, control}: Omit<I
                         {...register(`main_ingredients.${index}.ingredient_name`, {setValueAs: (v) => nameFormatter(v)})}
                         className='lg:w-2/3 w-full border-2 border-gray-300 pl-2 py-1 rounded-sm my-2' 
                         /> 
-                        <div className='flex flex-row'>
+                        <div className='flex flex-row items-center'>
                             <label htmlFor="ingredientAmount"></label>
                             <input 
                             aria-label="main ingredient quantity"
@@ -54,13 +54,14 @@ export default function MainIngredientInput ({register, errors, control}: Omit<I
                                 <option value=" pieces">pieces</option>
                                 <option value="oz">oz</option>
                             </select>
+                            <div>
+                                <button aria-label="remove main ingredients input button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm'
+                                        onClick={() => removeMainIngredient(index)}> 
+                                    <div className='flex'> <TrashIcon className="h-6 w-6 text-red-700" /> </div>
+                                </button>    
+                            </div>
                         </div>
-                        <div>
-                        <button aria-label="remove main ingredients input button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm'
-                                onClick={() => removeMainIngredient(index)}> 
-                            <div className='flex'> <TrashIcon className="h-6 w-6 text-red-700" /> </div>
-                        </button>    
-                        </div>
+
                     </div>
                     <div>
                         {errors.main_ingredients?.[index]?.ingredient_name && (<span className="text-red-700 text-sm pl-2">

@@ -19,7 +19,7 @@ export default function StepsInput ({register, errors, control, watch}: InputUse
                         <PlusCircleIcon className='w-6 h-6 text-red-700' /> Add more
                         </div></button>
                 </div>
-                <div className='border-2 border-gray-200 p-2 lg:p-4 my-4'> 
+                <div className='border-2 border-gray-200 p-1 lg:p-4 my-4'> 
                 {stepFields.map((field, index) => { 
                     const currentDesc = steps?.[index]?.desc || ''
                     const charCount = currentDesc.length
@@ -29,12 +29,12 @@ export default function StepsInput ({register, errors, control, watch}: InputUse
                     <div className='flex flex-row m-2 items-center'> 
                         <div className='flex items-center w-4 font-bold text-lg'>{index + 1}</div>
                         <textarea 
-                        className='border-2 border-gray-300 mx-2 px-2 py-1 rounded-sm w-full h-16 resize-y min-h-20 max-h-32'
+                        className='border-2 border-gray-300 mx-2 pl-1 py-1 rounded-sm w-full h-16 resize-y min-h-20 max-h-32'
                             maxLength={maxCharStep}
                             placeholder="e.g. Thinly slice the onion" 
                                 {...register(`steps.${index}.desc` as const)}/>
                            
-                        <button aria-label="remove steps button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={() => removeStep(index)}> 
+                        <button aria-label="remove steps button" type="button" className='h-8 hover:bg-red-200 rounded-sm' onClick={() => removeStep(index)}> 
                             <div className='flex'> <TrashIcon className="h-6 w-6 text-red-700" />  </div>
                         </button>  
                         </div>
@@ -43,7 +43,7 @@ export default function StepsInput ({register, errors, control, watch}: InputUse
                         <div className='flex'>
                          {errors.steps?.[index]?.desc ? (<span className="text-red-700 pl-8 text-sm w-9/12">
                          {errors.steps[index].desc.message}</span>):(<span className='w-9/12'></span>)}
-                         <span className='flex text-sm text-gray-600 justify-end w-1/6 pr-4'>  {charCount} / {maxCharStep} </span>
+                         <span className='flex text-sm text-gray-600 justify-end w-1/2 sm:w-1/6 pr-10 sm:pr-2'>  {charCount} / {maxCharStep} </span>
                         </div>
                     </div>
                     </div>

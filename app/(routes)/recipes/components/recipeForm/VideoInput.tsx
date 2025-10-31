@@ -42,11 +42,13 @@ export default function VideoInput ({register, resetField, getValues, video, set
                                 type="text"
                                 {...register('external_link')}
                                 className='border-2 w-full border-gray-300 pl-2 py-1 rounded-sm' placeholder="https://youtu.be/..." /> 
-                            <button aria-label="add video thumbnail button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={addThumbnail}> 
-                                <div className='flex'>
-                                <PlusCircleIcon className='w-6 h-6 text-red-700 '/>Add</div></button>    
-                            <button aria-label="remove video thumbnail button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={removeThumbnail}>  
-                                <div className='flex'> <TrashIcon className="h-6 w-6 text-red-700" />  </div></button>  
+                            <div className='flex flex-row items-center justify-end'>
+                                <button aria-label="add video thumbnail button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={addThumbnail}> 
+                                    <div className='flex'>
+                                    <PlusCircleIcon className='w-6 h-6 text-red-700 '/>Add</div></button>    
+                                <button aria-label="remove video thumbnail button" type="button" className='px-2 h-8 hover:bg-red-200 rounded-sm' onClick={removeThumbnail}>  
+                                    <div className='flex'> <TrashIcon className="h-6 w-6 text-red-700" />  </div></button>  
+                            </div>    
                         </div>
                         <div className='flex justify-center'> 
                         { video.isVideoValid && (

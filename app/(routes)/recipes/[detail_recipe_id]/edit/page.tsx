@@ -37,13 +37,13 @@ export default async function EditRecipeFormPage({ params }: {params: Promise<{d
     sauce_ingredients: recipeDetails?.ingredients.sauceIngredients || [],
   }
   return (
-    <main className="flex flex-col mx-auto p-8 justify-center items-center">
-      <h1 className="text-2xl font-bold text-center">
+    <main className="flex flex-col mx-auto p-1 py-5 justify-center items-center">
+         <h1 className="text-2xl font-bold text-center">
         Edit a recipe
       </h1>
       { user === created_user_id ? (    
         <>  
-        <p>Share your yummy ideas!</p>
+        <p className='pb-4'>Share your yummy ideas!</p>
       <RecipeForm mainIngredientTag={mainIngredientTag || []} recipeId={detail_recipe_id} mode="edit" defaultValues={defaultValues} userId={user} /> </>) 
       : (<div> {noAccessMsg}</div>)}
     </main>

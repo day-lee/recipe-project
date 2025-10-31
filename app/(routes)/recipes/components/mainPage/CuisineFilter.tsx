@@ -4,8 +4,8 @@ import { MainFilterProps } from '@/app/types/types'
 export default function CuisineFilter({onChange, selectedCuisineTag}: MainFilterProps) {
     return (
     <div className="flex items-center mx-1 my-2">
-        <label htmlFor="search" className="sr-only">Filter</label>
-          <span className="font-semibold ml-1">Filter</span>
+        <label htmlFor="search" className="sr-only">Cuisine Filter</label>
+          <span className="font-semibold ml-1">Cuisine</span>
         <select onChange={(e) => onChange(e.target.value)} 
                 value={selectedCuisineTag}
                 className="border-2 border-red-700 rounded-sm ml-2 p-1">

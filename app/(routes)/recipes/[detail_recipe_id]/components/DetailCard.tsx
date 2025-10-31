@@ -30,11 +30,11 @@ const { recipe_name, public_id, created_user_id, external_link, duration, img_li
             <Ingredients ingredientsList={ingredients} defaultServing={serving} />
             <section >
                 <p className='font-semibold text-2xl'>Steps</p>
-                <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
+                <div className='border-2 border-gray-200 w-[360px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
                     <div className='my-4 p-2'>
                         <ul className='flex flex-col'> 
                             {steps.map((item: Step) => <li className='flex flex-row' key={item.id}><div className='pr-4 my-2'>{item.id}.</div> 
-                                                       <div className='mr-8 my-2'>{item.desc}</div></li> )}
+                                                       <div className='mr-1 my-2'>{item.desc}</div></li> )}
                         </ul>
                     </div>
                 </div>   
@@ -42,7 +42,7 @@ const { recipe_name, public_id, created_user_id, external_link, duration, img_li
             {external_link && (            
             <section>
                 <p className='font-semibold text-2xl'>Video</p>
-                    <div className="flex justify-center border-2 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-full border-gray-200 p-2 lg:p-8 my-4">
+                    <div className="flex justify-center border-2 w-[360px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-full border-gray-200 p-2 lg:p-8 my-4">
                         <div className="w-full aspect-video">
                         <iframe
                             title="youtube video"
@@ -56,11 +56,11 @@ const { recipe_name, public_id, created_user_id, external_link, duration, img_li
             {notes && notes[0].desc.length > 0 && (
             <section >
                 <p className='font-semibold text-2xl'>Notes</p>
-                <div className='border-2 border-gray-200 w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
+                <div className='border-2 border-gray-200 w-[360px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
                     <div className='my-4 p-2'>
                         <ul className='flex flex-col'> 
                          {notes.map((item:Note) => <li className='flex flex-row' key={item.id}><div className='pr-4 my-2'>•</div> 
-                                                   <div className='mr-8 my-2'>{item.desc}</div></li>)} 
+                                                   <div className='mr-1 my-2'>{item.desc}</div></li>)} 
                         </ul></div>
                     </div>   
             </section>

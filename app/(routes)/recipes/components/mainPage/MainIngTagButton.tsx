@@ -5,7 +5,7 @@ import { MainIngTagButtonProps } from '@/app/types/types'
 export default function MainIngTagButton({ mainIngredientTags, selectedMainIngTagId, onClick } : MainIngTagButtonProps) {
    return (
 <div className="relative w-full">
-    <span className="font-semibold mx-2">Main ingredients</span>
+    <span className="font-semibold mx-2">Main ingredient</span>
     <div className='flex flex-wrap my-2'>
         {mainIngredientTags?.map((tag) => (
             <div key={tag.id} className="mx-1 ">

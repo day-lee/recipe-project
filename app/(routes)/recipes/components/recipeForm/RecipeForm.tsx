@@ -138,7 +138,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
                 setIsSubmitting(false)
             }}
     return (
-    <main className='min-h-screen lg:min-w-[800px] flex flex-col m-2 p-8 lg:m-10 items-center border-2 border-red-700'>
+    <main className='min-h-screen max-w-2xl flex flex-col m-2 md:m-16 lg:m-32 items-center border-2 border-red-700 p-4'>
         <form className='lg:min-w-[600px] mx-auto' onSubmit={handleSubmit(onSubmit)} >
             <section> 
                 <p className='font-semibold lg:text-xl'>Main photo</p>

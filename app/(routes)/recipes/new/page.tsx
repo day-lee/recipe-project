@@ -12,11 +12,11 @@ export default async function NewRecipeFormPage() {
       console.error('Error fetching tags:', tagError);
     }  
   return (
-    <main className="flex flex-col mx-auto p-8 justify-center items-center">
+    <main className="flex flex-col mx-auto p-1 py-5 justify-center items-center">
       <h1 className="text-2xl font-bold text-center">
         Create a new recipe
       </h1>
-      <p>Share your yummy ideas!</p>
+      <p className='pb-4'>Share your yummy ideas!</p>
       <RecipeForm mainIngredientTag={mainIngredientTag || []} mode="create" userId={user} />
     </main>
   );
