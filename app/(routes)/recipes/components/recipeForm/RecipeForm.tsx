@@ -185,7 +185,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
                     </div>
                 </div>
                 <div className='flex justify-center items-center'>
-                   { isSubmitting ? (<span className='font-medium text-xl- mt-4 w-1/2 h-8 bg-gray-300 rounded animate-pulse text-center'>Saving your recipe...</span>) : (<span className='font-medium text-xl mt-4'>{msg}</span>)}
+                   { isSubmitting ? (<span className='font-medium text-xl- mt-4 w-1/2 h-8 bg-gray-300 rounded animate-pulse text-center'>Saving your recipe...</span>) : (<span className='font-medium text-md sm:text-xl mt-4'>{msg}</span>)}
                 </div>
             </div>            
         </form>
