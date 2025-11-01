@@ -49,7 +49,7 @@ export async function updateSession(request: NextRequest) {
 
   if (
     !user &&
-    (request.nextUrl.pathname.endsWith("new") ||
+    (request.nextUrl.pathname.startsWith("/recipes/new") ||
     request.nextUrl.pathname.endsWith("edit"))
   ) {
     // no user, potentially respond by redirecting the user to the login page
