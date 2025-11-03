@@ -14,7 +14,17 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: "Recipe Project",
-  description: "Recipe archive",
+  description: "Recipe archive for everyday home cooking.",
+  openGraph: {
+    title: "Recipe Project",
+    description: "Recipe archive for everyday home cooking.",
+    images: {
+        url: '/recipe_pj_front.png',  
+        width: 680,
+        height: 430,
+      },
+    type: 'website',
+  },
 };
 
 const geistSans = Geist({
