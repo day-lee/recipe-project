@@ -24,7 +24,7 @@ export default function SidebarMobile({onClick, onMouseLeave, setIsSidebarOpen}:
             <div className="flex flex-col text-md font-semibold">
                 <div className='flex flex-row hover:text-red-700'>
                     <Link href="/recipes">
-                        <div className='flex items-center gap-4 hover:text-red-700'>
+                        <div className='flex items-center gap-4 hover:text-red-700 transform transition-all duration-300 active:scale-95'>
                         <BookOpenIcon className="w-8 h-8 hover:-translate-x-1" />
                         <span> My Recipes</span>
                         </div>
@@ -32,7 +32,7 @@ export default function SidebarMobile({onClick, onMouseLeave, setIsSidebarOpen}:
                 </div>
                 <div className='flex flex-row hover:text-red-700 my-2'>
                     <Link href="/recipes/new">
-                        <div className='flex items-center gap-4 hover:text-red-700'>
+                        <div className='flex items-center gap-4 hover:text-red-700 transform transition-all duration-300 active:scale-95'>
                         <PlusCircleIcon className="w-8 h-8 hover:-translate-x-1" /> 
                         <span>New recipe</span>
                         </div>
@@ -46,7 +46,7 @@ export default function SidebarMobile({onClick, onMouseLeave, setIsSidebarOpen}:
                      </div>
                     </Link>
                 </div> */}
-                <div className='flex flex-row hover:text-red-700'>
+                <div className='flex flex-row hover:text-red-700 transform transition-all duration-300 active:scale-95'>
                     <RandomRecipeModalButton setIsSidebarOpen={setIsSidebarOpen} />
                 </div>
             </div>

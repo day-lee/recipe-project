@@ -23,7 +23,7 @@ export default function DeleteRecipeBtn( { recipePublicId }: { recipePublicId: s
         });
     };
     return (
-    <div className=' hover:bg-red-200 rounded-sm'>   
+    <div className=' hover:bg-red-200 rounded-sm transform translate-all duration-300 active:scale-95'>   
         <button 
             className='h-8'
             onClick={handleDelete}

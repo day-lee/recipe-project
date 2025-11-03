@@ -166,7 +166,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
             <NotesInput register={register} control={control} watch={watch}/>
             <div className='my-8 max-w-xl '>
                 <div className='flex flex-row justify-between max-w-xl'>
-                    <div className=' hover:bg-red-200 rounded-sm'>    
+                    <div className=' hover:bg-red-200 rounded-sm transform translate-all duration-300 active:scale-95'>    
                         <Link href={`/recipes`}>
                         <button className='h-8 '>
                             <div className='flex font-semibold items-center pr-2'>
@@ -175,7 +175,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
                         </button>
                         </Link>
                     </div>
-                    <div className=' hover:bg-red-200 rounded-sm'>   
+                    <div className=' hover:bg-red-200 rounded-sm transform translate-all duration-300 active:scale-95'>   
                         <button type="submit" className='h-8 '>
                             <div className='flex font-semibold items-center pr-2'>
                                 <PlusCircleIcon className='w-6 h-6 text-red-500 mx-2' />
