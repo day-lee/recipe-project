@@ -31,7 +31,7 @@ export default async function Home() {
           <div className="flex flex-col px-4 py-8">
               <Link href={`/recipes`}>
               <button type="submit" 
-                      className="w-full bg-red-700 border-2 m-1 px-4 py-4 rounded-md text-lg font-semibold text-white hover:bg-red-800 shadow-2xl hover:scale-95 transition duration-400 transform" >
+                      className="w-full bg-red-700 border-2 m-1 px-4 py-4 rounded-md text-lg font-semibold text-white hover:bg-red-800 shadow-2xl hover:translate-y-1 active:scale-95 transition duration-400 transform" >
                 {ctaButton}
               </button>
               </Link>

@@ -21,7 +21,7 @@ export default function SidebarModal() {
         <ul className='relative flex w-full min-w-0 flex-col p-2 pt-4 gap-4 font-medium'>
           <li>
             <Link href="/recipes">
-              <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold'>
+              <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold active:scale-95'>
               <BookOpenIcon className="w-8 h-8 flex-shrink-0" />
                 <span className={`whitespace-nowrap transition-all duration-300
                                 ${showSidebarModal ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
@@ -32,7 +32,7 @@ export default function SidebarModal() {
           </li>
           <li>
             <Link href="/recipes/new">
-              <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold'>
+              <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold active:scale-95'>
                 <PlusCircleIcon className="w-8 h-8 flex-shrink-0" />
                 <span className={`whitespace-nowrap transition-all duration-300
                                 ${showSidebarModal ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>
@@ -42,7 +42,7 @@ export default function SidebarModal() {
             </Link>
           </li>
           <li>
-            <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold'>
+            <div className='flex items-center gap-4 hover:text-red-700 hover:font-semibold active:scale-95'>
               <RandomRecipeModalButton setIsSidebarOpen={setShowSidebarModal} />
             </div>
           </li>
