@@ -10,6 +10,7 @@ export default function DurationInput({register}:Omit<InputProps, "errors">) {
                             {/* <option value="">Cook time</option> */}
                             <option value="15">15 mins</option>
                             <option value="30">30 mins</option>
+                            <option value="45">45 mins</option>
                             <option value="60">60 mins</option>
                             <option value="90">90 mins</option>
                             <option value="120">120 mins</option>
