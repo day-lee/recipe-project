@@ -22,7 +22,7 @@ export default async function RecipeList({ recipes}: {recipes: RecipeMain[]}) {
         </>) 
         : 
         (<div className='w-full'> 
-            <p className='flex justify-center items-center text-center font-medium lg:w-[992px] px-14 py-10'> {emptyListMsg} </p>
+            <p className='flex justify-center items-center text-center font-medium lg:w-[992px] px-14 my-80 sm:my-0 sm:py-10'> {emptyListMsg} </p>
         </div>)}
    </div>
     );
