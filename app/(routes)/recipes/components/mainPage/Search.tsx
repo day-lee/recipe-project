@@ -17,9 +17,7 @@ export default function Search({onChange, searchInput}:SearchProps ) {
             <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" />
             </div>
             <div className="w-2/6 flex items-center justify-end">
-                <button
-                    className="bg-red-700 text-white h-10 w-full mx-4 px-1 rounded-md font-semibold"
-                    > Search </button>
+                <button className="bg-red-700 text-white h-10 w-full mx-4 px-1 rounded-md font-semibold"> Search </button>
             </div>
       </div>
     );

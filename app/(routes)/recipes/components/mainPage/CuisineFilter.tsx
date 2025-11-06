@@ -5,7 +5,7 @@ export default function CuisineFilter({onChange, selectedCuisineTag}: MainFilter
     return (
     <div className="flex items-center mx-1 my-2">
         <label htmlFor="search" className="sr-only">Cuisine Filter</label>
-          <span className="font-semibold ml-1">Cuisine</span>
+          <span className="font-semibold ml-1 text-gray-800">Cuisine</span>
         <select onChange={(e) => onChange(e.target.value)} 
                 value={selectedCuisineTag}
                 className=" border-red-700 rounded-sm ml-2 p-1 h-8 bg-stone-300">
