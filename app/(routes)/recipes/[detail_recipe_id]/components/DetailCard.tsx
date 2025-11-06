@@ -19,17 +19,17 @@ const { recipe_name, public_id, created_user_id, external_link, duration, img_li
             <div className='max-w-md text-2xl font-semibold text-center'> {recipe_name}</div>   
             <div className='flex flex-row items-center m-4'>
                 <ClockIcon className="h-6 w-6 ml-2 text-gray-500" />
-                <div className='text-gray-700 ml-2'> <span> {duration} mins</span></div>
+                <div className='text-gray-700 ml-2 font-medium'> <span> {duration} mins</span></div>
             </div>
             <div className='mb-4'>
                 <ul className='flex flex-row'>
-                    <li aria-label="mainIngredientTag" className='border-2 text-gray-900 font-medium border-red-700 rounded-full px-2 py-1 text-center mx-1' key={tag_name}>{tag_name}</li>
-                    <li aria-label="cuisineTag" className='border-2 text-gray-900 font-medium border-red-700 rounded-full px-2 py-1 text-center mx-1' key={cuisine_tag_name}>{cuisine_tag_name}</li>
+                    <li aria-label="mainIngredientTag" className='flex items-center font-medium bg-red-700 text-white rounded-full py-1 text-center px-3 h-8 mx-2' key={tag_name}>{tag_name}</li>
+                    <li aria-label="cuisineTag" className='flex items-center font-medium border-[1px] border-gray-700 text-gray-800 rounded-full py-1 text-center px-3 h-8' key={cuisine_tag_name}>{cuisine_tag_name}</li>
                 </ul>
             </div>
             <Ingredients ingredientsList={ingredients} defaultServing={serving} />
             <section >
-                <p className='font-semibold text-2xl'>Steps</p>
+                <p className='font-semibold text-xl'>Steps</p>
                 <div className='border-2 border-gray-200 w-[360px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
                     <div className='my-4 p-2'>
                         <ul className='flex flex-col'> 
@@ -41,7 +41,7 @@ const { recipe_name, public_id, created_user_id, external_link, duration, img_li
             </section>
             {external_link && (            
             <section>
-                <p className='font-semibold text-2xl'>Video</p>
+                <p className='font-semibold text-xl'>Video</p>
                     <div className="flex justify-center border-2 w-[360px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-full border-gray-200 p-2 lg:p-8 my-4">
                         <div className="w-full aspect-video">
                         <iframe
@@ -55,7 +55,7 @@ const { recipe_name, public_id, created_user_id, external_link, duration, img_li
             </section>)}
             {notes && notes[0].desc.length > 0 && (
             <section >
-                <p className='font-semibold text-2xl'>Notes</p>
+                <p className='font-semibold text-xl'>Notes</p>
                 <div className='border-2 border-gray-200 w-[360px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-2 lg:p-8 my-4'> 
                     <div className='my-4 p-2'>
                         <ul className='flex flex-col'> 

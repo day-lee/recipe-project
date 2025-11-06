@@ -18,10 +18,10 @@ export default function Ingredients({ingredientsList, defaultServing}: Ingredien
 return(
 <section>
     <div className='flex flex-row items-center justify-between'>
-        <div className='font-semibold text-2xl'>Ingredients</div> 
-        <div className='mr-4'>
+        <div className='font-semibold text-xl'>Ingredients</div> 
+        <div className=''>
             <label htmlFor="serving"></label>
-            <select id="serving" aria-label="serving" name="serving" className='border border-gray-300 rounded p-2' value={selectedValue} onChange={(e) => handleSelect(e)}>
+            <select id="serving" aria-label="serving" name="serving" className='border border-gray-300 rounded px-2 h-8' value={selectedValue} onChange={(e) => handleSelect(e)}>
                 <option value=""> Serving</option>
                 <option value="1">1 Person</option>
                 <option value="2">2 People</option>
