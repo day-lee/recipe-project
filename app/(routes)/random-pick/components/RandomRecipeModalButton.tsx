@@ -57,7 +57,7 @@ export default function RandomRecipeModalButton({ setIsSidebarOpen }:
       {isRandomRecipeModalOpen && (
         <Modal isOpen={isRandomRecipeModalOpen}>
           <div >
-            <div className='text-xl sm:text-3xl font-semibold text-red-700 border-2 border-white bg-white rounded-md p-2 animate-bounce'>
+            <div className='text-xl sm:text-3xl font-extrabold text-white rounded-md p-2 animate-bounce'>
               {loading}
             </div>
           </div>
