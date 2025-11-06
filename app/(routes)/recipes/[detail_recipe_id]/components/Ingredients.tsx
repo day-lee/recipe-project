@@ -21,7 +21,7 @@ return(
         <div className='font-semibold text-2xl'>Ingredients</div> 
         <div className='mr-4'>
             <label htmlFor="serving"></label>
-            <select id="serving" name="serving" className='border border-gray-300 rounded p-2' value={selectedValue} onChange={(e) => handleSelect(e)}>
+            <select id="serving" aria-label="serving" name="serving" className='border border-gray-300 rounded p-2' value={selectedValue} onChange={(e) => handleSelect(e)}>
                 <option value=""> Serving</option>
                 <option value="1">1 Person</option>
                 <option value="2">2 People</option>
@@ -31,7 +31,7 @@ return(
             </select>
         </div>
     </div>
-    <div className='border-2 border-gray-200 w-[360px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-4 lg:p-8 my-4'>
+    <div aria-label="ingredients" className='border-2 border-gray-200 w-[360px] sm:w-[400px] md:w-[500px] lg:w-[600px] p-4 lg:p-8 my-4'>
         {mainIngredients.length > 0 && (<div className='my-4'> 
         <div className='font-semibold text-lg lg:text-xl'> Main ingredients </div>
             <ul className='mx-4'>

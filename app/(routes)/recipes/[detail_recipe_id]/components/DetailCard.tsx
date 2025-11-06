@@ -23,8 +23,8 @@ const { recipe_name, public_id, created_user_id, external_link, duration, img_li
             </div>
             <div className='mb-4'>
                 <ul className='flex flex-row'>
-                    <li className='border-2 text-gray-900 font-medium border-red-700 rounded-full px-2 py-1 text-center mx-1' key={tag_name}>{tag_name}</li>
-                    <li className='border-2 text-gray-900 font-medium border-red-700 rounded-full px-2 py-1 text-center mx-1' key={cuisine_tag_name}>{cuisine_tag_name}</li>
+                    <li aria-label="mainIngredientTag" className='border-2 text-gray-900 font-medium border-red-700 rounded-full px-2 py-1 text-center mx-1' key={tag_name}>{tag_name}</li>
+                    <li aria-label="cuisineTag" className='border-2 text-gray-900 font-medium border-red-700 rounded-full px-2 py-1 text-center mx-1' key={cuisine_tag_name}>{cuisine_tag_name}</li>
                 </ul>
             </div>
             <Ingredients ingredientsList={ingredients} defaultServing={serving} />
@@ -72,7 +72,7 @@ const { recipe_name, public_id, created_user_id, external_link, duration, img_li
                 </div>
                 <div>
                     <Link href={`/recipes/${public_id}/edit/`}>
-                    <div className=' hover:bg-red-200 rounded-sm'>   
+                    <div className=' hover:bg-red-200 rounded-sm transform translate-all duration-300 active:scale-95'>   
                         <button type="submit" className='h-8 '>
                             <div className='flex font-semibold items-center pr-2'>
                                 <PencilSquareIcon className='w-6 h-6 mx-2' />
