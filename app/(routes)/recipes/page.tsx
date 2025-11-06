@@ -34,7 +34,7 @@ export default async function Page(props: {
     }
   return (
       <div className="flex bg-white justify-center">
-        <div className="flex flex-col items-center max-w-5xl">
+        <div className="flex flex-col items-center max-w-8xl">
         <Suspense fallback={<div className="flex items-center mt-96 text-md font-light text-center text-gray-600">Loading...</div>}>
           <MainSearchFilter mainIngredientTags={mainIngredientTag || []} />
           <RecipeList recipes={recipeData} />

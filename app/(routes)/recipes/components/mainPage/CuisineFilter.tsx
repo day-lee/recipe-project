@@ -8,7 +8,7 @@ export default function CuisineFilter({onChange, selectedCuisineTag}: MainFilter
           <span className="font-semibold ml-1">Cuisine</span>
         <select onChange={(e) => onChange(e.target.value)} 
                 value={selectedCuisineTag}
-                className="border-2 border-red-700 rounded-sm ml-2 p-1">
+                className=" border-red-700 rounded-sm ml-2 p-1 h-8 bg-stone-300">
             <option value="">All Cuisines</option>
             <option value="Korean">Korean</option>
             <option value="British">British</option>

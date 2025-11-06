@@ -2,12 +2,14 @@
 import { useState } from 'react';
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
+import Image from 'next/image';
 
 import Search from '@/app/(routes)/recipes/components/mainPage/Search'
 import MainIngTagButton from '@/app/(routes)/recipes/components/mainPage/MainIngTagButton'
 import CuisineFilter from '@/app/(routes)/recipes/components/mainPage/CuisineFilter';
 import RemoveFilterButton from '@/app/(routes)/recipes/components/mainPage/RemoveFilterButton';
 import { MainListIngredientTag } from '@/app/types/types';
+import cookingBg from 'public/cooking-bg.jpg'
 
 export const catchPhrase = 'Effortlessly Delicious Recipes, Just for You!'
 
@@ -67,18 +69,21 @@ export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTa
         replace(`${pathname}?${params.toString()}`);
     }
     return (
-        <div className="w-full">
-            <div className="flex flex-col items-center py-8">
-                <p className="text-4xl font-semibold text-red-800 mb-2 font-serif">Bon Appétit,</p>
-                <p className="text-md text-gray-600 max-w-md text-center">{catchPhrase}</p>
+        <div className="w-full relative mb-30">
+             <Image className='opacity-75 relative' priority width={1200} height={300} style={{ width: '100%', height:'90%' }}  src={cookingBg} alt="Cooking Background" />
+            <div className="absolute flex flex-col items-center py-8 h-30 sm:h-72 md:h-80 lg:h-96 top-0 sm:top-[-100] md:top-[-80] lg:top-[-38] left-0 w-full justify-center">
+                <p className="text-4xl md:text-5xl font-semibold text-red-800 mb-2 font-serif">Bon Appétit,</p>
+                <p className="md:mt-4 text-md md:text-lg text-gray-700 max-w-md text-center">{catchPhrase}</p>
             </div>
-            <div className="border-[1px] border-gray-200 rounded-lg my-2 p-4 bg-red-50 shadow-xl">
-                <Search onChange={handleSearch} searchInput={searchInput}/>
-                <div className='flex items-center'>
-                <CuisineFilter onChange={handleCuisineTagChange} selectedCuisineTag={selectedCuisineTag}/>
-                <RemoveFilterButton onClick={handleFilterRemove} searchInput={searchInput} selectedCuisineTag={selectedCuisineTag} selectedMainIngTagId={selectedMainIngTagId} />
+            <div className='flex justify-center absolute bottom-[-220] sm:bottom-4 md:bottom-16 lg:bottom-32 left-0 w-full md:px-4'>
+                <div className='w-full border-[1px] border-gray-200 rounded-lg my-2 p-4 shadow-2xl bg-white '>
+                    <Search onChange={handleSearch} searchInput={searchInput}/>
+                    <div className='flex items-center'>
+                    <CuisineFilter onChange={handleCuisineTagChange} selectedCuisineTag={selectedCuisineTag}/>
+                    <RemoveFilterButton onClick={handleFilterRemove} searchInput={searchInput} selectedCuisineTag={selectedCuisineTag} selectedMainIngTagId={selectedMainIngTagId} />
+                    </div>
+                    <MainIngTagButton mainIngredientTags={mainIngredientTags} selectedMainIngTagId={selectedMainIngTagId} onClick={handleMainIngTagClick}/>
                 </div>
-                <MainIngTagButton mainIngredientTags={mainIngredientTags} selectedMainIngTagId={selectedMainIngTagId} onClick={handleMainIngTagClick}/>
             </div>
         </div>
     );

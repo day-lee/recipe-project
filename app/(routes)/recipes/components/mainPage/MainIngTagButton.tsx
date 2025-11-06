@@ -10,7 +10,7 @@ export default function MainIngTagButton({ mainIngredientTags, selectedMainIngTa
         {mainIngredientTags?.map((tag) => (
             <div key={tag.id} className="mx-1 ">
                 <button
-                    className={`m-1 px-2 py-1 text-sm text-black font-medium rounded-full active:scale-95 
+                    className={`flex items-center m-1 px-2 h-8 text-sm text-black font-medium rounded-full active:scale-95 
                                 hover:bg-red-100 hover:text-red-700 ${
                         selectedMainIngTagId === tag.id ? 'text-white bg-red-700' : 'bg-stone-300'}`}
                     onClick={() => onClick?.(tag.id, tag.tag_name)}>
