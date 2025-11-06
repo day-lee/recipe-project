@@ -75,7 +75,7 @@ export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTa
                 <p className="text-4xl md:text-5xl font-semibold text-red-800 mb-2 font-serif">Bon Appétit,</p>
                 <p className="md:mt-4 text-md md:text-lg text-gray-800 max-w-md text-center">{catchPhrase}</p>
             </div>
-            <div className='flex justify-center absolute bottom-[-200] sm:bottom-4 md:bottom-16 lg:bottom-32 left-0 w-full md:px-4'>
+            <div className='flex justify-center absolute bottom-[-180] sm:bottom-4 md:bottom-16 lg:bottom-32 left-0 w-full md:px-4'>
                 <div className='w-full border-[1px] border-gray-200 rounded-lg my-2 p-4 shadow-2xl bg-white '>
                     <Search onChange={handleSearch} searchInput={searchInput}/>
                     <div className='flex items-center'>

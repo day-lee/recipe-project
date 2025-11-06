@@ -9,7 +9,7 @@ export default async function RecipeList({ recipes}: {recipes: RecipeMain[]}) {
     <div>
       { resultLength > 0 ?
         (<>
-        <div className='flex sm:justify-start justify-center pb-4 font-medium ml-2 mt-60 sm:mt-0'> 
+        <div className='flex sm:justify-start justify-center pb-4 font-medium ml-2 mt-80 sm:mt-0'> 
           Found<span className='font-bold mx-1 text-red-700'>{resultLength}</span> {resultLength > 1 ? 'recipes' : 'recipe'}
         </div>
         <div className='w-full min-w-5xl'>
