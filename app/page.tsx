@@ -24,7 +24,7 @@ export default async function Home() {
             <p className="text-5xl sm:text-8xl font-semibold text-red-800 mb-4 sm:mb-8 font-serif ">Bon Appétit,</p>
             <p className="text-lg sm:text-2xl text-gray-800 text-center font-normal animate-pulse">{catchPhrase}</p>
             <div className="flex items-center mt-1 sm:mt-4 ">
-              <Image src={icon} className="w-8 h-8" alt="logo"/>
+              <Image src={icon} className="w-8 h-8 animate-pulse" alt="logo"/>
               <p className="text-lg sm:text-2xl text-red-700 font-medium p-1">Recipe Project</p>
             </div>
           </div>
