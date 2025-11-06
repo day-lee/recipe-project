@@ -22,8 +22,8 @@ export default async function Home() {
         <div className="flex-1 flex flex-col gap-10 max-w-5xl p-5 items-center">
           <div className="flex flex-col items-center">
             <p className="text-5xl sm:text-8xl font-semibold text-red-800 mb-4 sm:mb-8 font-serif ">Bon Appétit,</p>
-            <p className="text-lg sm:text-2xl text-gray-600 text-center font-normal">{catchPhrase}</p>
-            <div className="flex items-center mt-1 sm:mt-4">
+            <p className="text-lg sm:text-2xl text-gray-800 text-center font-normal animate-pulse">{catchPhrase}</p>
+            <div className="flex items-center mt-1 sm:mt-4 ">
               <Image src={icon} className="w-8 h-8" alt="logo"/>
               <p className="text-lg sm:text-2xl text-red-700 font-medium p-1">Recipe Project</p>
             </div>
