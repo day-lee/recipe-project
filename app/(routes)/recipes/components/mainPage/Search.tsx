@@ -8,7 +8,7 @@ export default function Search({onChange, searchInput}:SearchProps ) {
             <div className="relative w-5/6">
             <label htmlFor="search" className="sr-only">Search</label>
             <input
-                className="border-[1px] border-stone-700 block w-full m-2 py-2 h-10 px-8 rounded-md focus:outline-none" 
+                className="border-[1px] border-stone-700 block w-full m-2 py-2 h-10 px-8 rounded-md focus:outline-none placeholder:italic" 
                 type="text"
                 onChange={(e) => onChange?.(e.target.value)}
                 value={searchInput}
