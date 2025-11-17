@@ -34,7 +34,7 @@ export default function MainIngredientInput ({register, errors, control}: Omit<I
                             <label htmlFor="ingredientAmount"></label>
                             <input 
                             aria-label="main ingredient quantity"
-                            id="ingredientAmount" type="number" placeholder="Amount"
+                            id="ingredientAmount" type="number" step="0.01" placeholder="Amount"
                             {...register(`main_ingredients.${index}.quantity`, {valueAsNumber: true})}
                             className='w-full lg:w-3/5 border-2 lg:ml-2 border-gray-300 pl-2 py-1 rounded-sm my-2' /> 
                             <label htmlFor="ingredientUnit"></label>
