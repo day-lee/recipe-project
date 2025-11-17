@@ -11,7 +11,7 @@ export default function StepsInput ({register, errors, control, watch}: InputUse
   <section >
             <div aria-label="steps section" className='my-8 max-w-xl'>
                 <div className='flex flex-row justify-between mt-8 max-w-xl'>
-                    <p className='font-semibold lg:text-xl'>Steps</p>
+                    <p className='font-semibold lg:text-xl'>Steps<span className='text-red-600'>*</span></p>
                     <button aria-label="add more steps button" type="button" 
                             onClick={() => appendStep({ id: 0, photo_id: 0, desc:""})}
                             className='font-medium px-2 h-8 mx-2 rounded-sm hover:bg-red-200 '> 

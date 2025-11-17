@@ -10,7 +10,7 @@ export default function MainIngredientInput ({register, errors, control}: Omit<I
     return (
    <div aria-label="main ingredient section" className='my-4'>
                     <div className='flex flex-row my-2 justify-between'>
-                    <p className='font-semibold lg:text-xl'>Main</p>  
+                    <p className='font-semibold lg:text-xl'>Main<span className='text-red-600'>*</span></p>  
                     <button aria-label="add more main ingredient input button" type="button" 
                             onClick={() => appendMainIngredient({id:1, ingredient_name: "", quantity: 1, unit:"", type:'main'})}
                             className=' font-medium  rounded-sm px-2 mx-2 hover:bg-red-200 hover:text-red-800'>
