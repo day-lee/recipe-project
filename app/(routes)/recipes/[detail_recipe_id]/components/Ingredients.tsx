@@ -35,19 +35,19 @@ return(
         {mainIngredients.length > 0 && (<div className='my-4'> 
         <div className='font-semibold text-lg lg:text-xl'> Main ingredients </div>
             <ul className='mx-4'>
-                {mainIngredients.map(item => <li key={item.id}> {item.ingredient_name} <span className='font-semibold ml-1'>{item.quantity * serving} {item.unit}</span> </li>)}
+                {mainIngredients.map(item => <li key={item.id}> {item.ingredient_name} <span className='font-semibold ml-1'>{Math.round(item.quantity * serving)||1} {item.unit}</span> </li>)}
             </ul>
         </div>)}
         {optionalIngredients.length > 0 && (<div className='my-4'> 
             <div className='font-semibold text-lg lg:text-xl'> Optional ingredients </div>
             <ul className='mx-4'>
-                {optionalIngredients.map(item => <li key={item.id}> {item.ingredient_name} <span className='font-semibold ml-1'>{item.quantity * serving}{item.unit}</span></li>)}
+                {optionalIngredients.map(item => <li key={item.id}> {item.ingredient_name} <span className='font-semibold ml-1'>{Math.round(item.quantity * serving)||1} {item.unit}</span></li>)}
             </ul>
         </div>) }
         {sauceIngredients.length > 0 && (<div className='my-4'> 
             <div className='font-semibold text-lg lg:text-xl'> Sauces </div>
             <ul className='mx-4'>
-                {sauceIngredients.map(item => <li key={item.id}> {item.ingredient_name} <span className='font-semibold ml-1'>{item.quantity * serving}{item.unit}</span></li>)}
+                {sauceIngredients.map(item => <li key={item.id}> {item.ingredient_name} <span className='font-semibold ml-1'>{Math.round(item.quantity * serving)||1} {item.unit}</span></li>)}
             </ul>
         </div>)} 
     </div>
