@@ -1,4 +1,9 @@
 import type { NextConfig } from "next";
+import analyser from '@next/bundle-analyzer'
+
+const withBundleAnalyzer = analyser({
+  enabled: process.env.ANALYZE === 'true',
+})
 
 const nextConfig: NextConfig = {
   images: {
@@ -6,20 +11,16 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'day-lee.github.io',
-        port: '',
         pathname: '/recipe-book-food-photos/**',
-        search: '',
       },
       {
         protocol: "https",
         hostname: "img.youtube.com",
-        port: "",
         pathname: "/vi/**",
       },
       {
         protocol: "https",
         hostname: "uzedwhzjchxkoacuansf.supabase.co",
-        port: "",
         pathname: "/storage/v1/object/**",
       },
     ],
@@ -31,4 +32,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);
