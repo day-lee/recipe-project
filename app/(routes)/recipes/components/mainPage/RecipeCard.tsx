@@ -11,10 +11,10 @@ return(
         <div title={recipe.recipe_name} 
         className='relative border-slate-600 shadow-md bg-white w-[290px] sm:w-[230px] h-[350px] sm:h-[330px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-95'>
             {recipe.img_link ? 
-            <Image className='w-full h-[230px] sm:h-[210px] object-cover' priority={true} src={recipe.img_link} alt={recipe.recipe_name} width={210} height={230} 
+            <Image className='w-full h-[230px] sm:h-[210px] object-cover' loading="lazy" src={recipe.img_link} alt={recipe.recipe_name} width={210} height={230} 
                                 sizes="(max-width: 668px) 80vw, 80vw" /> 
             :
-            <Image className="w-full h-[230px] sm:h-[210px] object-cover" src={fallbackImg} alt='fallbackImg' width={210} height={230} sizes="(max-width: 668px) 80vw, 80vw"/>
+            <Image className="w-full h-[230px] sm:h-[210px] object-cover" loading="lazy" src={fallbackImg} alt='fallbackImg' width={210} height={230} sizes="(max-width: 668px) 80vw, 80vw"/>
             }
             <div className='px-2 py-2 flex-1 flex flex-col'>
                 <div className='text-black font-bold text-lg h-[60px] line-clamp-2'> {recipe.recipe_name} </div>
