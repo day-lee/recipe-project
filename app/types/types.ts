@@ -108,6 +108,7 @@ export interface IngredientsProps {
     cuisine_tag: number;
     steps: Step[];
     img_link: string;
+    img_file: File;
     external_link: string;
     notes: Note[];
     main_ingredients: Omit<Ingredient, "recipe_id">[];
@@ -123,6 +124,7 @@ export interface IngredientsProps {
 
   export interface ImageUploadProps {
     register: UseFormRegister<FormSubmitData>;
+    errors: FieldErrors<FormSubmitData>;
     watch: UseFormWatch<FormSubmitData>;
     setValue: UseFormSetValue<FormSubmitData>;
     previewUrl: string;

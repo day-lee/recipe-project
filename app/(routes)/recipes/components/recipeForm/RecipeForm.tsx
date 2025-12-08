@@ -34,6 +34,9 @@ const submitSuccessMsg = 'Your recipe has been successfully saved!'
 const submitErrorMsg = 'Sorry, something went wrong. Please try again.'
 const unavailableImg = 'https://uzedwhzjchxkoacuansf.supabase.co/storage/v1/object/public/recipe-image/recipe-main/unavailable.png'
 
+const blob = new Blob([], { type: 'image/png'})
+export const emptyFile = new File([blob], "null_img.png")
+
 const CREATE_DEFAULT_VALUES: RecipeFormData = {
     recipe_name: '',
     created_user_id: '',
@@ -43,6 +46,7 @@ const CREATE_DEFAULT_VALUES: RecipeFormData = {
     cuisine_tag: 1,
     steps: [{id: 1, photo_id: undefined, desc: "" }],
     img_link: "",
+    img_file: emptyFile,
     external_link: "",
     notes: [{id: 1, desc:""}],
     main_ingredients: [{id:1, ingredient_name:"", quantity: 0, unit: "", type: "main"}],
@@ -50,8 +54,8 @@ const CREATE_DEFAULT_VALUES: RecipeFormData = {
     sauce_ingredients: []        
 }
 
-const blob = new Blob([], { type: 'image/png'})
-export const emptyFile = new File([blob], "null_img.png")
+// const blob = new Blob([], { type: 'image/png'})
+// export const emptyFile = new File([blob], "null_img.png")
 
 export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, userId} : RecipeFormProps) {
     const previewImg = defaultValues?.img_link || ""
@@ -87,6 +91,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
             const payload = {
               ...data,
               img_link: imageUrl || unavailableImg, 
+              img_file: selectedFile,
               created_user_id: userId,   
               recipe_name: nameFormatter(data.recipe_name),
               duration: data.duration || 15,
@@ -141,7 +146,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
             <section> 
                 <p className='font-semibold lg:text-xl'>Main photo</p>
                 <div className='flex items-center justify-center'>
-                    <MainImageUpload register={register} watch={watch} setValue={setValue} 
+                    <MainImageUpload register={register} errors={errors} watch={watch} setValue={setValue} 
                                      previewUrl={previewUrl} setPreviewUrl={setPreviewUrl} 
                                      selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
                 </div>
