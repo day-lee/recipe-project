@@ -3,24 +3,32 @@ import Image from 'next/image'
 
 import { ImageUploadProps } from '@/app/types/types'
 import { emptyFile } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm'
+import { MAX_MAIN_IMG_SIZE } from '@/app/utils/validation/recipe'
 
 export default function MainImageUpload({ register, setValue, previewUrl, setPreviewUrl, selectedFile, setSelectedFile }: ImageUploadProps)  {
     const [originalImg] = useState<string>(previewUrl)
     useEffect(() => {
         if (previewUrl) return
-        else if(selectedFile && selectedFile.name !== 'null_img.png'){
+        else if(selectedFile && selectedFile.name !== 'null_img.png' && selectedFile.size <= MAX_MAIN_IMG_SIZE) {
             const objectUrl = URL.createObjectURL(selectedFile);
             setPreviewUrl(objectUrl);
             setSelectedFile(selectedFile)
-        return () => URL.revokeObjectURL(objectUrl);
-            } else {
+          return () => URL.revokeObjectURL(objectUrl);
+            } 
+        else {
             setPreviewUrl('');
         }
     },[selectedFile])
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
       if (file && file.name !== 'null_img.png') {
-        setSelectedFile(file);
+        if (file.size <= MAX_MAIN_IMG_SIZE) {
+          setSelectedFile(file);
+        } else {
+          event.target.value = '';
+          console.error('File size exceeds 2MB!!'); 
+          return;
+        }
       } else {
         setSelectedFile(emptyFile)
       }

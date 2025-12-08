@@ -5,6 +5,7 @@ const ingredientErrorMsg = 'Recipe ingredients must be at least 3 characters lon
 const ingredientQuantityErrorMsg = 'Please enter a valid quantity for the ingredient.'
 const ingredientUnitErrorMsg = 'Please enter a valid unit for the ingredient.'
 const stepErrorMsg = 'Please add a step for your recipe.'
+export const MAX_MAIN_IMG_SIZE = 2 * 1024 * 1024; // 2MB
 
 const step =  z.object({
     photo_id: z.number().optional(),
@@ -32,6 +33,7 @@ export const recipeSchema = z.object({
   cuisine_tag: z.number(),
   steps: z.array(step),
   img_link: z.string(),
+//   img_file: z.any().optional().refine((file) => file?.[0]?.size <= MAX_MAIN_IMG_SIZE, 'Image must be less than 2MB'),
   img_file: z.any().optional(),
   external_link: z.string(),
   notes: z.array(note),
