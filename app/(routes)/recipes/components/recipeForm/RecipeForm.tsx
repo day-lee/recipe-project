@@ -134,8 +134,6 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
                 }}
             } catch(error){
                 console.error('Error:', error)
-            } finally{
-                setIsSubmitting(false)
             }}
     return (
     <main className='min-h-screen max-w-2xl flex flex-col m-2 md:m-16 lg:m-32 items-center border-2 border-red-700 p-4'>
@@ -175,17 +173,18 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
                         </button>
                         </Link>
                     </div>
-                    <div className=' hover:bg-red-200 rounded-sm transform translate-all duration-300 active:scale-95'>   
-                        <button type="submit" className='h-8 '>
+                    <div className={`rounded-sm transform translate-all duration-300  ${isSubmitting ? 'bg-gray-300':'hover:bg-red-200 active:scale-95'}`}>   
+                        <button type="submit" className="h-8 flex" disabled={isSubmitting}>
                             <div className='flex font-semibold items-center pr-2'>
-                                <PlusCircleIcon className='w-6 h-6 text-red-500 mx-2' />
+                                <PlusCircleIcon className={`w-6 h-6 mx-2 ${isSubmitting ? 'text-gray-500' : 'text-red-500'}`} />
                               {mode === 'edit' ? 'Edit' : `${isSubmitting ? 'Creating...' : 'Create'}` } 
                             </div>
                         </button>
                     </div>
                 </div>
                 <div className='flex justify-center items-center'>
-                   { isSubmitting ? (<span className='font-medium text-xl- mt-4 w-1/2 h-8 bg-gray-300 rounded animate-pulse text-center'>Saving your recipe...</span>) : (<span className='font-medium text-md sm:text-xl mt-4'>{msg}</span>)}
+                   { isSubmitting ? (<span className='flex justify-center items-center font-medium text-xl- mt-4 w-1/2 h-8 bg-gray-300 rounded animate-pulse text-center'>Saving your recipe...</span>)
+                    : (<span className='flex justify-center items-center font-medium text-md sm:text-xl mt-4'>{msg}</span>)}
                 </div>
             </div>            
         </form>
