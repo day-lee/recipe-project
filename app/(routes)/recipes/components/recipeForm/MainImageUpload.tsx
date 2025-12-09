@@ -5,11 +5,8 @@ import { ImageUploadProps } from '@/app/types/types'
 import { emptyFile } from '@/app/(routes)/recipes/components/recipeForm/RecipeForm'
 import { MAX_MAIN_IMG_SIZE } from '@/app/utils/validation/recipe'
 
-const mainImgSizeErrorMsg = `Please upload an image smaller than 2MB.`
-
-export default function MainImageUpload({ register, errors, setValue, previewUrl, setPreviewUrl, selectedFile, setSelectedFile }: ImageUploadProps)  {
+export default function MainImageUpload({ register, setValue, previewUrl, setPreviewUrl, selectedFile, setSelectedFile }: ImageUploadProps)  {
     const [originalImg] = useState<string>(previewUrl)
-    const [mainImgSizeError, setMainImgSizeError] = useState<string>('')
     useEffect(() => {
         if (previewUrl) return
         else if(selectedFile && selectedFile.name !== 'null_img.png' && selectedFile.size <= MAX_MAIN_IMG_SIZE) {
@@ -26,12 +23,10 @@ export default function MainImageUpload({ register, errors, setValue, previewUrl
       const file = event.target.files?.[0];
       if (file && file.name !== 'null_img.png') {
         if (file.size <= MAX_MAIN_IMG_SIZE) {
-          setMainImgSizeError('');
           setSelectedFile(file);
         } else {
           event.target.value = '';
-          setValue('img_file', emptyFile);
-          setMainImgSizeError(mainImgSizeErrorMsg);
+          console.error('File size exceeds 2MB!!'); 
           return;
         }
       } else {
@@ -52,10 +47,6 @@ export default function MainImageUpload({ register, errors, setValue, previewUrl
     }
     return (
  <div className="space-y-4">
-      <input type="hidden" {...register('img_file')} />
-          <div>
-            {errors.img_file && (<span className="text-red-700 text-sm">{errors.img_file.message}</span>)}  
-          </div>
       <div>
         <label className="block text-sm font-medium mb-2">
         </label>
@@ -76,7 +67,6 @@ export default function MainImageUpload({ register, errors, setValue, previewUrl
             <p className="text-gray-500 text-sm mt-2">
               Select the image file
             </p>
-            {mainImgSizeError && (<span className="text-red-700 text-sm">{mainImgSizeError}</span>)}
           </div>
         ) : (
           // preview
