@@ -12,10 +12,8 @@ export default function DetailCard({recipeDetail, ingredients, user}:{recipeDeta
 const { recipe_name, public_id, created_user_id, external_link, duration, img_link, tag_name, cuisine_tag_name, notes, steps, serving } = recipeDetail
     return(
          <main className='min-h-screen max-w-2xl flex flex-col m-2 md:mx-16 lg:mx-32 items-center border-2 border-red-700 p-4'>
-            {img_link ? <Image className='m-8' priority={true} src={img_link} alt={recipe_name} width={360} 
-                                height={360} sizes="(max-width: 668px) 90vw, 60vw" style={{ width: '60%', height: 'auto' }} /> 
-                      : <Image className="m-8" priority={true} src={fallbackImg} alt='fallbackImg'  width={360} 
-                                height={360} sizes="(max-width: 668px) 90vw, 60vw" style={{ width: '60%', height: 'auto' }} />}
+            {<Image className='m-8' priority={true} src={img_link? img_link : fallbackImg} alt={img_link? recipe_name : 'fallbackImg'} width={360} 
+                              height={360} sizes="(max-width: 668px) 90vw, 60vw" style={{ width: '60%', height: 'auto' }} /> }                    
             <div className='max-w-md text-2xl font-semibold text-center'> {recipe_name}</div>   
             <div className='flex flex-row items-center m-4'>
                 <ClockIcon className="h-6 w-6 ml-2 text-gray-500" />
@@ -61,8 +59,9 @@ const { recipe_name, public_id, created_user_id, external_link, duration, img_li
                         <ul className='flex flex-col'> 
                          {notes.map((item:Note) => <li className='flex flex-row' key={item.id}><div className='pr-4 my-2'>•</div> 
                                                    <div className='mr-1 my-2'>{item.desc}</div></li>)} 
-                        </ul></div>
-                    </div>   
+                        </ul>
+                    </div>
+                </div>   
             </section>
             )}
             {user === created_user_id && 
