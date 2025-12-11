@@ -9,6 +9,7 @@ import { createClient } from '@/lib/supabase/client'
 import Modal from './RandomRecipeModal'
 
 const loadingMessage = "Finding the perfect recipe for you..."
+const finalMessage = "Enjoy your random recipe!"
 
 export default function RandomRecipeModalButton({ setIsSidebarOpen }:
                          {setIsSidebarOpen: Dispatch<SetStateAction<boolean>>}) {
@@ -18,20 +19,29 @@ export default function RandomRecipeModalButton({ setIsSidebarOpen }:
 
   const onClick = useCallback(async () => {
     setIsRandomRecipeModalOpen(true)
-    const supabase = await createClient()
+    const supabase = createClient()
     const { data: recipeId, error: recipeIdError } = await supabase
           .rpc('get_random_recipe_public_id');  
-    const { public_id } = recipeId[0]
+    if (!recipeId || recipeId.length === 0 || !recipeId[0].public_id) {
+      throw new Error(`Error fetching random id:${recipeIdError?.message}`)
+    }
     if (recipeIdError) {
         console.error('Error fetching random id:', recipeIdError);
         return <div>Error loading random id</div>;
       } 
+      const { public_id } = recipeId[0]
       const startLoading = async () => {
-      await new Promise(resolve => setTimeout(resolve, 500))
-      setLoading(loadingMessage)
-      // await new Promise(resolve => setTimeout(resolve, 400))
-      // setLoading(finalMessage)
-      await new Promise(resolve => setTimeout(resolve, 500))
+      await new Promise(resolve => {
+        setTimeout(()=> {
+          setLoading(finalMessage)
+          resolve('done')
+        }, 700)
+      })        
+      await new Promise(resolve => {
+        setTimeout(()=> {
+          resolve('done')
+        }, 800)
+      })
       confetti({
         particleCount: 200,
         spread: 90,
@@ -40,24 +50,20 @@ export default function RandomRecipeModalButton({ setIsSidebarOpen }:
       setIsRandomRecipeModalOpen(false)
       setLoading(loadingMessage)
     }
-    startLoading()
-    setTimeout(() => {
-      setIsSidebarOpen(false)
-      router.push(public_id ? `/recipes/${public_id}` : '/recipes')
-      // router.push(id ? `/recipes/3` : '/recipes')
-    }, 900)
+    await startLoading()
+    setIsSidebarOpen(false)
+    router.push(public_id ? `/recipes/${public_id}` : '/recipes')
   }, [router, setIsSidebarOpen])
   return (
     <>
      <button onClick={onClick}><div className='flex gap-4 items-center'> 
         <GiftIcon className="w-8 h-8 flex-shrink-0" /> 
-       {/* <span>Random </span> */}
        <span className={`whitespace-nowrap transition-all duration-300`}>Random recipe</span>
        </div></button>
       {isRandomRecipeModalOpen && (
         <Modal isOpen={isRandomRecipeModalOpen}>
           <div >
-            <div className='text-xl sm:text-3xl font-extrabold text-white rounded-md p-2 animate-bounce'>
+            <div className={`text-xl sm:text-3xl font-extrabold text-white rounded-md p-2 animate-bounce ${loading === finalMessage && 'bg-red-500'}`}>
               {loading}
             </div>
           </div>
@@ -66,8 +72,3 @@ export default function RandomRecipeModalButton({ setIsSidebarOpen }:
     </>
   )
 }
-
-/*
-{isRandomRecipeModalOpen ? ( <span className={`whitespace-nowrap transition-all duration-300
-        ${showModal? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}>Random recipe</span>) : (<span>Random Recipe</span>)}
-*/
