@@ -36,11 +36,12 @@ export default function RandomRecipeModalButton({ setIsSidebarOpen }:
           setLoading(finalMessage)
           resolve('done')
         }, 700)
-      })        
+      })  
+      // after waiting for 700ms, show final message for another 700ms, then confetti 
       await new Promise(resolve => {
         setTimeout(()=> {
           resolve('done')
-        }, 800)
+        }, 700)
       })
       confetti({
         particleCount: 200,
