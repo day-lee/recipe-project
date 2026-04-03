@@ -43,7 +43,7 @@ export default async function EditRecipeFormPage({ params }: {params: Promise<{d
       </h1>
       { user === created_user_id ? (    
         <>  
-        <p className='pb-4'>Share your yummy ideas!</p>
+        <p>Share your yummy ideas!</p>
       <RecipeForm mainIngredientTag={mainIngredientTag || []} recipeId={detail_recipe_id} mode="edit" defaultValues={defaultValues} userId={user} /> </>) 
       : (<div> {noAccessMsg}</div>)}
     </main>
