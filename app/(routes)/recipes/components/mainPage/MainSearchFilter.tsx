@@ -11,7 +11,7 @@ import RemoveFilterButton from '@/app/(routes)/recipes/components/mainPage/Remov
 import { MainListIngredientTag } from '@/app/types/types';
 import cookingBg from 'public/cooking-bg.jpg'
 
-export const catchPhrase = 'Effortlessly Delicious Recipes, Just for You!'
+export const catchPhrase = "J&D’s custom app for our daily feasts!"
 
 export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTags: MainListIngredientTag[]}) {
     const [searchInput, setSearchInput] = useState<string | ''>('');

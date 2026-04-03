@@ -5,7 +5,7 @@ import { catchPhrase } from "./(routes)/recipes/components/mainPage/MainSearchFi
 import icon from '@/app/icon.svg'
 import Image from "next/image";
 
-const ctaButton = 'Discover All Amazing Recipes'
+const ctaButton = 'Discover our joyful recipes!'
 export default async function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center">
