@@ -28,7 +28,7 @@ const formattedUpdatedAt = dayjs(updated_at).format('DD MMMM YYYY');
                     <li aria-label="cuisineTag" className='flex items-center font-medium border-[1px] border-gray-700 text-gray-800 rounded-full py-1 text-center px-3 h-8' key={cuisine_tag_name}>{cuisine_tag_name}</li>
                 </ul>
             </div>
-            <div className='flex flex-col items-center text-sm text-gray-400 font-light'>
+            <div className='flex flex-col mb-4 items-center text-sm text-gray-400 font-light'>
                 <div className='ml-2'> <span> Created: {formattedCreatedAt}</span></div>
                 <div className='ml-2'> <span> {updated_at ? `Updated: ${formattedUpdatedAt}` : ''}</span></div>
             </div>         
