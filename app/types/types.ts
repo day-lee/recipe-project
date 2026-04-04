@@ -42,6 +42,8 @@ export interface Recipe {
     steps: Step[];
     external_link: string;
     ingredients: GroupedIngredientsList;
+    created_at: string;
+    updated_at: string;
   }
 
   export interface RecipeMain extends Recipe {

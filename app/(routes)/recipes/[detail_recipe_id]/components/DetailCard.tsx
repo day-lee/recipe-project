@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ClockIcon } from '@heroicons/react/24/solid'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
+import dayjs from 'dayjs'
 
 import { Step, Note, RecipeDetail, GroupedIngredientsList, user } from '@/app/types/types'
 import Ingredients from '@/app/(routes)/recipes/[detail_recipe_id]/components/Ingredients'
@@ -9,7 +10,9 @@ import fallbackImg from '@/app/assets/unavailable.png'
 import DeleteRecipeBtn from '../../components/recipeForm/DeleteRecipeBtn'
 
 export default function DetailCard({recipeDetail, ingredients, user}:{recipeDetail: RecipeDetail, ingredients: GroupedIngredientsList, user:user}) {
-const { recipe_name, public_id, created_user_id, external_link, duration, img_link, tag_name, cuisine_tag_name, notes, steps, serving } = recipeDetail
+const { recipe_name, public_id, created_user_id, external_link, duration, img_link, tag_name, cuisine_tag_name, notes, steps, serving, created_at, updated_at } = recipeDetail
+const formattedCreatedAt = dayjs(created_at).format('DD MMMM YYYY');
+const formattedUpdatedAt = dayjs(updated_at).format('DD MMMM YYYY');
     return(
          <main className='min-h-screen max-w-2xl flex flex-col m-2 md:mx-16 lg:mx-32 items-center border-2 border-red-700 p-4'>
             {<Image className='m-8' priority={true} src={img_link? img_link : fallbackImg} alt={img_link? recipe_name : 'fallbackImg'} width={360} 
@@ -25,6 +28,10 @@ const { recipe_name, public_id, created_user_id, external_link, duration, img_li
                     <li aria-label="cuisineTag" className='flex items-center font-medium border-[1px] border-gray-700 text-gray-800 rounded-full py-1 text-center px-3 h-8' key={cuisine_tag_name}>{cuisine_tag_name}</li>
                 </ul>
             </div>
+            <div className='flex flex-col items-center text-sm text-gray-400 font-light'>
+                <div className='ml-2'> <span> Created: {formattedCreatedAt}</span></div>
+                <div className='ml-2'> <span> {updated_at ? `Updated: ${formattedUpdatedAt}` : ''}</span></div>
+            </div>         
             <Ingredients ingredientsList={ingredients} defaultServing={serving} />
             <section >
                 <p className='font-semibold text-xl'>Steps</p>

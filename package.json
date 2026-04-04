@@ -19,6 +19,7 @@
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.20",
     "html-react-parser": "^5.2.6",
     "lucide-react": "^0.511.0",
     "next": "^15.4.8",
