@@ -28,6 +28,7 @@ export interface Recipe {
     public_id: string;
     created_user_id: string;
     recipe_name: string;
+    recipe_name_kr: string;
     duration: number;
     img_link: string;
     serving: number;

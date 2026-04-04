@@ -10,14 +10,14 @@ import fallbackImg from '@/app/assets/unavailable.png'
 import DeleteRecipeBtn from '../../components/recipeForm/DeleteRecipeBtn'
 
 export default function DetailCard({recipeDetail, ingredients, user}:{recipeDetail: RecipeDetail, ingredients: GroupedIngredientsList, user:user}) {
-const { recipe_name, public_id, created_user_id, external_link, duration, img_link, tag_name, cuisine_tag_name, notes, steps, serving, created_at, updated_at } = recipeDetail
+const { recipe_name, recipe_name_kr, public_id, created_user_id, external_link, duration, img_link, tag_name, cuisine_tag_name, notes, steps, serving, created_at, updated_at } = recipeDetail
 const formattedCreatedAt = dayjs(created_at).format('DD MMMM YYYY');
 const formattedUpdatedAt = dayjs(updated_at).format('DD MMMM YYYY');
     return(
          <main className='min-h-screen max-w-2xl flex flex-col m-2 md:mx-16 lg:mx-32 items-center border-2 border-red-700 p-4'>
             {<Image className='m-8' priority={true} src={img_link? img_link : fallbackImg} alt={img_link? recipe_name : 'fallbackImg'} width={360} 
                               height={360} sizes="(max-width: 668px) 90vw, 60vw" style={{ width: '60%', height: 'auto' }} /> }                    
-            <div className='max-w-md text-2xl font-semibold text-center'> {recipe_name}</div>   
+            <div className='max-w-md text-2xl font-semibold text-center'> {recipe_name} | {recipe_name_kr}</div>   
             <div className='flex flex-row items-center m-4'>
                 <ClockIcon className="h-6 w-6 ml-2 text-gray-500" />
                 <div className='text-gray-700 ml-2 font-medium'> <span> {duration} mins</span></div>
