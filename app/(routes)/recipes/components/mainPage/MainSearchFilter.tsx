@@ -72,7 +72,7 @@ export default function MainSearchFilter({mainIngredientTags}: {mainIngredientTa
         <div className="w-full relative mb-30">
              <Image className='opacity-65 relative' priority={true} width={1200} height={300} style={{ width: '100%', height:'90%' }}  src={cookingBg} alt="Cooking Background" />
             <div className="absolute flex flex-col items-center py-4 h-60 sm:h-72 md:h-80 lg:h-96 top-0 sm:top-[-100] md:top-[-80] lg:top-[-38] left-0 w-full justify-center">
-                <p className="text-4xl md:text-5xl font-semibold text-red-800 mb-2 font-serif">Bon Appétit,</p>
+                <p className="text-4xl md:text-5xl font-semibold text-red-800 mb-2">Mani Mogo!</p>
                 <p className="md:mt-4 text-lg sm:text-xl text-gray-900 max-w-md text-center font-normal animate-pulse">{catchPhrase}</p>
             </div>
             <div className='flex justify-center absolute bottom-[-180] sm:bottom-4 md:bottom-16 lg:bottom-32 left-0 w-full md:px-4'>
