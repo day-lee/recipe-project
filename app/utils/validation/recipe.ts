@@ -27,6 +27,7 @@ const ingredient = z.object({
 
 export const recipeSchema = z.object({
   recipe_name: z.string().min(3, nameErrorMsg),
+  recipe_name_kr: z.string().min(2, 'Korean recipe name must be at least 2 characters long'),
   duration: z.number(),
   serving: z.number(),
   main_ingredient_tag: z.number(),

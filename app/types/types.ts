@@ -104,6 +104,7 @@ export interface IngredientsProps {
 
   export interface FormSubmitData {
     recipe_name: string;
+    recipe_name_kr: string;
     created_user_id: string;
     duration: number;
     serving: number;

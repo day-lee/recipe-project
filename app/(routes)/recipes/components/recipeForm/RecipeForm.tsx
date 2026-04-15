@@ -13,6 +13,7 @@ import { extractVideoId, nameFormatter, mergeIngredients } from '@/app/utils/uti
 import { upsertRecipe } from "@/app/(routes)/recipes/actions"; 
 import MainImageUpload from '@/app/(routes)/recipes/components/recipeForm/MainImageUpload';
 import NameInput from '@/app/(routes)/recipes/components/recipeForm/NameInput';
+import NameKrInput from '@/app/(routes)/recipes/components/recipeForm/NameKrInput';
 import DurationInput from '@/app/(routes)/recipes/components/recipeForm/DurationInput';
 import CuisineTagInput from '@/app/(routes)/recipes/components/recipeForm/CuisineTagInput';
 import MainIngredientTagInput from '@/app/(routes)/recipes/components/recipeForm/MainIngredientTagInput';
@@ -36,6 +37,7 @@ const unavailableImg = 'https://uzedwhzjchxkoacuansf.supabase.co/storage/v1/obje
 
 const CREATE_DEFAULT_VALUES: RecipeFormData = {
     recipe_name: '',
+    recipe_name_kr: '',
     created_user_id: '',
     duration: 30,
     serving: 2,
@@ -89,6 +91,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
               img_link: imageUrl || unavailableImg, 
               created_user_id: userId,   
               recipe_name: nameFormatter(data.recipe_name),
+              recipe_name_kr: nameFormatter(data.recipe_name_kr),
               duration: data.duration || 15,
               serving: data.serving || 1,
               main_ingredient_tag: data.main_ingredient_tag,
@@ -147,6 +150,7 @@ export function RecipeForm({ mainIngredientTag, mode, defaultValues, recipeId, u
                 </div>
             </section>
             <NameInput register={register} errors={errors} />  
+            <NameKrInput register={register} errors={errors} />
             <DurationInput register={register}/>
             <ServingInput register={register}/>
             <CuisineTagInput register={register}/>
