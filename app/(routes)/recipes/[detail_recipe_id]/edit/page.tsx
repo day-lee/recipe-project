@@ -24,6 +24,7 @@ export default async function EditRecipeFormPage({ params }: {params: Promise<{d
   const defaultValues = {
     created_user_id: recipeDetails?.created_user_id,
     recipe_name: recipeDetails?.recipe_name || '',
+    recipe_name_kr: recipeDetails?.recipe_name_kr || '',
     duration: recipeDetails?.duration || 30,
     serving: recipeDetails?.serving || 2, 
     main_ingredient_tag: recipeDetails?.tag_name_id || 1,
